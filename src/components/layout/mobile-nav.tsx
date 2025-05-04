@@ -12,9 +12,7 @@ import { LaunchButton } from '@/components/launch-button'
 import { Menu } from 'lucide-react'
 import { config } from '@/lib/config'
 
-type MobileNavProps = React.HTMLAttributes<HTMLDivElement>
-
-export function MobileNav(props: MobileNavProps) {
+export function MobileNav() {
   const pathname = usePathname()
   const [open, setOpen] = React.useState(false)
 
