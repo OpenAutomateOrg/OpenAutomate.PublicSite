@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import React, { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Header } from '@/components/layout/header'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -6,12 +9,30 @@ import { Icons } from '@/components/ui/icons'
 import { Footer } from '@/components/layout/footer'
 import { LaunchButton } from '@/components/launch-button'
 import { config } from '@/lib/config'
+import SplashScreen from '@/components/layout/splashScreen'
+import { usePathname } from 'next/navigation'
 
 export default function Home() {
+  const pathname = usePathname()
+  const isHome = pathname === '/'
+  const [isLoading, setIsLoading] = useState(isHome)
+
+  useEffect(() => {
+    if (isLoading) {
+      const timer = setTimeout(() => {
+        setIsLoading(false)
+      }, 2000) // Show splash screen for 2 seconds
+      return () => clearTimeout(timer)
+    }
+  }, [isLoading])
+
+  if (isLoading && isHome) {
+    return <SplashScreen />
+  }
+
   return (
     <>
       <Header />
-
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-background to-muted py-20">
         <div className="container flex flex-col items-center text-center">
