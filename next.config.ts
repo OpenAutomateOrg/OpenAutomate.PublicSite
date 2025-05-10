@@ -9,9 +9,24 @@ const nextConfig: NextConfig = {
   // Disable dev indicators in development
   devIndicators: false,
   
+  // Optimize webpack configuration to prevent caching issues
+  webpack: (config, { dev, isServer }) => {
+    // Disable webpack caching in development to prevent memory issues
+    if (dev) {
+      config.cache = false
+    }
+    
+    return config
+  },
+  
   // Image optimization configuration
   images: {
-    domains: ['assets.openautomate.me'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'assets.openautomate.me',
+      },
+    ],
     formats: ['image/avif', 'image/webp'],
   },
   
