@@ -72,12 +72,12 @@ const TypingText = ({ text, className }: { text: string; className?: string }) =
   return (
     <h1 className={className}>
       {letters.map((word, wordIndex) => (
-        <React.Fragment key={`word-${wordIndex}`}>
+        <React.Fragment key={`word-${text}-${wordIndex}`}>
           {wordIndex > 0 && ' '}
           <span className="inline-block">
             {word.map((letter, letterIndex) => (
               <motion.span
-                key={`letter-${wordIndex}-${letterIndex}`}
+                key={`letter-${text}-${wordIndex}-${letterIndex}`}
                 initial={{ opacity: 0, x: -5 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{
@@ -852,10 +852,7 @@ export default function Home() {
             text="Open Source Automation is here."
             className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-orange-600"
           />
-          <motion.p
-            className="text-xl md:text-2xl max-w-3xl mb-10"
-            variants={textVariants}
-          >
+          <motion.p className="text-xl md:text-2xl max-w-3xl mb-10" variants={textVariants}>
             OpenAutomate provides a Python-based, open-source alternative to commercial automation
             platforms. Take control of your automation processes without licensing costs.
           </motion.p>
