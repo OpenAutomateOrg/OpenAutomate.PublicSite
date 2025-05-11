@@ -724,7 +724,7 @@ export default function Home() {
           <div className="absolute inset-0">
             {[...Array(15)].map((_, i) => (
               <motion.div
-                key={i}
+                key={`digital-particle-${i}`}
                 className="absolute w-1 h-1 rounded-full bg-orange-600/30"
                 initial={{
                   x: `${Math.random() * 100}%`,
@@ -810,7 +810,7 @@ export default function Home() {
             <div className="absolute top-2 left-12 flex space-x-1">
               {[...Array(4)].map((_, i) => (
                 <motion.div
-                  key={i}
+                  key={`readout-left-${i}`}
                   className="w-1 h-3 bg-orange-600/50"
                   initial={{ opacity: 0 }}
                   animate={{
@@ -830,7 +830,7 @@ export default function Home() {
             <div className="absolute top-2 right-12 flex space-x-1">
               {[...Array(4)].map((_, i) => (
                 <motion.div
-                  key={i}
+                  key={`readout-right-${i}`}
                   className="w-1 h-3 bg-orange-600/50"
                   initial={{ opacity: 0 }}
                   animate={{
