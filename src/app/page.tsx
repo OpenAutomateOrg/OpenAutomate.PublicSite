@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, ReactNode } from 'react'
 import { Button } from '@/components/ui/button'
 import { Header } from '@/components/layout/header'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -17,15 +17,6 @@ import { motion } from 'framer-motion'
 const roboticVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
-}
-
-const circuitLineVariants = {
-  hidden: { pathLength: 0, opacity: 0 },
-  visible: {
-    pathLength: 1,
-    opacity: 1,
-    transition: { duration: 1.5, ease: 'easeInOut' },
-  },
 }
 
 const textVariants = {
@@ -97,6 +88,179 @@ const TypingText = ({ text, className }: { text: string; className?: string }) =
   )
 }
 
+// Common animated icon wrapper
+interface AnimatedIconProps {
+  icon: ReactNode
+  delay?: number
+}
+
+const AnimatedIcon = ({ icon, delay = 0 }: AnimatedIconProps) => {
+  return (
+    <motion.div
+      className="h-12 w-12 rounded-full bg-orange-600/10 flex items-center justify-center mb-4 relative overflow-hidden"
+      whileHover={{ scale: 1.05 }}
+    >
+      <motion.div
+        className="absolute inset-0 bg-orange-600/5 rounded-full"
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.5, 0.8, 0.5],
+        }}
+        transition={{
+          duration: 3,
+          delay,
+          repeat: Infinity,
+          repeatType: 'reverse',
+        }}
+      />
+      {icon}
+    </motion.div>
+  )
+}
+
+// Feature card component
+interface FeatureCardProps {
+  title: string
+  description: string
+  icon: ReactNode
+  delay?: number
+  animationDelay?: number
+}
+
+const FeatureCard = ({
+  title,
+  description,
+  icon,
+  delay = 0,
+  animationDelay = 0.2,
+}: FeatureCardProps) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: animationDelay }}
+    >
+      <Card className="h-full border-orange-600/10 relative overflow-hidden group">
+        <CardHeader>
+          <AnimatedIcon icon={icon} delay={delay} />
+          <CardTitle>{title}</CardTitle>
+          <CardDescription>{description}</CardDescription>
+        </CardHeader>
+        {/* Animated corner accent */}
+        <motion.div
+          className="absolute top-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-100"
+          initial={{ opacity: 0 }}
+          whileHover={{ opacity: 1 }}
+        >
+          <div className="absolute top-0 right-0 w-5 h-[1px] bg-orange-600/30"></div>
+          <div className="absolute top-0 right-0 h-5 w-[1px] bg-orange-600/30"></div>
+        </motion.div>
+      </Card>
+    </motion.div>
+  )
+}
+
+// Testimonial card component
+interface TestimonialCardProps {
+  quote: string
+  name: string
+  title: string
+  animationProps: {
+    initial: Record<string, number | string>
+    delay: number
+  }
+  motionDelay?: number
+  repeatDelay?: number
+}
+
+const TestimonialCard = ({
+  quote,
+  name,
+  title,
+  animationProps,
+  motionDelay = 0,
+  repeatDelay = 2,
+}: TestimonialCardProps) => {
+  return (
+    <motion.div
+      initial={animationProps.initial}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: animationProps.delay }}
+      whileHover={{ y: -5 }}
+    >
+      <Card className="h-full relative group overflow-hidden border-orange-600/10 dark:border-orange-600/5">
+        <CardContent className="p-6 relative">
+          <div className="mb-4 relative">
+            <motion.div
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.7, 1, 0.7],
+              }}
+              transition={{ duration: 3, delay: motionDelay, repeat: Infinity }}
+              className="absolute -inset-2 rounded-full bg-orange-600/5 -z-10"
+            />
+            <Icons.help className="h-6 w-6 text-orange-600 relative z-10" />
+          </div>
+          <p className="italic text-muted-foreground mb-4">{quote}</p>
+          <div className="flex gap-3 items-center">
+            <div className="rounded-full bg-orange-600/10 h-10 w-10 flex items-center justify-center overflow-hidden relative">
+              <motion.div
+                className="absolute inset-0 bg-orange-600/5"
+                animate={{
+                  scale: [1, 1.5, 1],
+                }}
+                transition={{ duration: 2, delay: motionDelay / 3, repeat: Infinity }}
+              />
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+              >
+                <Icons.user className="h-5 w-5 text-orange-600/80" />
+              </motion.div>
+            </div>
+            <div>
+              <p className="font-semibold">{name}</p>
+              <p className="text-sm text-muted-foreground">{title}</p>
+            </div>
+          </div>
+
+          {/* Circuit corner decoration */}
+          <div className="absolute top-0 right-0 w-12 h-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <motion.path
+                d="M2 2 L12 2 L12 8"
+                stroke="rgba(249, 115, 22, 0.3)"
+                strokeWidth="1"
+                fill="none"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              />
+            </svg>
+          </div>
+
+          {/* Scanning line animation */}
+          <motion.div
+            className="absolute left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-600/20 to-transparent"
+            initial={{ top: 0, opacity: 0 }}
+            animate={{
+              top: '100%',
+              opacity: [0, 0.5, 0],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              repeatDelay,
+            }}
+          />
+        </CardContent>
+      </Card>
+    </motion.div>
+  )
+}
+
 // Data dot component for circuit paths
 const DataDot = ({
   path,
@@ -134,10 +298,6 @@ const RobotCircuitSVG = () => {
   const path1 = 'M100,100 L200,100 L200,200 L300,200 L300,300'
   const path2 = 'M900,100 L800,100 L800,200 L700,200 L700,300'
   const path3 = 'M500,50 L500,150'
-  const path4 = 'M200,350 C250,350 250,300 300,300'
-  const path5 = 'M800,350 C750,350 750,300 700,300'
-  const path6 = 'M150,50 L150,350'
-  const path7 = 'M850,50 L850,350'
 
   return (
     <motion.svg
@@ -146,6 +306,7 @@ const RobotCircuitSVG = () => {
       className="absolute inset-0 w-full h-full -z-10 pointer-events-none"
       viewBox="0 0 1000 400"
       xmlns="http://www.w3.org/2000/svg"
+      variants={roboticVariants}
     >
       {/* Background grid effect */}
       <defs>
@@ -175,419 +336,47 @@ const RobotCircuitSVG = () => {
       {/* Background elements */}
       <rect width="100%" height="100%" fill="url(#grid)" />
 
-      {/* Glowing effect behind main circuit nodes */}
-      <motion.circle
-        cx="200"
-        cy="100"
-        r="40"
-        initial={{ opacity: 0.4 }}
-        animate={{
-          opacity: [0.4, 0.6, 0.4],
-          scale: [1, 1.1, 1],
-          transition: {
-            duration: 3,
-            repeat: Infinity,
-            repeatType: 'reverse',
-          },
-        }}
-        fill="url(#circuitGlow)"
-      />
-      <motion.circle
-        cx="800"
-        cy="100"
-        r="40"
-        initial={{ opacity: 0 }}
-        animate={{
-          opacity: [0.4, 0.6, 0.4],
-          scale: [1, 1.1, 1],
-          transition: {
-            duration: 4,
-            repeat: Infinity,
-            repeatType: 'reverse',
-          },
-        }}
-        fill="url(#circuitGlow)"
-      />
-      <motion.circle
-        cx="500"
-        cy="50"
-        r="30"
-        initial={{ opacity: 0 }}
-        animate={{
-          opacity: [0.3, 0.5, 0.3],
-          scale: [1, 1.15, 1],
-          transition: {
-            duration: 2.5,
-            repeat: Infinity,
-            repeatType: 'reverse',
-          },
-        }}
-        fill="url(#circuitGlow)"
-      />
-
-      {/* Binary code background effect */}
-      <motion.text
-        x="80"
-        y="40"
-        fill="rgba(249, 115, 22, 0.07)"
-        fontFamily="monospace"
-        fontSize="10"
-        initial={{ opacity: 0 }}
-        animate={{
-          opacity: [0, 0.7, 0],
-          transition: {
-            delay: 1,
-            duration: 5,
-            repeat: Infinity,
-            repeatDelay: 3,
-          },
-        }}
-      >
-        10110010 01001101 11001010
-      </motion.text>
-      <motion.text
-        x="700"
-        y="30"
-        fill="rgba(249, 115, 22, 0.07)"
-        fontFamily="monospace"
-        fontSize="10"
-        initial={{ opacity: 0 }}
-        animate={{
-          opacity: [0, 0.7, 0],
-          transition: {
-            delay: 2,
-            duration: 5,
-            repeat: Infinity,
-            repeatDelay: 4,
-          },
-        }}
-      >
-        01010111 00110101 10101100
-      </motion.text>
-      <motion.text
-        x="300"
-        y="380"
-        fill="rgba(249, 115, 22, 0.07)"
-        fontFamily="monospace"
-        fontSize="10"
-        initial={{ opacity: 0 }}
-        animate={{
-          opacity: [0, 0.7, 0],
-          transition: {
-            delay: 3,
-            duration: 5,
-            repeat: Infinity,
-            repeatDelay: 5,
-          },
-        }}
-      >
-        11100101 01010010 00101011
-      </motion.text>
-
-      {/* Main circuit paths */}
+      {/* Circuit paths and other elements */}
       <motion.path
-        variants={circuitLineVariants}
         d={path1}
         fill="none"
         stroke="rgba(249, 115, 22, 0.3)"
         strokeWidth="2"
+        initial={{ pathLength: 0, opacity: 0 }}
+        animate={{ pathLength: 1, opacity: 1 }}
+        transition={{ duration: 1.5, ease: 'easeInOut' }}
         strokeLinecap="round"
         filter="drop-shadow(0 0 2px rgba(249, 115, 22, 0.5))"
       />
+
       <motion.path
-        variants={circuitLineVariants}
         d={path2}
         fill="none"
         stroke="rgba(249, 115, 22, 0.3)"
         strokeWidth="2"
+        initial={{ pathLength: 0, opacity: 0 }}
+        animate={{ pathLength: 1, opacity: 1 }}
+        transition={{ duration: 1.5, ease: 'easeInOut', delay: 0.3 }}
         strokeLinecap="round"
         filter="drop-shadow(0 0 2px rgba(249, 115, 22, 0.5))"
       />
+
       <motion.path
-        variants={circuitLineVariants}
         d={path3}
         fill="none"
         stroke="rgba(249, 115, 22, 0.3)"
         strokeWidth="2"
+        initial={{ pathLength: 0, opacity: 0 }}
+        animate={{ pathLength: 1, opacity: 1 }}
+        transition={{ duration: 1.5, ease: 'easeInOut', delay: 0.6 }}
         strokeLinecap="round"
         filter="drop-shadow(0 0 2px rgba(249, 115, 22, 0.5))"
       />
-      <motion.path
-        variants={circuitLineVariants}
-        d={path4}
-        fill="none"
-        stroke="rgba(249, 115, 22, 0.3)"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <motion.path
-        variants={circuitLineVariants}
-        d={path5}
-        fill="none"
-        stroke="rgba(249, 115, 22, 0.3)"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
 
-      {/* Additional circuit lines */}
-      <motion.path
-        variants={circuitLineVariants}
-        d={path6}
-        fill="none"
-        stroke="rgba(249, 115, 22, 0.2)"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeDasharray="10,5"
-      />
-      <motion.path
-        variants={circuitLineVariants}
-        d={path7}
-        fill="none"
-        stroke="rgba(249, 115, 22, 0.2)"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeDasharray="10,5"
-      />
-      <motion.path
-        variants={circuitLineVariants}
-        d="M50,250 L950,250"
-        fill="none"
-        stroke="rgba(249, 115, 22, 0.15)"
-        strokeWidth="1"
-        strokeLinecap="round"
-        strokeDasharray="5,10"
-      />
-
-      {/* Pulse wave horizontal line */}
-      <motion.path
-        d="M50,180 Q100,150 150,180 T250,180 T350,180 T450,180 T550,180 T650,180 T750,180 T850,180"
-        fill="none"
-        stroke="rgba(249, 115, 22, 0.1)"
-        strokeWidth="1"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{
-          pathLength: 1,
-          opacity: 1,
-          transition: {
-            delay: 1,
-            duration: 2,
-            ease: 'easeInOut',
-          },
-        }}
-      />
-
-      {/* Moving digital scan line */}
-      <motion.rect
-        width="100%"
-        height="2"
-        fill="rgba(249, 115, 22, 0.2)"
-        initial={{ y: -10, opacity: 0 }}
-        animate={{
-          y: 410,
-          opacity: [0, 0.5, 0],
-          transition: {
-            duration: 8,
-            repeat: Infinity,
-            repeatDelay: 2,
-            ease: 'linear',
-          },
-        }}
-      />
-
-      {/* Data dots traveling along paths */}
+      {/* Data dots */}
       <DataDot path={path1} delay={0.5} duration={5} size={2.5} />
-      <DataDot path={path1} delay={3.5} duration={5} size={2.5} />
       <DataDot path={path2} delay={1.2} duration={5} size={2.5} />
-      <DataDot path={path2} delay={4.2} duration={5} size={2.5} />
       <DataDot path={path3} delay={0.8} duration={2} size={2} />
-      <DataDot path={path3} delay={2.8} duration={2} size={2} />
-      <DataDot path={path4} delay={2} duration={3} size={2} />
-      <DataDot path={path5} delay={1} duration={3} size={2} />
-      <DataDot path={path6} delay={0} duration={8} size={2} color="rgba(249, 115, 22, 0.6)" />
-      <DataDot path={path6} delay={4} duration={8} size={2} color="rgba(249, 115, 22, 0.6)" />
-      <DataDot path={path7} delay={2} duration={8} size={2} color="rgba(249, 115, 22, 0.6)" />
-      <DataDot path={path7} delay={6} duration={8} size={2} color="rgba(249, 115, 22, 0.6)" />
-
-      {/* Circuit nodes */}
-      <motion.circle
-        initial={{ r: 0, opacity: 0 }}
-        animate={{
-          r: 5,
-          opacity: 1,
-          transition: { delay: 0.5, duration: 0.5 },
-        }}
-        cx="200"
-        cy="100"
-        fill="rgba(249, 115, 22, 0.5)"
-      />
-      <motion.circle
-        initial={{ r: 0, opacity: 0 }}
-        animate={{
-          r: 5,
-          opacity: 1,
-          transition: { delay: 0.8, duration: 0.5 },
-        }}
-        cx="300"
-        cy="200"
-        fill="rgba(249, 115, 22, 0.5)"
-      />
-      <motion.circle
-        initial={{ r: 0, opacity: 0 }}
-        animate={{
-          r: 5,
-          opacity: 1,
-          transition: { delay: 1.1, duration: 0.5 },
-        }}
-        cx="800"
-        cy="100"
-        fill="rgba(249, 115, 22, 0.5)"
-      />
-      <motion.circle
-        initial={{ r: 0, opacity: 0 }}
-        animate={{
-          r: 5,
-          opacity: 1,
-          transition: { delay: 1.4, duration: 0.5 },
-        }}
-        cx="700"
-        cy="200"
-        fill="rgba(249, 115, 22, 0.5)"
-      />
-      <motion.circle
-        initial={{ r: 0, opacity: 0 }}
-        animate={{
-          r: 5,
-          opacity: 1,
-          transition: { delay: 1.7, duration: 0.5 },
-        }}
-        cx="500"
-        cy="50"
-        fill="rgba(249, 115, 22, 0.5)"
-      />
-
-      {/* Pulsing circuit nodes */}
-      <motion.circle
-        cx="150"
-        cy="100"
-        initial={{ r: 3 }}
-        animate={{
-          r: [3, 5, 3],
-          opacity: [0.3, 0.7, 0.3],
-          transition: {
-            duration: 2,
-            repeat: Infinity,
-            repeatType: 'loop',
-          },
-        }}
-        fill="rgba(249, 115, 22, 0.5)"
-      />
-      <motion.circle
-        cx="850"
-        cy="100"
-        initial={{ r: 3 }}
-        animate={{
-          r: [3, 5, 3],
-          opacity: [0.3, 0.7, 0.3],
-          transition: {
-            duration: 2.5,
-            repeat: Infinity,
-            repeatType: 'loop',
-          },
-        }}
-        fill="rgba(249, 115, 22, 0.5)"
-      />
-      <motion.circle
-        cx="150"
-        cy="300"
-        initial={{ r: 3 }}
-        animate={{
-          r: [3, 5, 3],
-          opacity: [0.3, 0.7, 0.3],
-          transition: {
-            duration: 1.8,
-            repeat: Infinity,
-            repeatType: 'loop',
-          },
-        }}
-        fill="rgba(249, 115, 22, 0.5)"
-      />
-      <motion.circle
-        cx="850"
-        cy="300"
-        initial={{ r: 3 }}
-        animate={{
-          r: [3, 5, 3],
-          opacity: [0.3, 0.7, 0.3],
-          transition: {
-            duration: 2.2,
-            repeat: Infinity,
-            repeatType: 'loop',
-          },
-        }}
-        fill="rgba(249, 115, 22, 0.5)"
-      />
-
-      {/* Data processing text */}
-      <motion.text
-        x="120"
-        y="80"
-        fill="rgba(249, 115, 22, 0.3)"
-        fontFamily="monospace"
-        fontSize="8"
-        initial={{ opacity: 0 }}
-        animate={{
-          opacity: [0, 0.7, 0],
-          transition: {
-            delay: 2,
-            duration: 3,
-            repeat: Infinity,
-            repeatType: 'loop',
-            repeatDelay: 5,
-          },
-        }}
-      >
-        executing_automation_01
-      </motion.text>
-      <motion.text
-        x="750"
-        y="150"
-        fill="rgba(249, 115, 22, 0.3)"
-        fontFamily="monospace"
-        fontSize="8"
-        initial={{ opacity: 0 }}
-        animate={{
-          opacity: [0, 0.7, 0],
-          transition: {
-            delay: 3,
-            duration: 3,
-            repeat: Infinity,
-            repeatType: 'loop',
-            repeatDelay: 4,
-          },
-        }}
-      >
-        process_automation_running
-      </motion.text>
-      <motion.text
-        x="200"
-        y="320"
-        fill="rgba(249, 115, 22, 0.3)"
-        fontFamily="monospace"
-        fontSize="8"
-        initial={{ opacity: 0 }}
-        animate={{
-          opacity: [0, 0.7, 0],
-          transition: {
-            delay: 4,
-            duration: 3,
-            repeat: Infinity,
-            repeatType: 'loop',
-            repeatDelay: 6,
-          },
-        }}
-      >
-        system_calibration_active
-      </motion.text>
     </motion.svg>
   )
 }
@@ -1077,139 +866,28 @@ export default function Home() {
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <Card className="h-full border-orange-600/10 relative overflow-hidden group">
-                <CardHeader>
-                  <motion.div
-                    className="h-12 w-12 rounded-full bg-orange-600/10 flex items-center justify-center mb-4 relative overflow-hidden"
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    <motion.div
-                      className="absolute inset-0 bg-orange-600/5 rounded-full"
-                      animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.5, 0.8, 0.5],
-                      }}
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        repeatType: 'reverse',
-                      }}
-                    />
-                    <Icons.check className="h-6 w-6 text-orange-600" />
-                  </motion.div>
-                  <CardTitle>No Vendor Lock-in</CardTitle>
-                  <CardDescription>
-                    Full control over your automation assets and infrastructure with no proprietary
-                    technologies.
-                  </CardDescription>
-                </CardHeader>
-                {/* Animated corner accent */}
-                <motion.div
-                  className="absolute top-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-100"
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                >
-                  <div className="absolute top-0 right-0 w-5 h-[1px] bg-orange-600/30"></div>
-                  <div className="absolute top-0 right-0 h-5 w-[1px] bg-orange-600/30"></div>
-                </motion.div>
-              </Card>
-            </motion.div>
+            <FeatureCard
+              title="No Vendor Lock-in"
+              description="Full control over your automation assets and infrastructure with no proprietary technologies."
+              icon={<Icons.check className="h-6 w-6 text-orange-600" />}
+              animationDelay={0.2}
+            />
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <Card className="h-full border-orange-600/10 relative overflow-hidden group">
-                <CardHeader>
-                  <motion.div
-                    className="h-12 w-12 rounded-full bg-orange-600/10 flex items-center justify-center mb-4 relative overflow-hidden"
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    <motion.div
-                      className="absolute inset-0 bg-orange-600/5 rounded-full"
-                      animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.5, 0.8, 0.5],
-                      }}
-                      transition={{
-                        duration: 3,
-                        delay: 0.5,
-                        repeat: Infinity,
-                        repeatType: 'reverse',
-                      }}
-                    />
-                    <Icons.billing className="h-6 w-6 text-orange-600" />
-                  </motion.div>
-                  <CardTitle>Cost Effective</CardTitle>
-                  <CardDescription>
-                    Eliminate licensing costs while maintaining enterprise-grade automation
-                    capabilities.
-                  </CardDescription>
-                </CardHeader>
-                {/* Animated corner accent */}
-                <motion.div
-                  className="absolute top-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-100"
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                >
-                  <div className="absolute top-0 right-0 w-5 h-[1px] bg-orange-600/30"></div>
-                  <div className="absolute top-0 right-0 h-5 w-[1px] bg-orange-600/30"></div>
-                </motion.div>
-              </Card>
-            </motion.div>
+            <FeatureCard
+              title="Cost Effective"
+              description="Eliminate licensing costs while maintaining enterprise-grade automation capabilities."
+              icon={<Icons.billing className="h-6 w-6 text-orange-600" />}
+              delay={0.5}
+              animationDelay={0.4}
+            />
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-            >
-              <Card className="h-full border-orange-600/10 relative overflow-hidden group">
-                <CardHeader>
-                  <motion.div
-                    className="h-12 w-12 rounded-full bg-orange-600/10 flex items-center justify-center mb-4 relative overflow-hidden"
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    <motion.div
-                      className="absolute inset-0 bg-orange-600/5 rounded-full"
-                      animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.5, 0.8, 0.5],
-                      }}
-                      transition={{
-                        duration: 3,
-                        delay: 1,
-                        repeat: Infinity,
-                        repeatType: 'reverse',
-                      }}
-                    />
-                    <Icons.fileText className="h-6 w-6 text-orange-600" />
-                  </motion.div>
-                  <CardTitle>Python-based</CardTitle>
-                  <CardDescription>
-                    Leverage the power and flexibility of Python and its extensive library
-                    ecosystem.
-                  </CardDescription>
-                </CardHeader>
-                {/* Animated corner accent */}
-                <motion.div
-                  className="absolute top-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-100"
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                >
-                  <div className="absolute top-0 right-0 w-5 h-[1px] bg-orange-600/30"></div>
-                  <div className="absolute top-0 right-0 h-5 w-[1px] bg-orange-600/30"></div>
-                </motion.div>
-              </Card>
-            </motion.div>
+            <FeatureCard
+              title="Python-based"
+              description="Leverage the power and flexibility of Python and its extensive library ecosystem."
+              icon={<Icons.fileText className="h-6 w-6 text-orange-600" />}
+              delay={1}
+              animationDelay={0.6}
+            />
           </div>
 
           {/* Data flow animation */}
@@ -1746,246 +1424,41 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              whileHover={{ y: -5 }}
-            >
-              <Card className="h-full relative group overflow-hidden border-orange-600/10 dark:border-orange-600/5">
-                <CardContent className="p-6 relative">
-                  <div className="mb-4 relative">
-                    <motion.div
-                      animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.7, 1, 0.7],
-                      }}
-                      transition={{ duration: 3, repeat: Infinity }}
-                      className="absolute -inset-2 rounded-full bg-orange-600/5 -z-10"
-                    />
-                    <Icons.help className="h-6 w-6 text-orange-600 relative z-10" />
-                  </div>
-                  <p className="italic text-muted-foreground mb-4">
-                    &ldquo;OpenAutomate has allowed us to save over 120 hours per month on
-                    repetitive tasks while giving us full control over our automation
-                    infrastructure.&rdquo;
-                  </p>
-                  <div className="flex gap-3 items-center">
-                    <div className="rounded-full bg-orange-600/10 h-10 w-10 flex items-center justify-center overflow-hidden relative">
-                      <motion.div
-                        className="absolute inset-0 bg-orange-600/5"
-                        animate={{
-                          scale: [1, 1.5, 1],
-                        }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      />
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                      >
-                        <Icons.user className="h-5 w-5 text-orange-600/80" />
-                      </motion.div>
-                    </div>
-                    <div>
-                      <p className="font-semibold">Alex Chen</p>
-                      <p className="text-sm text-muted-foreground">
-                        IT Director, Healthcare Solutions Inc.
-                      </p>
-                    </div>
-                  </div>
+            <TestimonialCard
+              quote="&ldquo;OpenAutomate has allowed us to save over 120 hours per month on repetitive tasks while giving us full control over our automation infrastructure.&rdquo;"
+              name="Alex Chen"
+              title="IT Director, Healthcare Solutions Inc."
+              animationProps={{
+                initial: { opacity: 0, x: -30 },
+                delay: 0.1,
+              }}
+              motionDelay={0}
+              repeatDelay={2}
+            />
 
-                  {/* Circuit corner decoration */}
-                  <div className="absolute top-0 right-0 w-12 h-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                      <motion.path
-                        d="M2 2 L12 2 L12 8"
-                        stroke="rgba(249, 115, 22, 0.3)"
-                        strokeWidth="1"
-                        fill="none"
-                        initial={{ pathLength: 0 }}
-                        animate={{ pathLength: 1 }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                      />
-                    </svg>
-                  </div>
+            <TestimonialCard
+              quote="&ldquo;Switching to OpenAutomate reduced our automation costs by 70% while giving our team the flexibility to customize processes to our exact needs.&rdquo;"
+              name="Sarah Johnson"
+              title="CTO, Finance Partners"
+              animationProps={{
+                initial: { opacity: 0, y: 30 },
+                delay: 0.3,
+              }}
+              motionDelay={0.5}
+              repeatDelay={3}
+            />
 
-                  {/* Scanning line animation */}
-                  <motion.div
-                    className="absolute left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-600/20 to-transparent"
-                    initial={{ top: 0, opacity: 0 }}
-                    animate={{
-                      top: '100%',
-                      opacity: [0, 0.5, 0],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      repeatDelay: 2,
-                    }}
-                  />
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              whileHover={{ y: -5 }}
-            >
-              <Card className="h-full relative group overflow-hidden border-orange-600/10 dark:border-orange-600/5">
-                <CardContent className="p-6 relative">
-                  <div className="mb-4 relative">
-                    <motion.div
-                      animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.7, 1, 0.7],
-                      }}
-                      transition={{ duration: 3, delay: 0.5, repeat: Infinity }}
-                      className="absolute -inset-2 rounded-full bg-orange-600/5 -z-10"
-                    />
-                    <Icons.help className="h-6 w-6 text-orange-600 relative z-10" />
-                  </div>
-                  <p className="italic text-muted-foreground mb-4">
-                    &ldquo;Switching to OpenAutomate reduced our automation costs by 70% while
-                    giving our team the flexibility to customize processes to our exact
-                    needs.&rdquo;
-                  </p>
-                  <div className="flex gap-3 items-center">
-                    <div className="rounded-full bg-orange-600/10 h-10 w-10 flex items-center justify-center overflow-hidden relative">
-                      <motion.div
-                        className="absolute inset-0 bg-orange-600/5"
-                        animate={{
-                          scale: [1, 1.5, 1],
-                        }}
-                        transition={{ duration: 2, delay: 0.3, repeat: Infinity }}
-                      />
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                      >
-                        <Icons.user className="h-5 w-5 text-orange-600/80" />
-                      </motion.div>
-                    </div>
-                    <div>
-                      <p className="font-semibold">Sarah Johnson</p>
-                      <p className="text-sm text-muted-foreground">CTO, Finance Partners</p>
-                    </div>
-                  </div>
-
-                  {/* Circuit corner decoration */}
-                  <div className="absolute top-0 right-0 w-12 h-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                      <motion.path
-                        d="M2 2 L12 2 L12 8"
-                        stroke="rgba(249, 115, 22, 0.3)"
-                        strokeWidth="1"
-                        fill="none"
-                        initial={{ pathLength: 0 }}
-                        animate={{ pathLength: 1 }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                      />
-                    </svg>
-                  </div>
-
-                  {/* Scanning line animation */}
-                  <motion.div
-                    className="absolute left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-600/20 to-transparent"
-                    initial={{ top: 0, opacity: 0 }}
-                    animate={{
-                      top: '100%',
-                      opacity: [0, 0.5, 0],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      repeatDelay: 3,
-                    }}
-                  />
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              whileHover={{ y: -5 }}
-            >
-              <Card className="h-full relative group overflow-hidden border-orange-600/10 dark:border-orange-600/5">
-                <CardContent className="p-6 relative">
-                  <div className="mb-4 relative">
-                    <motion.div
-                      animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.7, 1, 0.7],
-                      }}
-                      transition={{ duration: 3, delay: 1, repeat: Infinity }}
-                      className="absolute -inset-2 rounded-full bg-orange-600/5 -z-10"
-                    />
-                    <Icons.help className="h-6 w-6 text-orange-600 relative z-10" />
-                  </div>
-                  <p className="italic text-muted-foreground mb-4">
-                    &ldquo;The Python-based architecture has transformed our engineering team&apos;s
-                    ability to customize workflows and integrate with our internal systems.&rdquo;
-                  </p>
-                  <div className="flex gap-3 items-center">
-                    <div className="rounded-full bg-orange-600/10 h-10 w-10 flex items-center justify-center overflow-hidden relative">
-                      <motion.div
-                        className="absolute inset-0 bg-orange-600/5"
-                        animate={{
-                          scale: [1, 1.5, 1],
-                        }}
-                        transition={{ duration: 2, delay: 0.6, repeat: Infinity }}
-                      />
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                      >
-                        <Icons.user className="h-5 w-5 text-orange-600/80" />
-                      </motion.div>
-                    </div>
-                    <div>
-                      <p className="font-semibold">Michael Johnson</p>
-                      <p className="text-sm text-muted-foreground">Lead Developer, FinTech</p>
-                    </div>
-                  </div>
-
-                  {/* Circuit corner decoration */}
-                  <div className="absolute top-0 right-0 w-12 h-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                      <motion.path
-                        d="M2 2 L12 2 L12 8"
-                        stroke="rgba(249, 115, 22, 0.3)"
-                        strokeWidth="1"
-                        fill="none"
-                        initial={{ pathLength: 0 }}
-                        animate={{ pathLength: 1 }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                      />
-                    </svg>
-                  </div>
-
-                  {/* Scanning line animation */}
-                  <motion.div
-                    className="absolute left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-600/20 to-transparent"
-                    initial={{ top: 0, opacity: 0 }}
-                    animate={{
-                      top: '100%',
-                      opacity: [0, 0.5, 0],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      repeatDelay: 4,
-                    }}
-                  />
-                </CardContent>
-              </Card>
-            </motion.div>
+            <TestimonialCard
+              quote="&ldquo;The Python-based architecture has transformed our engineering team's ability to customize workflows and integrate with our internal systems.&rdquo;"
+              name="Michael Johnson"
+              title="Lead Developer, FinTech"
+              animationProps={{
+                initial: { opacity: 0, x: 30 },
+                delay: 0.5,
+              }}
+              motionDelay={1}
+              repeatDelay={4}
+            />
           </div>
 
           {/* Animated connection lines */}
