@@ -722,27 +722,38 @@ export default function Home() {
 
           {/* Digital particles */}
           <div className="absolute inset-0">
-            {[...Array(15)].map((_, i) => (
-              <motion.div
-                key={`digital-particle-${i}`}
-                className="absolute w-1 h-1 rounded-full bg-orange-600/30"
-                initial={{
-                  x: `${Math.random() * 100}%`,
-                  y: `${Math.random() * 100}%`,
-                  opacity: 0,
-                }}
-                animate={{
-                  opacity: [0, 0.8, 0],
-                  scale: [0, 1, 0],
-                  transition: {
-                    repeat: Infinity,
-                    duration: 2 + Math.random() * 3,
-                    delay: Math.random() * 5,
-                    repeatDelay: Math.random() * 5,
-                  },
-                }}
-              />
-            ))}
+            {Array.from({ length: 15 }, (_, i) => {
+              // Pre-calculate random positions for stability
+              const xPos = Math.random() * 100
+              const yPos = Math.random() * 100
+              const duration = 2 + Math.random() * 3
+              const delay = Math.random() * 5
+              const repeatDelay = Math.random() * 5
+              // Create a stable, unique identifier
+              const particleId = `particle-${i}-${xPos.toFixed(2)}-${yPos.toFixed(2)}`
+
+              return (
+                <motion.div
+                  key={particleId}
+                  className="absolute w-1 h-1 rounded-full bg-orange-600/30"
+                  initial={{
+                    x: `${xPos}%`,
+                    y: `${yPos}%`,
+                    opacity: 0,
+                  }}
+                  animate={{
+                    opacity: [0, 0.8, 0],
+                    scale: [0, 1, 0],
+                    transition: {
+                      repeat: Infinity,
+                      duration,
+                      delay,
+                      repeatDelay,
+                    },
+                  }}
+                />
+              )
+            })}
           </div>
         </div>
 
@@ -808,43 +819,51 @@ export default function Home() {
 
             {/* Digital readout markers */}
             <div className="absolute top-2 left-12 flex space-x-1">
-              {[...Array(4)].map((_, i) => (
-                <motion.div
-                  key={`readout-left-${i}`}
-                  className="w-1 h-3 bg-orange-600/50"
-                  initial={{ opacity: 0 }}
-                  animate={{
-                    opacity: [0, 0.8, 0],
-                    transition: {
-                      delay: 2 + i * 0.2,
-                      repeat: Infinity,
-                      repeatDelay: 5,
-                      duration: 1,
-                      repeatType: 'reverse',
-                    },
-                  }}
-                />
-              ))}
+              {Array.from({ length: 4 }, (_, i) => {
+                // Create a stable identifier using position in sequence
+                const readoutId = `readout-left-${i}-pos-${i * 4}`
+                return (
+                  <motion.div
+                    key={readoutId}
+                    className="w-1 h-3 bg-orange-600/50"
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: [0, 0.8, 0],
+                      transition: {
+                        delay: 2 + i * 0.2,
+                        repeat: Infinity,
+                        repeatDelay: 5,
+                        duration: 1,
+                        repeatType: 'reverse',
+                      },
+                    }}
+                  />
+                )
+              })}
             </div>
 
             <div className="absolute top-2 right-12 flex space-x-1">
-              {[...Array(4)].map((_, i) => (
-                <motion.div
-                  key={`readout-right-${i}`}
-                  className="w-1 h-3 bg-orange-600/50"
-                  initial={{ opacity: 0 }}
-                  animate={{
-                    opacity: [0, 0.8, 0],
-                    transition: {
-                      delay: 2 + i * 0.2,
-                      repeat: Infinity,
-                      repeatDelay: 5,
-                      duration: 1,
-                      repeatType: 'reverse',
-                    },
-                  }}
-                />
-              ))}
+              {Array.from({ length: 4 }, (_, i) => {
+                // Create a stable identifier using position in sequence
+                const readoutId = `readout-right-${i}-pos-${i * 4}`
+                return (
+                  <motion.div
+                    key={readoutId}
+                    className="w-1 h-3 bg-orange-600/50"
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: [0, 0.8, 0],
+                      transition: {
+                        delay: 2 + i * 0.2,
+                        repeat: Infinity,
+                        repeatDelay: 5,
+                        duration: 1,
+                        repeatType: 'reverse',
+                      },
+                    }}
+                  />
+                )
+              })}
             </div>
           </motion.div>
 
@@ -1200,30 +1219,41 @@ export default function Home() {
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5, duration: 0.5 }}
           >
-            {[...Array(5)].map((_, i) => (
-              <motion.div
-                key={`data-flow-${i}`}
-                className="absolute rounded-full bg-orange-600/40"
-                style={{
-                  width: 3 + Math.random() * 3 + 'px',
-                  height: 3 + Math.random() * 3 + 'px',
-                  left: Math.random() * 100 + '%',
-                  top: '50%',
-                }}
-                animate={{
-                  x: [0, 100, 200, 300, 400],
-                  y: [0, 30, -20, 20, 0],
-                  opacity: [0, 0.8, 0.8, 0.8, 0],
-                  scale: [1, 1.2, 1.2, 1.2, 1],
-                }}
-                transition={{
-                  duration: 5 + Math.random() * 5,
-                  repeat: Infinity,
-                  delay: Math.random() * 5,
-                  ease: 'linear',
-                }}
-              />
-            ))}
+            {Array.from({ length: 5 }, (_, i) => {
+              // Pre-calculate random values
+              const width = 3 + Math.random() * 3
+              const height = 3 + Math.random() * 3
+              const leftPos = Math.random() * 100
+              const duration = 5 + Math.random() * 5
+              const delay = Math.random() * 5
+              // Create a stable ID
+              const flowId = `data-flow-${i}-${width.toFixed(1)}-${leftPos.toFixed(1)}`
+
+              return (
+                <motion.div
+                  key={flowId}
+                  className="absolute rounded-full bg-orange-600/40"
+                  style={{
+                    width: width + 'px',
+                    height: height + 'px',
+                    left: leftPos + '%',
+                    top: '50%',
+                  }}
+                  animate={{
+                    x: [0, 100, 200, 300, 400],
+                    y: [0, 30, -20, 20, 0],
+                    opacity: [0, 0.8, 0.8, 0.8, 0],
+                    scale: [1, 1.2, 1.2, 1.2, 1],
+                  }}
+                  transition={{
+                    duration,
+                    repeat: Infinity,
+                    delay,
+                    ease: 'linear',
+                  }}
+                />
+              )
+            })}
           </motion.div>
         </div>
       </section>
@@ -1677,29 +1707,42 @@ export default function Home() {
             </svg>
 
             {/* Digital nodes */}
-            {[...Array(10)].map((_, i) => (
-              <motion.div
-                key={`circuit-node-${i}`}
-                className="absolute rounded-full bg-orange-600/20"
-                style={{
-                  width: 4 + Math.random() * 4,
-                  height: 4 + Math.random() * 4,
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                }}
-                initial={{ opacity: 0 }}
-                animate={{
-                  opacity: [0, 0.8, 0],
-                  scale: [0, 1, 0],
-                }}
-                transition={{
-                  duration: 2 + Math.random() * 3,
-                  delay: Math.random() * 2,
-                  repeat: Infinity,
-                  repeatDelay: Math.random() * 3 + 1,
-                }}
-              />
-            ))}
+            {Array.from({ length: 10 }, (_, i) => {
+              // Pre-calculate random values
+              const width = 4 + Math.random() * 4
+              const height = 4 + Math.random() * 4
+              const leftPos = Math.random() * 100
+              const topPos = Math.random() * 100
+              const duration = 2 + Math.random() * 3
+              const delay = Math.random() * 2
+              const repeatDelay = Math.random() * 3 + 1
+              // Create a stable ID
+              const nodeId = `circuit-node-${i}-${width.toFixed(1)}-${leftPos.toFixed(1)}-${topPos.toFixed(1)}`
+
+              return (
+                <motion.div
+                  key={nodeId}
+                  className="absolute rounded-full bg-orange-600/20"
+                  style={{
+                    width: width,
+                    height: height,
+                    left: `${leftPos}%`,
+                    top: `${topPos}%`,
+                  }}
+                  initial={{ opacity: 0 }}
+                  animate={{
+                    opacity: [0, 0.8, 0],
+                    scale: [0, 1, 0],
+                  }}
+                  transition={{
+                    duration,
+                    delay,
+                    repeat: Infinity,
+                    repeatDelay,
+                  }}
+                />
+              )
+            })}
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
