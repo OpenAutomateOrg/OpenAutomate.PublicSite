@@ -11,6 +11,586 @@ import { LaunchButton } from '@/components/launch-button'
 import { config } from '@/lib/config'
 import SplashScreen from '@/components/layout/splashScreen'
 import { usePathname } from 'next/navigation'
+import { motion } from 'framer-motion'
+
+// Robot animation variants
+const roboticVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
+}
+
+const circuitLineVariants = {
+  hidden: { pathLength: 0, opacity: 0 },
+  visible: {
+    pathLength: 1,
+    opacity: 1,
+    transition: { duration: 1.5, ease: 'easeInOut' },
+  },
+}
+
+const textVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: 'spring',
+      damping: 12,
+      stiffness: 100,
+    },
+  },
+}
+
+const buttonVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 200,
+      damping: 10,
+    },
+  },
+  hover: {
+    scale: 1.05,
+    transition: {
+      type: 'spring',
+      stiffness: 400,
+      damping: 10,
+    },
+  },
+}
+
+// Typing animation component
+const TypingText = ({ text, className }: { text: string; className?: string }) => {
+  const words = text.split(' ')
+
+  // Creates an array of letter counts for each word to use in the animation
+  const letters = words.map((word) => Array.from(word))
+
+  return (
+    <h1 className={className}>
+      {letters.map((word, wordIndex) => (
+        <React.Fragment key={`word-${text}-${wordIndex}`}>
+          {wordIndex > 0 && ' '}
+          <span className="inline-block">
+            {word.map((letter, letterIndex) => (
+              <motion.span
+                key={`letter-${text}-${wordIndex}-${letterIndex}`}
+                initial={{ opacity: 0, x: -5 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  delay: wordIndex * 0.2 + letterIndex * 0.03 + 0.5,
+                  duration: 0.1,
+                  ease: 'easeOut',
+                }}
+                className="inline-block"
+              >
+                {letter}
+              </motion.span>
+            ))}
+          </span>
+        </React.Fragment>
+      ))}
+    </h1>
+  )
+}
+
+// Data dot component for circuit paths
+const DataDot = ({
+  path,
+  delay = 0,
+  duration = 3,
+  size = 3,
+  color = 'rgba(249, 115, 22, 0.8)',
+}: {
+  path: string
+  delay?: number
+  duration?: number
+  size?: number
+  color?: string
+}) => {
+  return (
+    <circle
+      r={size}
+      fill={color}
+      className="path-dot"
+      style={
+        {
+          offsetPath: `path("${path}")`,
+          // Use CSS custom properties for animation timing
+          '--delay': `${delay}s`,
+          '--duration': `${duration}s`,
+        } as React.CSSProperties
+      }
+    />
+  )
+}
+
+// Robot SVG component
+const RobotCircuitSVG = () => {
+  // Define paths for data dots to travel along
+  const path1 = 'M100,100 L200,100 L200,200 L300,200 L300,300'
+  const path2 = 'M900,100 L800,100 L800,200 L700,200 L700,300'
+  const path3 = 'M500,50 L500,150'
+  const path4 = 'M200,350 C250,350 250,300 300,300'
+  const path5 = 'M800,350 C750,350 750,300 700,300'
+  const path6 = 'M150,50 L150,350'
+  const path7 = 'M850,50 L850,350'
+
+  return (
+    <motion.svg
+      initial="hidden"
+      animate="visible"
+      className="absolute inset-0 w-full h-full -z-10 pointer-events-none"
+      viewBox="0 0 1000 400"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Background grid effect */}
+      <defs>
+        <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+          <path
+            d="M 20 0 L 0 0 0 20"
+            fill="none"
+            stroke="rgba(249, 115, 22, 0.05)"
+            strokeWidth="0.5"
+          />
+        </pattern>
+        <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+          <rect width="100" height="100" fill="url(#smallGrid)" />
+          <path
+            d="M 100 0 L 0 0 0 100"
+            fill="none"
+            stroke="rgba(249, 115, 22, 0.1)"
+            strokeWidth="0.8"
+          />
+        </pattern>
+        <radialGradient id="circuitGlow" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+          <stop offset="0%" stopColor="rgba(249, 115, 22, 0.15)" />
+          <stop offset="100%" stopColor="rgba(0, 0, 0, 0)" />
+        </radialGradient>
+      </defs>
+
+      {/* Background elements */}
+      <rect width="100%" height="100%" fill="url(#grid)" />
+
+      {/* Glowing effect behind main circuit nodes */}
+      <motion.circle
+        cx="200"
+        cy="100"
+        r="40"
+        initial={{ opacity: 0.4 }}
+        animate={{
+          opacity: [0.4, 0.6, 0.4],
+          scale: [1, 1.1, 1],
+          transition: {
+            duration: 3,
+            repeat: Infinity,
+            repeatType: 'reverse',
+          },
+        }}
+        fill="url(#circuitGlow)"
+      />
+      <motion.circle
+        cx="800"
+        cy="100"
+        r="40"
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: [0.4, 0.6, 0.4],
+          scale: [1, 1.1, 1],
+          transition: {
+            duration: 4,
+            repeat: Infinity,
+            repeatType: 'reverse',
+          },
+        }}
+        fill="url(#circuitGlow)"
+      />
+      <motion.circle
+        cx="500"
+        cy="50"
+        r="30"
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: [0.3, 0.5, 0.3],
+          scale: [1, 1.15, 1],
+          transition: {
+            duration: 2.5,
+            repeat: Infinity,
+            repeatType: 'reverse',
+          },
+        }}
+        fill="url(#circuitGlow)"
+      />
+
+      {/* Binary code background effect */}
+      <motion.text
+        x="80"
+        y="40"
+        fill="rgba(249, 115, 22, 0.07)"
+        fontFamily="monospace"
+        fontSize="10"
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: [0, 0.7, 0],
+          transition: {
+            delay: 1,
+            duration: 5,
+            repeat: Infinity,
+            repeatDelay: 3,
+          },
+        }}
+      >
+        10110010 01001101 11001010
+      </motion.text>
+      <motion.text
+        x="700"
+        y="30"
+        fill="rgba(249, 115, 22, 0.07)"
+        fontFamily="monospace"
+        fontSize="10"
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: [0, 0.7, 0],
+          transition: {
+            delay: 2,
+            duration: 5,
+            repeat: Infinity,
+            repeatDelay: 4,
+          },
+        }}
+      >
+        01010111 00110101 10101100
+      </motion.text>
+      <motion.text
+        x="300"
+        y="380"
+        fill="rgba(249, 115, 22, 0.07)"
+        fontFamily="monospace"
+        fontSize="10"
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: [0, 0.7, 0],
+          transition: {
+            delay: 3,
+            duration: 5,
+            repeat: Infinity,
+            repeatDelay: 5,
+          },
+        }}
+      >
+        11100101 01010010 00101011
+      </motion.text>
+
+      {/* Main circuit paths */}
+      <motion.path
+        variants={circuitLineVariants}
+        d={path1}
+        fill="none"
+        stroke="rgba(249, 115, 22, 0.3)"
+        strokeWidth="2"
+        strokeLinecap="round"
+        filter="drop-shadow(0 0 2px rgba(249, 115, 22, 0.5))"
+      />
+      <motion.path
+        variants={circuitLineVariants}
+        d={path2}
+        fill="none"
+        stroke="rgba(249, 115, 22, 0.3)"
+        strokeWidth="2"
+        strokeLinecap="round"
+        filter="drop-shadow(0 0 2px rgba(249, 115, 22, 0.5))"
+      />
+      <motion.path
+        variants={circuitLineVariants}
+        d={path3}
+        fill="none"
+        stroke="rgba(249, 115, 22, 0.3)"
+        strokeWidth="2"
+        strokeLinecap="round"
+        filter="drop-shadow(0 0 2px rgba(249, 115, 22, 0.5))"
+      />
+      <motion.path
+        variants={circuitLineVariants}
+        d={path4}
+        fill="none"
+        stroke="rgba(249, 115, 22, 0.3)"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <motion.path
+        variants={circuitLineVariants}
+        d={path5}
+        fill="none"
+        stroke="rgba(249, 115, 22, 0.3)"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+
+      {/* Additional circuit lines */}
+      <motion.path
+        variants={circuitLineVariants}
+        d={path6}
+        fill="none"
+        stroke="rgba(249, 115, 22, 0.2)"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeDasharray="10,5"
+      />
+      <motion.path
+        variants={circuitLineVariants}
+        d={path7}
+        fill="none"
+        stroke="rgba(249, 115, 22, 0.2)"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeDasharray="10,5"
+      />
+      <motion.path
+        variants={circuitLineVariants}
+        d="M50,250 L950,250"
+        fill="none"
+        stroke="rgba(249, 115, 22, 0.15)"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeDasharray="5,10"
+      />
+
+      {/* Pulse wave horizontal line */}
+      <motion.path
+        d="M50,180 Q100,150 150,180 T250,180 T350,180 T450,180 T550,180 T650,180 T750,180 T850,180"
+        fill="none"
+        stroke="rgba(249, 115, 22, 0.1)"
+        strokeWidth="1"
+        initial={{ pathLength: 0, opacity: 0 }}
+        animate={{
+          pathLength: 1,
+          opacity: 1,
+          transition: {
+            delay: 1,
+            duration: 2,
+            ease: 'easeInOut',
+          },
+        }}
+      />
+
+      {/* Moving digital scan line */}
+      <motion.rect
+        width="100%"
+        height="2"
+        fill="rgba(249, 115, 22, 0.2)"
+        initial={{ y: -10, opacity: 0 }}
+        animate={{
+          y: 410,
+          opacity: [0, 0.5, 0],
+          transition: {
+            duration: 8,
+            repeat: Infinity,
+            repeatDelay: 2,
+            ease: 'linear',
+          },
+        }}
+      />
+
+      {/* Data dots traveling along paths */}
+      <DataDot path={path1} delay={0.5} duration={5} size={2.5} />
+      <DataDot path={path1} delay={3.5} duration={5} size={2.5} />
+      <DataDot path={path2} delay={1.2} duration={5} size={2.5} />
+      <DataDot path={path2} delay={4.2} duration={5} size={2.5} />
+      <DataDot path={path3} delay={0.8} duration={2} size={2} />
+      <DataDot path={path3} delay={2.8} duration={2} size={2} />
+      <DataDot path={path4} delay={2} duration={3} size={2} />
+      <DataDot path={path5} delay={1} duration={3} size={2} />
+      <DataDot path={path6} delay={0} duration={8} size={2} color="rgba(249, 115, 22, 0.6)" />
+      <DataDot path={path6} delay={4} duration={8} size={2} color="rgba(249, 115, 22, 0.6)" />
+      <DataDot path={path7} delay={2} duration={8} size={2} color="rgba(249, 115, 22, 0.6)" />
+      <DataDot path={path7} delay={6} duration={8} size={2} color="rgba(249, 115, 22, 0.6)" />
+
+      {/* Circuit nodes */}
+      <motion.circle
+        initial={{ r: 0, opacity: 0 }}
+        animate={{
+          r: 5,
+          opacity: 1,
+          transition: { delay: 0.5, duration: 0.5 },
+        }}
+        cx="200"
+        cy="100"
+        fill="rgba(249, 115, 22, 0.5)"
+      />
+      <motion.circle
+        initial={{ r: 0, opacity: 0 }}
+        animate={{
+          r: 5,
+          opacity: 1,
+          transition: { delay: 0.8, duration: 0.5 },
+        }}
+        cx="300"
+        cy="200"
+        fill="rgba(249, 115, 22, 0.5)"
+      />
+      <motion.circle
+        initial={{ r: 0, opacity: 0 }}
+        animate={{
+          r: 5,
+          opacity: 1,
+          transition: { delay: 1.1, duration: 0.5 },
+        }}
+        cx="800"
+        cy="100"
+        fill="rgba(249, 115, 22, 0.5)"
+      />
+      <motion.circle
+        initial={{ r: 0, opacity: 0 }}
+        animate={{
+          r: 5,
+          opacity: 1,
+          transition: { delay: 1.4, duration: 0.5 },
+        }}
+        cx="700"
+        cy="200"
+        fill="rgba(249, 115, 22, 0.5)"
+      />
+      <motion.circle
+        initial={{ r: 0, opacity: 0 }}
+        animate={{
+          r: 5,
+          opacity: 1,
+          transition: { delay: 1.7, duration: 0.5 },
+        }}
+        cx="500"
+        cy="50"
+        fill="rgba(249, 115, 22, 0.5)"
+      />
+
+      {/* Pulsing circuit nodes */}
+      <motion.circle
+        cx="150"
+        cy="100"
+        initial={{ r: 3 }}
+        animate={{
+          r: [3, 5, 3],
+          opacity: [0.3, 0.7, 0.3],
+          transition: {
+            duration: 2,
+            repeat: Infinity,
+            repeatType: 'loop',
+          },
+        }}
+        fill="rgba(249, 115, 22, 0.5)"
+      />
+      <motion.circle
+        cx="850"
+        cy="100"
+        initial={{ r: 3 }}
+        animate={{
+          r: [3, 5, 3],
+          opacity: [0.3, 0.7, 0.3],
+          transition: {
+            duration: 2.5,
+            repeat: Infinity,
+            repeatType: 'loop',
+          },
+        }}
+        fill="rgba(249, 115, 22, 0.5)"
+      />
+      <motion.circle
+        cx="150"
+        cy="300"
+        initial={{ r: 3 }}
+        animate={{
+          r: [3, 5, 3],
+          opacity: [0.3, 0.7, 0.3],
+          transition: {
+            duration: 1.8,
+            repeat: Infinity,
+            repeatType: 'loop',
+          },
+        }}
+        fill="rgba(249, 115, 22, 0.5)"
+      />
+      <motion.circle
+        cx="850"
+        cy="300"
+        initial={{ r: 3 }}
+        animate={{
+          r: [3, 5, 3],
+          opacity: [0.3, 0.7, 0.3],
+          transition: {
+            duration: 2.2,
+            repeat: Infinity,
+            repeatType: 'loop',
+          },
+        }}
+        fill="rgba(249, 115, 22, 0.5)"
+      />
+
+      {/* Data processing text */}
+      <motion.text
+        x="120"
+        y="80"
+        fill="rgba(249, 115, 22, 0.3)"
+        fontFamily="monospace"
+        fontSize="8"
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: [0, 0.7, 0],
+          transition: {
+            delay: 2,
+            duration: 3,
+            repeat: Infinity,
+            repeatType: 'loop',
+            repeatDelay: 5,
+          },
+        }}
+      >
+        executing_automation_01
+      </motion.text>
+      <motion.text
+        x="750"
+        y="150"
+        fill="rgba(249, 115, 22, 0.3)"
+        fontFamily="monospace"
+        fontSize="8"
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: [0, 0.7, 0],
+          transition: {
+            delay: 3,
+            duration: 3,
+            repeat: Infinity,
+            repeatType: 'loop',
+            repeatDelay: 4,
+          },
+        }}
+      >
+        process_automation_running
+      </motion.text>
+      <motion.text
+        x="200"
+        y="320"
+        fill="rgba(249, 115, 22, 0.3)"
+        fontFamily="monospace"
+        fontSize="8"
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: [0, 0.7, 0],
+          transition: {
+            delay: 4,
+            duration: 3,
+            repeat: Infinity,
+            repeatType: 'loop',
+            repeatDelay: 6,
+          },
+        }}
+      >
+        system_calibration_active
+      </motion.text>
+    </motion.svg>
+  )
+}
 
 export default function Home() {
   const pathname = usePathname()
@@ -33,243 +613,1370 @@ export default function Home() {
   return (
     <>
       <Header />
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-background to-muted py-20">
-        <div className="container flex flex-col items-center text-center">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-orange-600">
-            Open Source Automation is here.
-          </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mb-10">
-            OpenAutomate provides a Python-based, open-source alternative to commercial automation
-            platforms. Take control of your automation processes without licensing costs.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <LaunchButton
-              size="lg"
-              className="bg-orange-600 hover:bg-orange-700 transition-all duration-300 hover:translate-y-[-2px]"
+      {/* Hero Section with Robotic Animation */}
+      <section className="py-20 bg-orange-600/10 text-foreground">
+        {/* Geometric robotic background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Hexagonal grid */}
+          <div
+            className="absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23F97316' fill-opacity='0.25'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+              backgroundRepeat: 'repeat',
+            }}
+          ></div>
+
+          {/* Animated light beams */}
+          <motion.div
+            className="absolute top-0 left-1/4 w-1 h-full bg-gradient-to-b from-transparent via-orange-600/10 to-transparent opacity-0"
+            animate={{
+              opacity: [0, 0.8, 0],
+              x: [-20, 20],
+              transition: {
+                repeat: Infinity,
+                duration: 5,
+                repeatDelay: 2,
+                ease: 'easeInOut',
+              },
+            }}
+          />
+
+          <motion.div
+            className="absolute top-0 right-1/3 w-1 h-full bg-gradient-to-b from-transparent via-orange-600/10 to-transparent opacity-0"
+            animate={{
+              opacity: [0, 0.8, 0],
+              x: [20, -20],
+              transition: {
+                repeat: Infinity,
+                duration: 7,
+                repeatDelay: 3,
+                ease: 'easeInOut',
+              },
+            }}
+          />
+
+          {/* Cybernetic circles */}
+          <motion.div
+            className="absolute left-0 top-1/2 -translate-y-1/2 w-40 h-40 rounded-full border border-orange-600/10 opacity-60"
+            animate={{
+              rotate: 360,
+              scale: [1, 1.1, 1],
+              transition: {
+                rotate: {
+                  repeat: Infinity,
+                  duration: 20,
+                  ease: 'linear',
+                },
+                scale: {
+                  repeat: Infinity,
+                  duration: 8,
+                  repeatType: 'reverse',
+                },
+              },
+            }}
+          >
+            <motion.div
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full border border-orange-600/10 opacity-60"
+              animate={{
+                rotate: -360,
+                transition: {
+                  repeat: Infinity,
+                  duration: 15,
+                  ease: 'linear',
+                },
+              }}
             />
-            <Link href={config.paths.pages.guides}>
-              <Button
-                variant="outline"
-                size="lg"
-                className="text-orange-600 border-orange-600 hover:bg-orange-600/10 transition-all duration-300 hover:translate-y-[-2px]"
-              >
-                Explore the platform
-              </Button>
-            </Link>
+          </motion.div>
+
+          <motion.div
+            className="absolute right-0 top-1/3 -translate-y-1/2 w-48 h-48 rounded-full border border-orange-600/10 opacity-60"
+            animate={{
+              rotate: -360,
+              scale: [1, 1.1, 1],
+              transition: {
+                rotate: {
+                  repeat: Infinity,
+                  duration: 25,
+                  ease: 'linear',
+                },
+                scale: {
+                  repeat: Infinity,
+                  duration: 10,
+                  repeatType: 'reverse',
+                },
+              },
+            }}
+          >
+            <motion.div
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 rounded-full border border-orange-600/10 opacity-60"
+              animate={{
+                rotate: 360,
+                transition: {
+                  repeat: Infinity,
+                  duration: 18,
+                  ease: 'linear',
+                },
+              }}
+            />
+          </motion.div>
+
+          {/* Digital particles */}
+          <div className="absolute inset-0">
+            {[...Array(15)].map((_, i) => (
+              <motion.div
+                key={`digital-particle-${i}`}
+                className="absolute w-1 h-1 rounded-full bg-orange-600/30"
+                initial={{
+                  x: `${Math.random() * 100}%`,
+                  y: `${Math.random() * 100}%`,
+                  opacity: 0,
+                }}
+                animate={{
+                  opacity: [0, 0.8, 0],
+                  scale: [0, 1, 0],
+                  transition: {
+                    repeat: Infinity,
+                    duration: 2 + Math.random() * 3,
+                    delay: Math.random() * 5,
+                    repeatDelay: Math.random() * 5,
+                  },
+                }}
+              />
+            ))}
           </div>
         </div>
+
+        <RobotCircuitSVG />
+        <motion.div
+          className="container flex flex-col items-center text-center relative z-10"
+          variants={roboticVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {/* Futuristic holographic frame */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1, duration: 1 }}
+          >
+            {/* Top left corner */}
+            <motion.div
+              className="absolute top-0 left-0 w-10 h-10 border-t-2 border-l-2 border-orange-600/40"
+              initial={{ x: 20, y: 20, opacity: 0 }}
+              animate={{ x: 0, y: 0, opacity: 1 }}
+              transition={{ delay: 1.2, duration: 0.5, type: 'spring' }}
+            />
+            {/* Top right corner */}
+            <motion.div
+              className="absolute top-0 right-0 w-10 h-10 border-t-2 border-r-2 border-orange-600/40"
+              initial={{ x: -20, y: 20, opacity: 0 }}
+              animate={{ x: 0, y: 0, opacity: 1 }}
+              transition={{ delay: 1.4, duration: 0.5, type: 'spring' }}
+            />
+            {/* Bottom left corner */}
+            <motion.div
+              className="absolute bottom-0 left-0 w-10 h-10 border-b-2 border-l-2 border-orange-600/40"
+              initial={{ x: 20, y: -20, opacity: 0 }}
+              animate={{ x: 0, y: 0, opacity: 1 }}
+              transition={{ delay: 1.6, duration: 0.5, type: 'spring' }}
+            />
+            {/* Bottom right corner */}
+            <motion.div
+              className="absolute bottom-0 right-0 w-10 h-10 border-b-2 border-r-2 border-orange-600/40"
+              initial={{ x: -20, y: -20, opacity: 0 }}
+              animate={{ x: 0, y: 0, opacity: 1 }}
+              transition={{ delay: 1.8, duration: 0.5, type: 'spring' }}
+            />
+
+            {/* Scanner line */}
+            <motion.div
+              className="absolute left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-orange-600/50 to-transparent"
+              initial={{ top: 0, opacity: 0 }}
+              animate={{
+                top: ['0%', '100%', '0%'],
+                opacity: [0, 1, 0],
+                transition: {
+                  duration: 8,
+                  repeat: Infinity,
+                  repeatDelay: 2,
+                  ease: 'easeInOut',
+                  times: [0, 0.5, 1],
+                },
+              }}
+            />
+
+            {/* Digital readout markers */}
+            <div className="absolute top-2 left-12 flex space-x-1">
+              {[...Array(4)].map((_, i) => (
+                <motion.div
+                  key={`readout-left-${i}`}
+                  className="w-1 h-3 bg-orange-600/50"
+                  initial={{ opacity: 0 }}
+                  animate={{
+                    opacity: [0, 0.8, 0],
+                    transition: {
+                      delay: 2 + i * 0.2,
+                      repeat: Infinity,
+                      repeatDelay: 5,
+                      duration: 1,
+                      repeatType: 'reverse',
+                    },
+                  }}
+                />
+              ))}
+            </div>
+
+            <div className="absolute top-2 right-12 flex space-x-1">
+              {[...Array(4)].map((_, i) => (
+                <motion.div
+                  key={`readout-right-${i}`}
+                  className="w-1 h-3 bg-orange-600/50"
+                  initial={{ opacity: 0 }}
+                  animate={{
+                    opacity: [0, 0.8, 0],
+                    transition: {
+                      delay: 2 + i * 0.2,
+                      repeat: Infinity,
+                      repeatDelay: 5,
+                      duration: 1,
+                      repeatType: 'reverse',
+                    },
+                  }}
+                />
+              ))}
+            </div>
+          </motion.div>
+
+          <TypingText
+            text="Open Source Automation is here."
+            className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-orange-600"
+          />
+          <motion.p className="text-xl md:text-2xl max-w-3xl mb-10" variants={textVariants}>
+            OpenAutomate provides a Python-based, open-source alternative to commercial automation
+            platforms. Take control of your automation processes without licensing costs.
+          </motion.p>
+          <motion.div className="flex flex-col sm:flex-row gap-4" variants={textVariants}>
+            <motion.div variants={buttonVariants} whileHover="hover">
+              <LaunchButton
+                size="lg"
+                className="bg-orange-600 text-white hover:bg-orange-700 transition-all duration-200 rounded-md px-6 py-3 font-medium"
+              />
+            </motion.div>
+            <motion.div variants={buttonVariants} whileHover="hover">
+              <Link href={config.paths.pages.guides}>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-2 border-orange-600 text-orange-600 bg-transparent hover:bg-orange-600/5 transition-all duration-200 rounded-md px-6 py-3 font-medium"
+                >
+                  Explore the platform
+                </Button>
+              </Link>
+            </motion.div>
+          </motion.div>
+
+          {/* Floating Gear Animation */}
+          <motion.div
+            className="absolute right-10 top-1/4 opacity-20"
+            animate={{
+              rotate: 360,
+              transition: {
+                duration: 20,
+                ease: 'linear',
+                repeat: Infinity,
+              },
+            }}
+          >
+            <Icons.settings className="h-20 w-20 text-orange-600" />
+          </motion.div>
+
+          <motion.div
+            className="absolute left-10 bottom-1/4 opacity-20"
+            animate={{
+              rotate: -360,
+              transition: {
+                duration: 25,
+                ease: 'linear',
+                repeat: Infinity,
+              },
+            }}
+          >
+            <Icons.settings className="h-16 w-16 text-orange-600" />
+          </motion.div>
+
+          {/* Robotic dots in corners */}
+          <div className="absolute top-0 left-0 w-24 h-24 flex items-center justify-center opacity-25">
+            <motion.div
+              className="w-2 h-2 rounded-full bg-orange-600 absolute"
+              animate={{
+                opacity: [0.2, 0.8, 0.2],
+                scale: [1, 1.2, 1],
+                transition: { duration: 2, repeat: Infinity },
+              }}
+            />
+            <motion.div
+              className="w-12 h-12 rounded-full border border-orange-600/20 absolute"
+              animate={{
+                rotate: 360,
+                transition: { duration: 8, repeat: Infinity, ease: 'linear' },
+              }}
+            />
+          </div>
+
+          <div className="absolute top-0 right-0 w-24 h-24 flex items-center justify-center opacity-25">
+            <motion.div
+              className="w-2 h-2 rounded-full bg-orange-600 absolute"
+              animate={{
+                opacity: [0.2, 0.8, 0.2],
+                scale: [1, 1.2, 1],
+                transition: { duration: 2.5, repeat: Infinity },
+              }}
+            />
+            <motion.div
+              className="w-12 h-12 rounded-full border border-orange-600/20 absolute"
+              animate={{
+                rotate: -360,
+                transition: { duration: 8, repeat: Infinity, ease: 'linear' },
+              }}
+            />
+          </div>
+
+          <div className="absolute bottom-0 left-0 w-24 h-24 flex items-center justify-center opacity-25">
+            <motion.div
+              className="w-2 h-2 rounded-full bg-orange-600 absolute"
+              animate={{
+                opacity: [0.2, 0.8, 0.2],
+                scale: [1, 1.2, 1],
+                transition: { duration: 1.8, repeat: Infinity },
+              }}
+            />
+            <motion.div
+              className="w-12 h-12 rounded-full border border-orange-600/20 absolute"
+              animate={{
+                rotate: 360,
+                transition: { duration: 9, repeat: Infinity, ease: 'linear' },
+              }}
+            />
+          </div>
+
+          <div className="absolute bottom-0 right-0 w-24 h-24 flex items-center justify-center opacity-25">
+            <motion.div
+              className="w-2 h-2 rounded-full bg-orange-600 absolute"
+              animate={{
+                opacity: [0.2, 0.8, 0.2],
+                scale: [1, 1.2, 1],
+                transition: { duration: 2.2, repeat: Infinity },
+              }}
+            />
+            <motion.div
+              className="w-12 h-12 rounded-full border border-orange-600/20 absolute"
+              animate={{
+                rotate: -360,
+                transition: { duration: 10, repeat: Infinity, ease: 'linear' },
+              }}
+            />
+          </div>
+        </motion.div>
       </section>
 
       {/* Features Section */}
-      <section className="py-16 bg-background">
-        <div className="container">
-          <h2 className="text-3xl font-bold text-center mb-12 text-orange-600">
+      <section className="py-16 bg-background relative overflow-hidden">
+        <div className="container relative z-10">
+          <motion.h2
+            className="text-3xl font-bold text-center mb-12 text-orange-600"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
             The workflows of tomorrow start here
-          </h2>
+          </motion.h2>
+
+          {/* Background circuit lines */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            {/* Horizontal circuit line */}
+            <motion.div
+              className="absolute left-0 top-1/2 w-full h-[1px] bg-orange-600/10"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.2, delay: 0.3 }}
+            />
+
+            {/* Circuit nodes */}
+            <motion.div
+              className="absolute left-1/4 top-1/2 w-3 h-3 rounded-full bg-orange-600/15"
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+            />
+            <motion.div
+              className="absolute left-2/4 top-1/2 w-3 h-3 rounded-full bg-orange-600/15"
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 1 }}
+            />
+            <motion.div
+              className="absolute left-3/4 top-1/2 w-3 h-3 rounded-full bg-orange-600/15"
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 1.2 }}
+            />
+
+            {/* Vertical circuit lines */}
+            <motion.div
+              className="absolute left-1/4 top-1/2 w-[1px] h-1/2 bg-orange-600/10"
+              initial={{ scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 1.2 }}
+            />
+            <motion.div
+              className="absolute left-2/4 top-0 w-[1px] h-1/2 bg-orange-600/10"
+              initial={{ scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 1.3 }}
+            />
+            <motion.div
+              className="absolute left-3/4 top-1/2 w-[1px] h-1/2 bg-orange-600/10"
+              initial={{ scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 1.4 }}
+            />
+          </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <Card>
-              <CardHeader>
-                <div className="h-12 w-12 rounded-full bg-orange-600/10 flex items-center justify-center mb-4">
-                  <Icons.check className="h-6 w-6 text-orange-600" />
-                </div>
-                <CardTitle>No Vendor Lock-in</CardTitle>
-                <CardDescription>
-                  Full control over your automation assets and infrastructure with no proprietary
-                  technologies.
-                </CardDescription>
-              </CardHeader>
-            </Card>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <Card className="h-full border-orange-600/10 relative overflow-hidden group">
+                <CardHeader>
+                  <motion.div
+                    className="h-12 w-12 rounded-full bg-orange-600/10 flex items-center justify-center mb-4 relative overflow-hidden"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <motion.div
+                      className="absolute inset-0 bg-orange-600/5 rounded-full"
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.5, 0.8, 0.5],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        repeatType: 'reverse',
+                      }}
+                    />
+                    <Icons.check className="h-6 w-6 text-orange-600" />
+                  </motion.div>
+                  <CardTitle>No Vendor Lock-in</CardTitle>
+                  <CardDescription>
+                    Full control over your automation assets and infrastructure with no proprietary
+                    technologies.
+                  </CardDescription>
+                </CardHeader>
+                {/* Animated corner accent */}
+                <motion.div
+                  className="absolute top-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-100"
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                >
+                  <div className="absolute top-0 right-0 w-5 h-[1px] bg-orange-600/30"></div>
+                  <div className="absolute top-0 right-0 h-5 w-[1px] bg-orange-600/30"></div>
+                </motion.div>
+              </Card>
+            </motion.div>
 
-            <Card>
-              <CardHeader>
-                <div className="h-12 w-12 rounded-full bg-orange-600/10 flex items-center justify-center mb-4">
-                  <Icons.billing className="h-6 w-6 text-orange-600" />
-                </div>
-                <CardTitle>Cost Effective</CardTitle>
-                <CardDescription>
-                  Eliminate licensing costs while maintaining enterprise-grade automation
-                  capabilities.
-                </CardDescription>
-              </CardHeader>
-            </Card>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <Card className="h-full border-orange-600/10 relative overflow-hidden group">
+                <CardHeader>
+                  <motion.div
+                    className="h-12 w-12 rounded-full bg-orange-600/10 flex items-center justify-center mb-4 relative overflow-hidden"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <motion.div
+                      className="absolute inset-0 bg-orange-600/5 rounded-full"
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.5, 0.8, 0.5],
+                      }}
+                      transition={{
+                        duration: 3,
+                        delay: 0.5,
+                        repeat: Infinity,
+                        repeatType: 'reverse',
+                      }}
+                    />
+                    <Icons.billing className="h-6 w-6 text-orange-600" />
+                  </motion.div>
+                  <CardTitle>Cost Effective</CardTitle>
+                  <CardDescription>
+                    Eliminate licensing costs while maintaining enterprise-grade automation
+                    capabilities.
+                  </CardDescription>
+                </CardHeader>
+                {/* Animated corner accent */}
+                <motion.div
+                  className="absolute top-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-100"
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                >
+                  <div className="absolute top-0 right-0 w-5 h-[1px] bg-orange-600/30"></div>
+                  <div className="absolute top-0 right-0 h-5 w-[1px] bg-orange-600/30"></div>
+                </motion.div>
+              </Card>
+            </motion.div>
 
-            <Card>
-              <CardHeader>
-                <div className="h-12 w-12 rounded-full bg-orange-600/10 flex items-center justify-center mb-4">
-                  <Icons.fileText className="h-6 w-6 text-orange-600" />
-                </div>
-                <CardTitle>Python-based</CardTitle>
-                <CardDescription>
-                  Leverage the power and flexibility of Python and its extensive library ecosystem.
-                </CardDescription>
-              </CardHeader>
-            </Card>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              <Card className="h-full border-orange-600/10 relative overflow-hidden group">
+                <CardHeader>
+                  <motion.div
+                    className="h-12 w-12 rounded-full bg-orange-600/10 flex items-center justify-center mb-4 relative overflow-hidden"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <motion.div
+                      className="absolute inset-0 bg-orange-600/5 rounded-full"
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.5, 0.8, 0.5],
+                      }}
+                      transition={{
+                        duration: 3,
+                        delay: 1,
+                        repeat: Infinity,
+                        repeatType: 'reverse',
+                      }}
+                    />
+                    <Icons.fileText className="h-6 w-6 text-orange-600" />
+                  </motion.div>
+                  <CardTitle>Python-based</CardTitle>
+                  <CardDescription>
+                    Leverage the power and flexibility of Python and its extensive library
+                    ecosystem.
+                  </CardDescription>
+                </CardHeader>
+                {/* Animated corner accent */}
+                <motion.div
+                  className="absolute top-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-100"
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                >
+                  <div className="absolute top-0 right-0 w-5 h-[1px] bg-orange-600/30"></div>
+                  <div className="absolute top-0 right-0 h-5 w-[1px] bg-orange-600/30"></div>
+                </motion.div>
+              </Card>
+            </motion.div>
           </div>
+
+          {/* Data flow animation */}
+          <motion.div
+            className="absolute top-0 left-0 w-full h-full pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5, duration: 0.5 }}
+          >
+            {[...Array(5)].map((_, i) => (
+              <motion.div
+                key={`data-flow-${i}`}
+                className="absolute rounded-full bg-orange-600/40"
+                style={{
+                  width: 3 + Math.random() * 3 + 'px',
+                  height: 3 + Math.random() * 3 + 'px',
+                  left: Math.random() * 100 + '%',
+                  top: '50%',
+                }}
+                animate={{
+                  x: [0, 100, 200, 300, 400],
+                  y: [0, 30, -20, 20, 0],
+                  opacity: [0, 0.8, 0.8, 0.8, 0],
+                  scale: [1, 1.2, 1.2, 1.2, 1],
+                }}
+                transition={{
+                  duration: 5 + Math.random() * 5,
+                  repeat: Infinity,
+                  delay: Math.random() * 5,
+                  ease: 'linear',
+                }}
+              />
+            ))}
+          </motion.div>
         </div>
       </section>
 
       {/* Solutions Section */}
-      <section className="py-16 bg-muted">
+      <section className="py-16 bg-muted relative overflow-hidden">
         <div className="container">
-          <h2 className="text-3xl font-bold text-center mb-12 text-orange-600">
-            Solutions for every industry
-          </h2>
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12 relative"
+          >
+            <motion.h2
+              className="text-3xl font-bold text-center mb-12 text-orange-600"
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              Solutions for every industry
+            </motion.h2>
+          </motion.div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
-            <Button
-              variant="outline"
-              className="py-6 h-auto flex flex-col gap-2 hover:bg-orange-600/10 hover:text-orange-600 hover:border-orange-600 transition-all"
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              whileHover={{ y: -5 }}
+              className="aspect-[1.6/1]"
             >
-              <Icons.user className="h-6 w-6" />
-              <span>Healthcare</span>
-            </Button>
+              <Button
+                variant="outline"
+                className="py-6 h-auto w-full flex flex-col gap-2 hover:bg-orange-600/10 hover:text-orange-600 hover:border-orange-600 transition-all"
+              >
+                <motion.div
+                  animate={{
+                    rotate: [0, 10, 0, -10, 0],
+                    transition: {
+                      duration: 6,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                    },
+                  }}
+                  className="mb-1 transition-all duration-300 group-hover:text-orange-500"
+                >
+                  <Icons.user className="h-6 w-6" />
+                </motion.div>
+                <span>Healthcare</span>
+              </Button>
+            </motion.div>
 
-            <Button
-              variant="outline"
-              className="py-6 h-auto flex flex-col gap-2 hover:bg-orange-600/10 hover:text-orange-600 hover:border-orange-600 transition-all"
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              whileHover={{ y: -5 }}
+              className="aspect-[1.6/1]"
             >
-              <Icons.billing className="h-6 w-6" />
-              <span>Finance</span>
-            </Button>
+              <Button
+                variant="outline"
+                className="py-6 h-auto w-full flex flex-col gap-2 hover:bg-orange-600/10 hover:text-orange-600 hover:border-orange-600 transition-all"
+              >
+                <motion.div
+                  animate={{
+                    rotate: [0, 10, 0, -10, 0],
+                    transition: {
+                      duration: 6,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                      delay: 0.5,
+                    },
+                  }}
+                  className="mb-1 transition-all duration-300 group-hover:text-orange-500"
+                >
+                  <Icons.billing className="h-6 w-6" />
+                </motion.div>
+                <span>Finance</span>
+              </Button>
+            </motion.div>
 
-            <Button
-              variant="outline"
-              className="py-6 h-auto flex flex-col gap-2 hover:bg-orange-600/10 hover:text-orange-600 hover:border-orange-600 transition-all"
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              whileHover={{ y: -5 }}
+              className="aspect-[1.6/1]"
             >
-              <Icons.check className="h-6 w-6" />
-              <span>Insurance</span>
-            </Button>
+              <Button
+                variant="outline"
+                className="py-6 h-auto w-full flex flex-col gap-2 hover:bg-orange-600/10 hover:text-orange-600 hover:border-orange-600 transition-all"
+              >
+                <motion.div
+                  animate={{
+                    rotate: [0, 10, 0, -10, 0],
+                    transition: {
+                      duration: 6,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                      delay: 1,
+                    },
+                  }}
+                  className="mb-1 transition-all duration-300 group-hover:text-orange-500"
+                >
+                  <Icons.check className="h-6 w-6" />
+                </motion.div>
+                <span>Insurance</span>
+              </Button>
+            </motion.div>
 
-            <Button
-              variant="outline"
-              className="py-6 h-auto flex flex-col gap-2 hover:bg-orange-600/10 hover:text-orange-600 hover:border-orange-600 transition-all"
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              whileHover={{ y: -5 }}
+              className="aspect-[1.6/1]"
             >
-              <Icons.home className="h-6 w-6" />
-              <span>Public Sector</span>
-            </Button>
+              <Button
+                variant="outline"
+                className="py-6 h-auto w-full flex flex-col gap-2 hover:bg-orange-600/10 hover:text-orange-600 hover:border-orange-600 transition-all"
+              >
+                <motion.div
+                  animate={{
+                    rotate: [0, 10, 0, -10, 0],
+                    transition: {
+                      duration: 6,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                      delay: 1.5,
+                    },
+                  }}
+                  className="mb-1 transition-all duration-300 group-hover:text-orange-500"
+                >
+                  <Icons.home className="h-6 w-6" />
+                </motion.div>
+                <span>Public Sector</span>
+              </Button>
+            </motion.div>
 
-            <Button
-              variant="outline"
-              className="py-6 h-auto flex flex-col gap-2 hover:bg-orange-600/10 hover:text-orange-600 hover:border-orange-600 transition-all"
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              whileHover={{ y: -5 }}
+              className="aspect-[1.6/1]"
             >
-              <Icons.settings className="h-6 w-6" />
-              <span>Manufacturing</span>
-            </Button>
+              <Button
+                variant="outline"
+                className="py-6 h-auto w-full flex flex-col gap-2 hover:bg-orange-600/10 hover:text-orange-600 hover:border-orange-600 transition-all"
+              >
+                <motion.div
+                  animate={{
+                    rotate: [0, 10, 0, -10, 0],
+                    transition: {
+                      duration: 6,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                      delay: 2,
+                    },
+                  }}
+                  className="mb-1 transition-all duration-300 group-hover:text-orange-500"
+                >
+                  <Icons.settings className="h-6 w-6" />
+                </motion.div>
+                <span>Manufacturing</span>
+              </Button>
+            </motion.div>
 
-            <Button
-              variant="outline"
-              className="py-6 h-auto flex flex-col gap-2 hover:bg-orange-600/10 hover:text-orange-600 hover:border-orange-600 transition-all"
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              whileHover={{ y: -5 }}
+              className="aspect-[1.6/1]"
             >
-              <Icons.file className="h-6 w-6" />
-              <span>Retail</span>
-            </Button>
+              <Button
+                variant="outline"
+                className="py-6 h-auto w-full flex flex-col gap-2 hover:bg-orange-600/10 hover:text-orange-600 hover:border-orange-600 transition-all"
+              >
+                <motion.div
+                  animate={{
+                    rotate: [0, 10, 0, -10, 0],
+                    transition: {
+                      duration: 6,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                      delay: 2.5,
+                    },
+                  }}
+                  className="mb-1 transition-all duration-300 group-hover:text-orange-500"
+                >
+                  <Icons.file className="h-6 w-6" />
+                </motion.div>
+                <span>Retail</span>
+              </Button>
+            </motion.div>
           </div>
 
-          <Card>
-            <CardContent className="p-8">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="text-2xl font-bold mb-4">
-                    Focus on core business, not automation infrastructure
-                  </h3>
-                  <p className="text-muted-foreground mb-6">
-                    Eliminate repetitive, rules-based tasks and liberate your team&apos;s time for
-                    strategic initiatives. OpenAutomate provides an end-to-end platform for
-                    automation that&apos;s easy to deploy and manage.
-                  </p>
-                  <ul className="space-y-3">
-                    <li className="flex items-center gap-2">
-                      <Icons.check className="h-5 w-5 text-orange-600" />
-                      <span>Reduction in automation platform costs</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <Icons.check className="h-5 w-5 text-orange-600" />
-                      <span>Decreased time to deploy new processes</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <Icons.check className="h-5 w-5 text-orange-600" />
-                      <span>Increased control over automation assets</span>
-                    </li>
-                  </ul>
-                  <Link href={config.paths.pages.about} className="mt-6 inline-block">
-                    <Button className="bg-orange-600 hover:bg-orange-700 text-white transition-all duration-300 hover:translate-y-[-2px]">
-                      Learn more
-                    </Button>
-                  </Link>
-                </div>
-                <div className="bg-muted rounded-lg h-64 flex items-center justify-center">
-                  <div className="text-center">
-                    <p className="text-muted-foreground mb-2">Dashboard Preview</p>
-                    <div className="bg-background border border-input p-4 rounded inline-block">
-                      <Icons.chart className="h-10 w-10 text-muted-foreground" />
-                    </div>
+          {/* Solution Detail Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.4 }}
+          >
+            <Card className="overflow-hidden relative">
+              <CardContent className="p-8">
+                <div className="grid md:grid-cols-2 gap-8 relative z-10">
+                  <div>
+                    <motion.h3
+                      className="text-2xl font-bold mb-4"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.6 }}
+                    >
+                      Focus on core business, not automation infrastructure
+                    </motion.h3>
+                    <motion.p
+                      className="text-muted-foreground mb-6"
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.7 }}
+                    >
+                      Eliminate repetitive, rules-based tasks and liberate your team&apos;s time for
+                      strategic initiatives. OpenAutomate provides an end-to-end platform for
+                      automation that&apos;s easy to deploy and manage.
+                    </motion.p>
+                    <motion.ul
+                      className="space-y-3"
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.8 }}
+                    >
+                      <li className="flex items-center gap-2">
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          whileInView={{ scale: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ type: 'spring', duration: 0.5, delay: 0.9 }}
+                        >
+                          <Icons.check className="h-5 w-5 text-orange-600" />
+                        </motion.div>
+                        <span>Reduction in automation platform costs</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          whileInView={{ scale: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ type: 'spring', duration: 0.5, delay: 1.0 }}
+                        >
+                          <Icons.check className="h-5 w-5 text-orange-600" />
+                        </motion.div>
+                        <span>Decreased time to deploy new processes</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          whileInView={{ scale: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ type: 'spring', duration: 0.5, delay: 1.1 }}
+                        >
+                          <Icons.check className="h-5 w-5 text-orange-600" />
+                        </motion.div>
+                        <span>Increased control over automation assets</span>
+                      </li>
+                    </motion.ul>
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 1.2 }}
+                      className="mt-6"
+                    >
+                      <Link href={config.paths.pages.about}>
+                        <Button className="bg-orange-600 hover:bg-orange-700 text-white transition-all duration-300 hover:translate-y-[-2px]">
+                          Learn more
+                        </Button>
+                      </Link>
+                    </motion.div>
                   </div>
+                  <motion.div
+                    className="bg-muted rounded-lg h-64 flex items-center justify-center relative overflow-hidden"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.9 }}
+                  >
+                    <div className="text-center relative z-10">
+                      <p className="text-muted-foreground mb-2">Dashboard Preview</p>
+                      <div className="bg-background border border-input p-4 rounded inline-block">
+                        <motion.div
+                          animate={{
+                            rotate: [0, 360],
+                            transition: { duration: 30, repeat: Infinity, ease: 'linear' },
+                          }}
+                        >
+                          <Icons.chart className="h-10 w-10 text-muted-foreground" />
+                        </motion.div>
+                      </div>
+                    </div>
+
+                    {/* Decorative background circuit patterns */}
+                    <motion.div
+                      className="absolute top-0 right-0 w-[200px] h-[200px] opacity-10"
+                      initial={{ rotate: 0 }}
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+                    >
+                      <svg width="200" height="200" viewBox="0 0 200 200" fill="none">
+                        <circle
+                          cx="100"
+                          cy="100"
+                          r="80"
+                          stroke="currentColor"
+                          strokeWidth="0.5"
+                          strokeDasharray="5 5"
+                        />
+                        <circle cx="100" cy="100" r="40" stroke="currentColor" strokeWidth="0.5" />
+                      </svg>
+                    </motion.div>
+                  </motion.div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+
+                {/* Background circuit nodes */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                  <motion.div
+                    className="absolute left-0 bottom-0 w-3 h-3 rounded-full bg-orange-600/10"
+                    animate={{
+                      scale: [1, 1.5, 1],
+                      opacity: [0.3, 0.6, 0.3],
+                    }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                  />
+                  <motion.div
+                    className="absolute right-0 top-0 w-2 h-2 rounded-full bg-orange-600/10"
+                    animate={{
+                      scale: [1, 1.5, 1],
+                      opacity: [0.3, 0.6, 0.3],
+                    }}
+                    transition={{ duration: 3, delay: 1, repeat: Infinity }}
+                  />
+                  <motion.div
+                    className="absolute left-1/3 top-0 w-4 h-1 bg-orange-600/10"
+                    animate={{
+                      width: [4, 20, 4],
+                      opacity: [0.2, 0.4, 0.2],
+                    }}
+                    transition={{ duration: 4, repeat: Infinity }}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Animated circuit pattern */}
+          <div className="absolute inset-0 pointer-events-none">
+            <motion.div
+              className="absolute left-0 top-1/3 w-full h-[1px] bg-orange-600/10"
+              initial={{ scaleX: 0, transformOrigin: '0% 0%' }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.5, delay: 0.2 }}
+            />
+            <motion.div
+              className="absolute right-0 bottom-1/3 w-full h-[1px] bg-orange-600/10"
+              initial={{ scaleX: 0, transformOrigin: '100% 0%' }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.5, delay: 0.4 }}
+            />
+            <motion.div
+              className="absolute right-1/4 top-0 w-[1px] h-full bg-orange-600/10"
+              initial={{ scaleY: 0, transformOrigin: '0% 0%' }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.5, delay: 0.6 }}
+            />
+            <motion.div
+              className="absolute left-3/4 top-0 w-[1px] h-full bg-orange-600/10"
+              initial={{ scaleY: 0, transformOrigin: '0% 0%' }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.5, delay: 0.8 }}
+            />
+          </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16 bg-background">
-        <div className="container">
-          <h2 className="text-3xl font-bold text-center mb-12 text-orange-600">
+      <section className="py-16 bg-background relative overflow-hidden">
+        <div className="container relative z-10">
+          <motion.h2
+            className="text-3xl font-bold text-center mb-12 text-orange-600"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
             The proof is in the performance
-          </h2>
+          </motion.h2>
+
+          {/* Robotic circuit pattern background */}
+          <div className="absolute inset-0 pointer-events-none">
+            <svg
+              className="absolute inset-0 w-full h-full"
+              viewBox="0 0 1000 400"
+              preserveAspectRatio="none"
+            >
+              <motion.path
+                d="M0,50 C200,150 300,0 500,100 C700,200 800,100 1000,150"
+                stroke="rgba(249, 115, 22, 0.1)"
+                strokeWidth="1"
+                fill="none"
+                initial={{ pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, delay: 0.2 }}
+              />
+              <motion.path
+                d="M0,200 C150,150 350,250 500,200 C650,150 750,250 1000,200"
+                stroke="rgba(249, 115, 22, 0.1)"
+                strokeWidth="1"
+                fill="none"
+                initial={{ pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, delay: 0.5 }}
+              />
+              <motion.path
+                d="M0,350 C200,300 300,400 500,350 C700,300 800,400 1000,350"
+                stroke="rgba(249, 115, 22, 0.1)"
+                strokeWidth="1"
+                fill="none"
+                initial={{ pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, delay: 0.8 }}
+              />
+            </svg>
+
+            {/* Digital nodes */}
+            {[...Array(10)].map((_, i) => (
+              <motion.div
+                key={`circuit-node-${i}`}
+                className="absolute rounded-full bg-orange-600/20"
+                style={{
+                  width: 4 + Math.random() * 4,
+                  height: 4 + Math.random() * 4,
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                initial={{ opacity: 0 }}
+                animate={{
+                  opacity: [0, 0.8, 0],
+                  scale: [0, 1, 0],
+                }}
+                transition={{
+                  duration: 2 + Math.random() * 3,
+                  delay: Math.random() * 2,
+                  repeat: Infinity,
+                  repeatDelay: Math.random() * 3 + 1,
+                }}
+              />
+            ))}
+          </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <Card>
-              <CardContent className="p-6">
-                <div className="mb-4">
-                  <Icons.help className="h-6 w-6 text-orange-600" />
-                </div>
-                <p className="italic text-muted-foreground mb-4">
-                  &ldquo;OpenAutomate has allowed us to save over 120 hours per month on repetitive
-                  tasks while giving us full control over our automation infrastructure.&rdquo;
-                </p>
-                <div>
-                  <p className="font-semibold">Alex Chen</p>
-                  <p className="text-sm text-muted-foreground">
-                    IT Director, Healthcare Solutions Inc.
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              whileHover={{ y: -5 }}
+            >
+              <Card className="h-full relative group overflow-hidden border-orange-600/10 dark:border-orange-600/5">
+                <CardContent className="p-6 relative">
+                  <div className="mb-4 relative">
+                    <motion.div
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.7, 1, 0.7],
+                      }}
+                      transition={{ duration: 3, repeat: Infinity }}
+                      className="absolute -inset-2 rounded-full bg-orange-600/5 -z-10"
+                    />
+                    <Icons.help className="h-6 w-6 text-orange-600 relative z-10" />
+                  </div>
+                  <p className="italic text-muted-foreground mb-4">
+                    &ldquo;OpenAutomate has allowed us to save over 120 hours per month on
+                    repetitive tasks while giving us full control over our automation
+                    infrastructure.&rdquo;
                   </p>
-                </div>
-              </CardContent>
-            </Card>
+                  <div className="flex gap-3 items-center">
+                    <div className="rounded-full bg-orange-600/10 h-10 w-10 flex items-center justify-center overflow-hidden relative">
+                      <motion.div
+                        className="absolute inset-0 bg-orange-600/5"
+                        animate={{
+                          scale: [1, 1.5, 1],
+                        }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                      >
+                        <Icons.user className="h-5 w-5 text-orange-600/80" />
+                      </motion.div>
+                    </div>
+                    <div>
+                      <p className="font-semibold">Alex Chen</p>
+                      <p className="text-sm text-muted-foreground">
+                        IT Director, Healthcare Solutions Inc.
+                      </p>
+                    </div>
+                  </div>
 
-            <Card>
-              <CardContent className="p-6">
-                <div className="mb-4">
-                  <Icons.help className="h-6 w-6 text-orange-600" />
-                </div>
-                <p className="italic text-muted-foreground mb-4">
-                  &ldquo;Switching to OpenAutomate reduced our automation costs by 70% while giving
-                  our team the flexibility to customize processes to our exact needs.&rdquo;
-                </p>
-                <div>
-                  <p className="font-semibold">Sarah Johnson</p>
-                  <p className="text-sm text-muted-foreground">CTO, Finance Partners</p>
-                </div>
-              </CardContent>
-            </Card>
+                  {/* Circuit corner decoration */}
+                  <div className="absolute top-0 right-0 w-12 h-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                      <motion.path
+                        d="M2 2 L12 2 L12 8"
+                        stroke="rgba(249, 115, 22, 0.3)"
+                        strokeWidth="1"
+                        fill="none"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                        transition={{ duration: 0.5, delay: 0.1 }}
+                      />
+                    </svg>
+                  </div>
 
-            <Card>
-              <CardContent className="p-6">
-                <div className="mb-4">
-                  <Icons.help className="h-6 w-6 text-orange-600" />
-                </div>
-                <p className="italic text-muted-foreground mb-4">
-                  &ldquo;The Python foundation of OpenAutomate means we can leverage our existing
-                  skills and libraries. We&apos;ve cut development time in half.&rdquo;
-                </p>
-                <div>
-                  <p className="font-semibold">Marcus Rivera</p>
-                  <p className="text-sm text-muted-foreground">Automation Lead, TechInnovate</p>
-                </div>
-              </CardContent>
-            </Card>
+                  {/* Scanning line animation */}
+                  <motion.div
+                    className="absolute left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-600/20 to-transparent"
+                    initial={{ top: 0, opacity: 0 }}
+                    animate={{
+                      top: '100%',
+                      opacity: [0, 0.5, 0],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      repeatDelay: 2,
+                    }}
+                  />
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              whileHover={{ y: -5 }}
+            >
+              <Card className="h-full relative group overflow-hidden border-orange-600/10 dark:border-orange-600/5">
+                <CardContent className="p-6 relative">
+                  <div className="mb-4 relative">
+                    <motion.div
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.7, 1, 0.7],
+                      }}
+                      transition={{ duration: 3, delay: 0.5, repeat: Infinity }}
+                      className="absolute -inset-2 rounded-full bg-orange-600/5 -z-10"
+                    />
+                    <Icons.help className="h-6 w-6 text-orange-600 relative z-10" />
+                  </div>
+                  <p className="italic text-muted-foreground mb-4">
+                    &ldquo;Switching to OpenAutomate reduced our automation costs by 70% while
+                    giving our team the flexibility to customize processes to our exact
+                    needs.&rdquo;
+                  </p>
+                  <div className="flex gap-3 items-center">
+                    <div className="rounded-full bg-orange-600/10 h-10 w-10 flex items-center justify-center overflow-hidden relative">
+                      <motion.div
+                        className="absolute inset-0 bg-orange-600/5"
+                        animate={{
+                          scale: [1, 1.5, 1],
+                        }}
+                        transition={{ duration: 2, delay: 0.3, repeat: Infinity }}
+                      />
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                      >
+                        <Icons.user className="h-5 w-5 text-orange-600/80" />
+                      </motion.div>
+                    </div>
+                    <div>
+                      <p className="font-semibold">Sarah Johnson</p>
+                      <p className="text-sm text-muted-foreground">CTO, Finance Partners</p>
+                    </div>
+                  </div>
+
+                  {/* Circuit corner decoration */}
+                  <div className="absolute top-0 right-0 w-12 h-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                      <motion.path
+                        d="M2 2 L12 2 L12 8"
+                        stroke="rgba(249, 115, 22, 0.3)"
+                        strokeWidth="1"
+                        fill="none"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                        transition={{ duration: 0.5, delay: 0.1 }}
+                      />
+                    </svg>
+                  </div>
+
+                  {/* Scanning line animation */}
+                  <motion.div
+                    className="absolute left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-600/20 to-transparent"
+                    initial={{ top: 0, opacity: 0 }}
+                    animate={{
+                      top: '100%',
+                      opacity: [0, 0.5, 0],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      repeatDelay: 3,
+                    }}
+                  />
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              whileHover={{ y: -5 }}
+            >
+              <Card className="h-full relative group overflow-hidden border-orange-600/10 dark:border-orange-600/5">
+                <CardContent className="p-6 relative">
+                  <div className="mb-4 relative">
+                    <motion.div
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.7, 1, 0.7],
+                      }}
+                      transition={{ duration: 3, delay: 1, repeat: Infinity }}
+                      className="absolute -inset-2 rounded-full bg-orange-600/5 -z-10"
+                    />
+                    <Icons.help className="h-6 w-6 text-orange-600 relative z-10" />
+                  </div>
+                  <p className="italic text-muted-foreground mb-4">
+                    &ldquo;The Python-based architecture has transformed our engineering team&apos;s
+                    ability to customize workflows and integrate with our internal systems.&rdquo;
+                  </p>
+                  <div className="flex gap-3 items-center">
+                    <div className="rounded-full bg-orange-600/10 h-10 w-10 flex items-center justify-center overflow-hidden relative">
+                      <motion.div
+                        className="absolute inset-0 bg-orange-600/5"
+                        animate={{
+                          scale: [1, 1.5, 1],
+                        }}
+                        transition={{ duration: 2, delay: 0.6, repeat: Infinity }}
+                      />
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                      >
+                        <Icons.user className="h-5 w-5 text-orange-600/80" />
+                      </motion.div>
+                    </div>
+                    <div>
+                      <p className="font-semibold">Michael Johnson</p>
+                      <p className="text-sm text-muted-foreground">Lead Developer, FinTech</p>
+                    </div>
+                  </div>
+
+                  {/* Circuit corner decoration */}
+                  <div className="absolute top-0 right-0 w-12 h-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                      <motion.path
+                        d="M2 2 L12 2 L12 8"
+                        stroke="rgba(249, 115, 22, 0.3)"
+                        strokeWidth="1"
+                        fill="none"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                        transition={{ duration: 0.5, delay: 0.1 }}
+                      />
+                    </svg>
+                  </div>
+
+                  {/* Scanning line animation */}
+                  <motion.div
+                    className="absolute left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-600/20 to-transparent"
+                    initial={{ top: 0, opacity: 0 }}
+                    animate={{
+                      top: '100%',
+                      opacity: [0, 0.5, 0],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      repeatDelay: 4,
+                    }}
+                  />
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
+
+          {/* Animated connection lines */}
+          <div className="absolute left-1/6 top-1/2 right-1/6 h-0.5 opacity-10 pointer-events-none">
+            <motion.div
+              className="absolute inset-0 bg-orange-600"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+            />
+
+            {/* Connection dots */}
+            <motion.div
+              className="absolute left-0 top-1/2 w-2 h-2 -translate-y-1/2 bg-orange-600 rounded-full"
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: 0.7 }}
+            />
+            <motion.div
+              className="absolute left-1/2 top-1/2 w-2 h-2 -translate-x-1/2 -translate-y-1/2 bg-orange-600 rounded-full"
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: 1.0 }}
+            />
+            <motion.div
+              className="absolute right-0 top-1/2 w-2 h-2 -translate-y-1/2 bg-orange-600 rounded-full"
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: 1.3 }}
+            />
           </div>
         </div>
       </section>
