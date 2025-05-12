@@ -722,27 +722,36 @@ export default function Home() {
 
           {/* Digital particles */}
           <div className="absolute inset-0">
-            {[...Array(15)].map((_, i) => (
-              <motion.div
-                key={`digital-particle-${i}`}
-                className="absolute w-1 h-1 rounded-full bg-orange-600/30"
-                initial={{
-                  x: `${Math.random() * 100}%`,
-                  y: `${Math.random() * 100}%`,
-                  opacity: 0,
-                }}
-                animate={{
-                  opacity: [0, 0.8, 0],
-                  scale: [0, 1, 0],
-                  transition: {
-                    repeat: Infinity,
-                    duration: 2 + Math.random() * 3,
-                    delay: Math.random() * 5,
-                    repeatDelay: Math.random() * 5,
-                  },
-                }}
-              />
-            ))}
+            {Array.from({ length: 15 }, (_, i) => {
+              // Pre-calculate random positions for stability
+              const xPos = Math.random() * 100
+              const yPos = Math.random() * 100
+              const duration = 2 + Math.random() * 3
+              const delay = Math.random() * 5
+              const repeatDelay = Math.random() * 5
+
+              return (
+                <motion.div
+                  key={`digital-particle-${i}`}
+                  className="absolute w-1 h-1 rounded-full bg-orange-600/30"
+                  initial={{
+                    x: `${xPos}%`,
+                    y: `${yPos}%`,
+                    opacity: 0,
+                  }}
+                  animate={{
+                    opacity: [0, 0.8, 0],
+                    scale: [0, 1, 0],
+                    transition: {
+                      repeat: Infinity,
+                      duration,
+                      delay,
+                      repeatDelay,
+                    },
+                  }}
+                />
+              )
+            })}
           </div>
         </div>
 
@@ -808,7 +817,7 @@ export default function Home() {
 
             {/* Digital readout markers */}
             <div className="absolute top-2 left-12 flex space-x-1">
-              {[...Array(4)].map((_, i) => (
+              {Array.from({ length: 4 }, (_, i) => (
                 <motion.div
                   key={`readout-left-${i}`}
                   className="w-1 h-3 bg-orange-600/50"
@@ -828,7 +837,7 @@ export default function Home() {
             </div>
 
             <div className="absolute top-2 right-12 flex space-x-1">
-              {[...Array(4)].map((_, i) => (
+              {Array.from({ length: 4 }, (_, i) => (
                 <motion.div
                   key={`readout-right-${i}`}
                   className="w-1 h-3 bg-orange-600/50"
