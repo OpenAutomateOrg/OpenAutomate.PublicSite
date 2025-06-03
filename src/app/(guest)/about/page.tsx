@@ -9,6 +9,7 @@ import { config } from '@/lib/config'
 import { motion } from 'framer-motion'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useEffect, useState } from 'react'
+import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
 // Animation variants
 const titleVariants = {
@@ -121,6 +122,11 @@ export default function AboutPage() {
   return (
     <>
       <Header />
+
+      {/* Breadcrumbs */}
+      <div className="container py-4">
+        <Breadcrumbs />
+      </div>
 
       {/* Hero Section */}
       <section className="relative py-24 md:py-32 overflow-hidden">
