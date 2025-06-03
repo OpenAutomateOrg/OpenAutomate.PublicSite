@@ -1,0 +1,79 @@
+{
+  "name": "OpenAutomate - Open Source Business Process Automation",
+  "short_name": "OpenAutomate",
+  "description": "OpenAutomate provides a Python-based, open-source alternative to commercial automation platforms. Take control of your automation processes without licensing costs.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#ea580c",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/logo-oa.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo-oa.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/logo-oa.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "OpenAutomate Dashboard"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "About",
+      "short_name": "About",
+      "description": "Learn about OpenAutomate",
+      "url": "/about",
+      "icons": [
+        {
+          "src": "/logo-oa.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Guides",
+      "short_name": "Guides",
+      "description": "OpenAutomate documentation and guides",
+      "url": "/guide",
+      "icons": [
+        {
+          "src": "/logo-oa.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Contact",
+      "short_name": "Contact",
+      "description": "Contact OpenAutomate",
+      "url": "/contact",
+      "icons": [
+        {
+          "src": "/logo-oa.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}
