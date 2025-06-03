@@ -24,7 +24,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'assets.openautomate.me',
+        hostname: 'assets.openautomate.io',
       },
     ],
     formats: ['image/avif', 'image/webp'],
@@ -34,8 +34,23 @@ const nextConfig: NextConfig = {
   // All other paths stay on the public site
   async redirects() {
     const orchestratorUrl = process.env.NEXT_PUBLIC_ORCHESTRATOR_URL || 'http://localhost:3001';
-    
+
     return [
+      // Force HTTPS in production
+      ...(process.env.NODE_ENV === 'production' ? [
+        {
+          source: '/(.*)',
+          has: [
+            {
+              type: 'header',
+              key: 'x-forwarded-proto',
+              value: 'http',
+            },
+          ],
+          destination: 'https://openautomate.io/$1',
+          permanent: true,
+        },
+      ] : []),
       // Auth-related redirects to orchestrator
       {
         source: '/login',
