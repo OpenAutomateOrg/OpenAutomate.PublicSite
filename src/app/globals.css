@@ -263,3 +263,14 @@
 .robotic-glow:hover::after {
   opacity: 1;
 }
+
+/* Respect user motion preferences for better accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse,
+  .path-dot,
+  .circuit-button::before,
+  .robotic-glow::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
