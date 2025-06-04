@@ -396,10 +396,6 @@ export default function Home() {
     }
   }, [isLoading])
 
-  if (isLoading && isHome) {
-    return <SplashScreen />
-  }
-
   return (
     <>
       <Header />
