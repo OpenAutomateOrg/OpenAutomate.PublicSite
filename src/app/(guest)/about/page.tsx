@@ -52,9 +52,34 @@ const lineVariants = {
 // Particle component to avoid hydration issues
 const Particles = () => {
   const [isMounted, setIsMounted] = useState(false)
+  const [particles, setParticles] = useState<Array<{
+    id: string
+    size: number
+    speed: number
+    opacity: number
+    x: number
+    delay: number
+  }>>([])
 
   useEffect(() => {
     setIsMounted(true)
+    // Generate stable particle data only on client side
+    const particleData = Array.from({ length: 20 }, (_, index) => {
+      const size = 10 + Math.random() * 20
+      const speed = 10 + Math.random() * 30
+      const opacity = 0.1 + Math.random() * 0.2
+      const x = Math.random() * 100
+      const delay = Math.random() * 5
+      return {
+        id: `particle-${index}-${size.toFixed(1)}-${x.toFixed(1)}`,
+        size,
+        speed,
+        opacity,
+        x,
+        delay,
+      }
+    })
+    setParticles(particleData)
   }, [])
 
   // Only render particles on client-side to avoid hydration mismatch
@@ -62,37 +87,29 @@ const Particles = () => {
 
   return (
     <>
-      {Array.from({ length: 20 }).map((_, index) => {
-        const size = 10 + Math.random() * 20
-        const speed = 10 + Math.random() * 30
-        const opacity = 0.1 + Math.random() * 0.2
-        const x = Math.random() * 100
-        const delay = Math.random() * 5
-
-        return (
-          <motion.div
-            key={'particle-' + index}
-            className="absolute rounded-full bg-orange-600 mix-blend-overlay"
-            style={{
-              width: size,
-              height: size,
-              left: `${x}%`,
-              opacity: opacity,
-              top: '100%',
-            }}
-            animate={{
-              y: [0, -1000],
-              rotate: [0, 360],
-            }}
-            transition={{
-              duration: speed,
-              repeat: Infinity,
-              delay: delay,
-              ease: 'linear',
-            }}
-          />
-        )
-      })}
+      {particles.map((particle) => (
+        <motion.div
+          key={particle.id}
+          className="absolute rounded-full bg-orange-600 mix-blend-overlay"
+          style={{
+            width: particle.size,
+            height: particle.size,
+            left: `${particle.x}%`,
+            opacity: particle.opacity,
+            top: '100%',
+          }}
+          animate={{
+            y: [0, -1000],
+            rotate: [0, 360],
+          }}
+          transition={{
+            duration: particle.speed,
+            repeat: Infinity,
+            delay: particle.delay,
+            ease: 'linear',
+          }}
+        />
+      ))}
     </>
   )
 }

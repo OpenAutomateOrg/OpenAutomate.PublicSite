@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import React, { useEffect, useState, ReactNode } from 'react'
+import React, { ReactNode, useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Header } from '@/components/layout/header'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -9,8 +9,8 @@ import { Icons } from '@/components/ui/icons'
 import { Footer } from '@/components/layout/footer'
 import { LaunchButton } from '@/components/launch-button'
 import { config } from '@/lib/config'
-import SplashScreen from '@/components/layout/splashScreen'
-import { usePathname } from 'next/navigation'
+
+
 import { motion } from 'framer-motion'
 
 // Robot animation variants
@@ -292,6 +292,140 @@ const DataDot = ({
   )
 }
 
+// Safe animated particles component that avoids hydration issues
+const AnimatedParticles = ({ count = 15 }: { count?: number }) => {
+  const [isMounted, setIsMounted] = useState(false)
+  const [particles, setParticles] = useState<Array<{
+    id: string
+    xPos: number
+    yPos: number
+    duration: number
+    delay: number
+    repeatDelay: number
+  }>>([])
+
+  useEffect(() => {
+    setIsMounted(true)
+    // Generate stable particle data only on client side
+    const particleData = Array.from({ length: count }, (_, i) => {
+      const xPos = Math.random() * 100
+      const yPos = Math.random() * 100
+      const duration = 2 + Math.random() * 3
+      const delay = Math.random() * 5
+      const repeatDelay = Math.random() * 5
+      return {
+        id: `particle-${i}-${xPos.toFixed(2)}-${yPos.toFixed(2)}`,
+        xPos,
+        yPos,
+        duration,
+        delay,
+        repeatDelay,
+      }
+    })
+    setParticles(particleData)
+  }, [count])
+
+  // Return null during SSR
+  if (!isMounted) {
+    return null
+  }
+
+  return (
+    <div className="absolute inset-0">
+      {particles.map((particle) => (
+        <motion.div
+          key={particle.id}
+          className="absolute w-1 h-1 rounded-full bg-orange-600/30"
+          style={{
+            left: `${particle.xPos}%`,
+            top: `${particle.yPos}%`,
+          }}
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: [0, 0.8, 0],
+            scale: [0, 1, 0],
+            transition: {
+              repeat: Infinity,
+              duration: particle.duration,
+              delay: particle.delay,
+              repeatDelay: particle.repeatDelay,
+            },
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
+// Safe data flow animation component
+const SafeDataFlow = ({ count = 5 }: { count?: number }) => {
+  const [isMounted, setIsMounted] = useState(false)
+  const [flows, setFlows] = useState<Array<{
+    id: string
+    width: number
+    height: number
+    leftPos: number
+    duration: number
+    delay: number
+  }>>([])
+
+  useEffect(() => {
+    setIsMounted(true)
+    // Generate stable flow data only on client side
+    const flowData = Array.from({ length: count }, (_, i) => {
+      const width = 3 + Math.random() * 3
+      const height = 3 + Math.random() * 3
+      const leftPos = Math.random() * 100
+      const duration = 5 + Math.random() * 5
+      const delay = Math.random() * 5
+      return {
+        id: `data-flow-${i}-${width.toFixed(1)}-${leftPos.toFixed(1)}`,
+        width,
+        height,
+        leftPos,
+        duration,
+        delay,
+      }
+    })
+    setFlows(flowData)
+  }, [count])
+
+  // Return null during SSR
+  if (!isMounted) {
+    return null
+  }
+
+  return (
+    <>
+      {flows.map((flow) => (
+        <motion.div
+          key={flow.id}
+          className="absolute rounded-full bg-orange-600/40"
+          style={{
+            width: flow.width + 'px',
+            height: flow.height + 'px',
+            left: flow.leftPos + '%',
+            top: '50%',
+          }}
+          animate={{
+            x: [0, 100, 200, 300, 400],
+            y: [0, 30, -20, 20, 0],
+            opacity: [0, 0.8, 0.8, 0.8, 0],
+            scale: [1, 1.2, 1.2, 1.2, 1],
+          }}
+          transition={{
+            duration: flow.duration,
+            repeat: Infinity,
+            delay: flow.delay,
+            ease: 'linear',
+          }}
+        />      ))}
+    </>
+  )
+}
+
 // Robot SVG component
 const RobotCircuitSVG = () => {
   // Define paths for data dots to travel along
@@ -382,23 +516,6 @@ const RobotCircuitSVG = () => {
 }
 
 export default function Home() {
-  const pathname = usePathname()
-  const isHome = pathname === '/'
-  const [isLoading, setIsLoading] = useState(isHome)
-
-  useEffect(() => {
-    if (isLoading) {
-      const timer = setTimeout(() => {
-        setIsLoading(false)
-      }, 2000) // Show splash screen for 2 seconds
-      return () => clearTimeout(timer)
-    }
-  }, [isLoading])
-
-  if (isLoading && isHome) {
-    return <SplashScreen />
-  }
-
   return (
     <>
       <Header />
@@ -507,43 +624,8 @@ export default function Home() {
                 },
               }}
             />
-          </motion.div>
-
-          {/* Digital particles */}
-          <div className="absolute inset-0">
-            {Array.from({ length: 15 }, (_, i) => {
-              // Pre-calculate random positions for stability
-              const xPos = Math.random() * 100
-              const yPos = Math.random() * 100
-              const duration = 2 + Math.random() * 3
-              const delay = Math.random() * 5
-              const repeatDelay = Math.random() * 5
-              // Create a stable, unique identifier
-              const particleId = `particle-${i}-${xPos.toFixed(2)}-${yPos.toFixed(2)}`
-
-              return (
-                <motion.div
-                  key={particleId}
-                  className="absolute w-1 h-1 rounded-full bg-orange-600/30"
-                  initial={{
-                    x: `${xPos}%`,
-                    y: `${yPos}%`,
-                    opacity: 0,
-                  }}
-                  animate={{
-                    opacity: [0, 0.8, 0],
-                    scale: [0, 1, 0],
-                    transition: {
-                      repeat: Infinity,
-                      duration,
-                      delay,
-                      repeatDelay,
-                    },
-                  }}
-                />
-              )
-            })}
-          </div>
+          </motion.div>          {/* Digital particles */}
+          <AnimatedParticles count={15} />
         </div>
 
         <RobotCircuitSVG />
@@ -888,51 +970,8 @@ export default function Home() {
               delay={1}
               animationDelay={0.6}
             />
-          </div>
-
-          {/* Data flow animation */}
-          <motion.div
-            className="absolute top-0 left-0 w-full h-full pointer-events-none"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5, duration: 0.5 }}
-          >
-            {Array.from({ length: 5 }, (_, i) => {
-              // Pre-calculate random values
-              const width = 3 + Math.random() * 3
-              const height = 3 + Math.random() * 3
-              const leftPos = Math.random() * 100
-              const duration = 5 + Math.random() * 5
-              const delay = Math.random() * 5
-              // Create a stable ID
-              const flowId = `data-flow-${i}-${width.toFixed(1)}-${leftPos.toFixed(1)}`
-
-              return (
-                <motion.div
-                  key={flowId}
-                  className="absolute rounded-full bg-orange-600/40"
-                  style={{
-                    width: width + 'px',
-                    height: height + 'px',
-                    left: leftPos + '%',
-                    top: '50%',
-                  }}
-                  animate={{
-                    x: [0, 100, 200, 300, 400],
-                    y: [0, 30, -20, 20, 0],
-                    opacity: [0, 0.8, 0.8, 0.8, 0],
-                    scale: [1, 1.2, 1.2, 1.2, 1],
-                  }}
-                  transition={{
-                    duration,
-                    repeat: Infinity,
-                    delay,
-                    ease: 'linear',
-                  }}
-                />
-              )
-            })}
-          </motion.div>
+          </div>          {/* Data flow animation */}
+          <SafeDataFlow />
         </div>
       </section>
 
@@ -1382,45 +1421,8 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 1.5, delay: 0.8 }}
               />
-            </svg>
-
-            {/* Digital nodes */}
-            {Array.from({ length: 10 }, (_, i) => {
-              // Pre-calculate random values
-              const width = 4 + Math.random() * 4
-              const height = 4 + Math.random() * 4
-              const leftPos = Math.random() * 100
-              const topPos = Math.random() * 100
-              const duration = 2 + Math.random() * 3
-              const delay = Math.random() * 2
-              const repeatDelay = Math.random() * 3 + 1
-              // Create a stable ID
-              const nodeId = `circuit-node-${i}-${width.toFixed(1)}-${leftPos.toFixed(1)}-${topPos.toFixed(1)}`
-
-              return (
-                <motion.div
-                  key={nodeId}
-                  className="absolute rounded-full bg-orange-600/20"
-                  style={{
-                    width: width,
-                    height: height,
-                    left: `${leftPos}%`,
-                    top: `${topPos}%`,
-                  }}
-                  initial={{ opacity: 0 }}
-                  animate={{
-                    opacity: [0, 0.8, 0],
-                    scale: [0, 1, 0],
-                  }}
-                  transition={{
-                    duration,
-                    delay,
-                    repeat: Infinity,
-                    repeatDelay,
-                  }}
-                />
-              )
-            })}
+            </svg>            {/* Digital nodes */}
+            <SafeDigitalNodes />
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -1528,6 +1530,79 @@ export default function Home() {
 
       {/* Footer */}
       <Footer />
+    </>
+  )
+}
+
+// Safe digital nodes component for testimonials section
+const SafeDigitalNodes = ({ count = 10 }: { count?: number }) => {
+  const [isMounted, setIsMounted] = useState(false)
+  const [nodes, setNodes] = useState<Array<{
+    id: string
+    width: number
+    height: number
+    leftPos: number
+    topPos: number
+    duration: number
+    delay: number
+    repeatDelay: number
+  }>>([])
+
+  useEffect(() => {
+    setIsMounted(true)
+    // Generate stable node data only on client side
+    const nodeData = Array.from({ length: count }, (_, i) => {
+      const width = 4 + Math.random() * 4
+      const height = 4 + Math.random() * 4
+      const leftPos = Math.random() * 100
+      const topPos = Math.random() * 100
+      const duration = 2 + Math.random() * 3
+      const delay = Math.random() * 2
+      const repeatDelay = Math.random() * 3 + 1
+      return {
+        id: `circuit-node-${i}-${width.toFixed(1)}-${leftPos.toFixed(1)}-${topPos.toFixed(1)}`,
+        width,
+        height,
+        leftPos,
+        topPos,
+        duration,
+        delay,
+        repeatDelay,
+      }
+    })
+    setNodes(nodeData)
+  }, [count])
+
+  // Return null during SSR
+  if (!isMounted) {
+    return null
+  }
+
+  return (
+    <>
+      {nodes.map((node) => (
+        <motion.div
+          key={node.id}
+          className="absolute rounded-full bg-orange-600/20"
+          style={{
+            width: node.width,
+            height: node.height,
+            left: `${node.leftPos}%`,
+            top: `${node.topPos}%`,
+          }}
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: [0, 0.8, 0],
+            scale: [0, 1, 0],
+          }}
+          transition={{
+            duration: node.duration,
+            delay: node.delay,
+            repeat: Infinity,
+            repeatDelay: node.repeatDelay,
+          }}
+        />
+      ))}
     </>
   )
 }
