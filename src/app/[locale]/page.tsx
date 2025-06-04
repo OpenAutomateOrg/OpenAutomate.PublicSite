@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import React, { ReactNode, useState, useEffect } from 'react'
+import React, { useEffect, useState, ReactNode } from 'react'
 import { Button } from '@/components/ui/button'
 import { Header } from '@/components/layout/header'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -9,9 +9,9 @@ import { Icons } from '@/components/ui/icons'
 import { Footer } from '@/components/layout/footer'
 import { LaunchButton } from '@/components/launch-button'
 import { config } from '@/lib/config'
-
-
+import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 
 // Robot animation variants
 const roboticVariants = {
@@ -292,140 +292,6 @@ const DataDot = ({
   )
 }
 
-// Safe animated particles component that avoids hydration issues
-const AnimatedParticles = ({ count = 15 }: { count?: number }) => {
-  const [isMounted, setIsMounted] = useState(false)
-  const [particles, setParticles] = useState<Array<{
-    id: string
-    xPos: number
-    yPos: number
-    duration: number
-    delay: number
-    repeatDelay: number
-  }>>([])
-
-  useEffect(() => {
-    setIsMounted(true)
-    // Generate stable particle data only on client side
-    const particleData = Array.from({ length: count }, (_, i) => {
-      const xPos = Math.random() * 100
-      const yPos = Math.random() * 100
-      const duration = 2 + Math.random() * 3
-      const delay = Math.random() * 5
-      const repeatDelay = Math.random() * 5
-      return {
-        id: `particle-${i}-${xPos.toFixed(2)}-${yPos.toFixed(2)}`,
-        xPos,
-        yPos,
-        duration,
-        delay,
-        repeatDelay,
-      }
-    })
-    setParticles(particleData)
-  }, [count])
-
-  // Return null during SSR
-  if (!isMounted) {
-    return null
-  }
-
-  return (
-    <div className="absolute inset-0">
-      {particles.map((particle) => (
-        <motion.div
-          key={particle.id}
-          className="absolute w-1 h-1 rounded-full bg-orange-600/30"
-          style={{
-            left: `${particle.xPos}%`,
-            top: `${particle.yPos}%`,
-          }}
-          initial={{
-            opacity: 0,
-          }}
-          animate={{
-            opacity: [0, 0.8, 0],
-            scale: [0, 1, 0],
-            transition: {
-              repeat: Infinity,
-              duration: particle.duration,
-              delay: particle.delay,
-              repeatDelay: particle.repeatDelay,
-            },
-          }}
-        />
-      ))}
-    </div>
-  )
-}
-
-// Safe data flow animation component
-const SafeDataFlow = ({ count = 5 }: { count?: number }) => {
-  const [isMounted, setIsMounted] = useState(false)
-  const [flows, setFlows] = useState<Array<{
-    id: string
-    width: number
-    height: number
-    leftPos: number
-    duration: number
-    delay: number
-  }>>([])
-
-  useEffect(() => {
-    setIsMounted(true)
-    // Generate stable flow data only on client side
-    const flowData = Array.from({ length: count }, (_, i) => {
-      const width = 3 + Math.random() * 3
-      const height = 3 + Math.random() * 3
-      const leftPos = Math.random() * 100
-      const duration = 5 + Math.random() * 5
-      const delay = Math.random() * 5
-      return {
-        id: `data-flow-${i}-${width.toFixed(1)}-${leftPos.toFixed(1)}`,
-        width,
-        height,
-        leftPos,
-        duration,
-        delay,
-      }
-    })
-    setFlows(flowData)
-  }, [count])
-
-  // Return null during SSR
-  if (!isMounted) {
-    return null
-  }
-
-  return (
-    <>
-      {flows.map((flow) => (
-        <motion.div
-          key={flow.id}
-          className="absolute rounded-full bg-orange-600/40"
-          style={{
-            width: flow.width + 'px',
-            height: flow.height + 'px',
-            left: flow.leftPos + '%',
-            top: '50%',
-          }}
-          animate={{
-            x: [0, 100, 200, 300, 400],
-            y: [0, 30, -20, 20, 0],
-            opacity: [0, 0.8, 0.8, 0.8, 0],
-            scale: [1, 1.2, 1.2, 1.2, 1],
-          }}
-          transition={{
-            duration: flow.duration,
-            repeat: Infinity,
-            delay: flow.delay,
-            ease: 'linear',
-          }}
-        />      ))}
-    </>
-  )
-}
-
 // Robot SVG component
 const RobotCircuitSVG = () => {
   // Define paths for data dots to travel along
@@ -516,6 +382,24 @@ const RobotCircuitSVG = () => {
 }
 
 export default function Home() {
+  const pathname = usePathname()
+  const isHome = pathname === '/'
+  const [isLoading, setIsLoading] = useState(isHome)
+  const t = useTranslations('landing')
+
+  useEffect(() => {
+    if (isLoading) {
+      const timer = setTimeout(() => {
+        setIsLoading(false)
+      }, 2000) // Show splash screen for 2 seconds
+      return () => clearTimeout(timer)
+    }
+  }, [isLoading])
+
+  if (isLoading && isHome) {
+    return <SplashScreen />
+  }
+
   return (
     <>
       <Header />
@@ -624,8 +508,43 @@ export default function Home() {
                 },
               }}
             />
-          </motion.div>          {/* Digital particles */}
-          <AnimatedParticles count={15} />
+          </motion.div>
+
+          {/* Digital particles */}
+          <div className="absolute inset-0">
+            {Array.from({ length: 15 }, (_, i) => {
+              // Pre-calculate random positions for stability
+              const xPos = Math.random() * 100
+              const yPos = Math.random() * 100
+              const duration = 2 + Math.random() * 3
+              const delay = Math.random() * 5
+              const repeatDelay = Math.random() * 5
+              // Create a stable, unique identifier
+              const particleId = `particle-${i}-${xPos.toFixed(2)}-${yPos.toFixed(2)}`
+
+              return (
+                <motion.div
+                  key={particleId}
+                  className="absolute w-1 h-1 rounded-full bg-orange-600/30"
+                  initial={{
+                    x: `${xPos}%`,
+                    y: `${yPos}%`,
+                    opacity: 0,
+                  }}
+                  animate={{
+                    opacity: [0, 0.8, 0],
+                    scale: [0, 1, 0],
+                    transition: {
+                      repeat: Infinity,
+                      duration,
+                      delay,
+                      repeatDelay,
+                    },
+                  }}
+                />
+              )
+            })}
+          </div>
         </div>
 
         <RobotCircuitSVG />
@@ -739,12 +658,11 @@ export default function Home() {
           </motion.div>
 
           <TypingText
-            text="Open Source Automation is here."
+            text={t('openSourceAutomation')}
             className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-orange-600"
           />
           <motion.p className="text-xl md:text-2xl max-w-3xl mb-10" variants={textVariants}>
-            OpenAutomate provides a Python-based, open-source alternative to commercial automation
-            platforms. Take control of your automation processes without licensing costs.
+            {t('description')}
           </motion.p>
           <motion.div className="flex flex-col sm:flex-row gap-4" variants={textVariants}>
             <motion.div variants={buttonVariants} whileHover="hover">
@@ -760,7 +678,7 @@ export default function Home() {
                   size="lg"
                   className="border-2 border-orange-600 text-orange-600 bg-transparent hover:bg-orange-600/5 transition-all duration-200 rounded-md px-6 py-3 font-medium"
                 >
-                  Explore the platform
+                  {t('explorePlatform')}
                 </Button>
               </Link>
             </motion.div>
@@ -880,7 +798,7 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            The workflows of tomorrow start here
+            {t('workflowsTitle')}{' '}
           </motion.h2>
 
           {/* Background circuit lines */}
@@ -949,29 +867,72 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-8">
             <FeatureCard
-              title="No Vendor Lock-in"
-              description="Full control over your automation assets and infrastructure with no proprietary technologies."
+              title={t('features.noVendorLockIn.title')}
+              description={t('features.noVendorLockIn.desc')}
               icon={<Icons.check className="h-6 w-6 text-orange-600" />}
               animationDelay={0.2}
             />
 
             <FeatureCard
-              title="Cost Effective"
-              description="Eliminate licensing costs while maintaining enterprise-grade automation capabilities."
+              title={t('features.costEffective.title')}
+              description={t('features.costEffective.desc')}
               icon={<Icons.billing className="h-6 w-6 text-orange-600" />}
               delay={0.5}
               animationDelay={0.4}
             />
 
             <FeatureCard
-              title="Python-based"
-              description="Leverage the power and flexibility of Python and its extensive library ecosystem."
+              title={t('features.pythonBased.title')}
+              description={t('features.pythonBased.desc')}
               icon={<Icons.fileText className="h-6 w-6 text-orange-600" />}
               delay={1}
               animationDelay={0.6}
             />
-          </div>          {/* Data flow animation */}
-          <SafeDataFlow />
+          </div>
+
+          {/* Data flow animation */}
+          <motion.div
+            className="absolute top-0 left-0 w-full h-full pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5, duration: 0.5 }}
+          >
+            {Array.from({ length: 5 }, (_, i) => {
+              // Pre-calculate random values
+              const width = 3 + Math.random() * 3
+              const height = 3 + Math.random() * 3
+              const leftPos = Math.random() * 100
+              const duration = 5 + Math.random() * 5
+              const delay = Math.random() * 5
+              // Create a stable ID
+              const flowId = `data-flow-${i}-${width.toFixed(1)}-${leftPos.toFixed(1)}`
+
+              return (
+                <motion.div
+                  key={flowId}
+                  className="absolute rounded-full bg-orange-600/40"
+                  style={{
+                    width: width + 'px',
+                    height: height + 'px',
+                    left: leftPos + '%',
+                    top: '50%',
+                  }}
+                  animate={{
+                    x: [0, 100, 200, 300, 400],
+                    y: [0, 30, -20, 20, 0],
+                    opacity: [0, 0.8, 0.8, 0.8, 0],
+                    scale: [1, 1.2, 1.2, 1.2, 1],
+                  }}
+                  transition={{
+                    duration,
+                    repeat: Infinity,
+                    delay,
+                    ease: 'linear',
+                  }}
+                />
+              )
+            })}
+          </motion.div>
         </div>
       </section>
 
@@ -992,7 +953,7 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              Solutions for every industry
+              {t('solutionsTitle')}
             </motion.h2>
           </motion.div>
 
@@ -1022,7 +983,7 @@ export default function Home() {
                 >
                   <Icons.user className="h-6 w-6" />
                 </motion.div>
-                <span>Healthcare</span>
+                <span>{t('sectors.healthcare')}</span>
               </Button>
             </motion.div>
 
@@ -1052,7 +1013,7 @@ export default function Home() {
                 >
                   <Icons.billing className="h-6 w-6" />
                 </motion.div>
-                <span>Finance</span>
+                <span>{t('sectors.finance')}</span>
               </Button>
             </motion.div>
 
@@ -1082,7 +1043,7 @@ export default function Home() {
                 >
                   <Icons.check className="h-6 w-6" />
                 </motion.div>
-                <span>Insurance</span>
+                <span>{t('sectors.insurance')}</span>
               </Button>
             </motion.div>
 
@@ -1112,7 +1073,7 @@ export default function Home() {
                 >
                   <Icons.home className="h-6 w-6" />
                 </motion.div>
-                <span>Public Sector</span>
+                <span>{t('sectors.publicSector')}</span>
               </Button>
             </motion.div>
 
@@ -1142,7 +1103,7 @@ export default function Home() {
                 >
                   <Icons.settings className="h-6 w-6" />
                 </motion.div>
-                <span>Manufacturing</span>
+                <span>{t('sectors.manufacturing')}</span>
               </Button>
             </motion.div>
 
@@ -1172,7 +1133,7 @@ export default function Home() {
                 >
                   <Icons.file className="h-6 w-6" />
                 </motion.div>
-                <span>Retail</span>
+                <span>{t('sectors.retail')}</span>
               </Button>
             </motion.div>
           </div>
@@ -1195,7 +1156,7 @@ export default function Home() {
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: 0.6 }}
                     >
-                      Focus on core business, not automation infrastructure
+                      {t('focusTitle')}
                     </motion.h3>
                     <motion.p
                       className="text-muted-foreground mb-6"
@@ -1204,9 +1165,7 @@ export default function Home() {
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: 0.7 }}
                     >
-                      Eliminate repetitive, rules-based tasks and liberate your team&apos;s time for
-                      strategic initiatives. OpenAutomate provides an end-to-end platform for
-                      automation that&apos;s easy to deploy and manage.
+                      {t('focusParagraph')}
                     </motion.p>
                     <motion.ul
                       className="space-y-3"
@@ -1224,7 +1183,7 @@ export default function Home() {
                         >
                           <Icons.check className="h-5 w-5 text-orange-600" />
                         </motion.div>
-                        <span>Reduction in automation platform costs</span>
+                        <span>{t('focusList.reductionCosts')}</span>
                       </li>
                       <li className="flex items-center gap-2">
                         <motion.div
@@ -1235,7 +1194,7 @@ export default function Home() {
                         >
                           <Icons.check className="h-5 w-5 text-orange-600" />
                         </motion.div>
-                        <span>Decreased time to deploy new processes</span>
+                        <span>{t('focusList.decreaseTime')}</span>
                       </li>
                       <li className="flex items-center gap-2">
                         <motion.div
@@ -1246,7 +1205,7 @@ export default function Home() {
                         >
                           <Icons.check className="h-5 w-5 text-orange-600" />
                         </motion.div>
-                        <span>Increased control over automation assets</span>
+                        <span>{t('focusList.increaseControl')}</span>
                       </li>
                     </motion.ul>
                     <motion.div
@@ -1258,7 +1217,7 @@ export default function Home() {
                     >
                       <Link href={config.paths.pages.about}>
                         <Button className="bg-orange-600 hover:bg-orange-700 text-white transition-all duration-300 hover:translate-y-[-2px]">
-                          Learn more
+                          {t('learnMore')}
                         </Button>
                       </Link>
                     </motion.div>
@@ -1381,7 +1340,7 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            The proof is in the performance
+            {t('performanceTitle')}
           </motion.h2>
 
           {/* Robotic circuit pattern background */}
@@ -1421,8 +1380,45 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 1.5, delay: 0.8 }}
               />
-            </svg>            {/* Digital nodes */}
-            <SafeDigitalNodes />
+            </svg>
+
+            {/* Digital nodes */}
+            {Array.from({ length: 10 }, (_, i) => {
+              // Pre-calculate random values
+              const width = 4 + Math.random() * 4
+              const height = 4 + Math.random() * 4
+              const leftPos = Math.random() * 100
+              const topPos = Math.random() * 100
+              const duration = 2 + Math.random() * 3
+              const delay = Math.random() * 2
+              const repeatDelay = Math.random() * 3 + 1
+              // Create a stable ID
+              const nodeId = `circuit-node-${i}-${width.toFixed(1)}-${leftPos.toFixed(1)}-${topPos.toFixed(1)}`
+
+              return (
+                <motion.div
+                  key={nodeId}
+                  className="absolute rounded-full bg-orange-600/20"
+                  style={{
+                    width: width,
+                    height: height,
+                    left: `${leftPos}%`,
+                    top: `${topPos}%`,
+                  }}
+                  initial={{ opacity: 0 }}
+                  animate={{
+                    opacity: [0, 0.8, 0],
+                    scale: [0, 1, 0],
+                  }}
+                  transition={{
+                    duration,
+                    delay,
+                    repeat: Infinity,
+                    repeatDelay,
+                  }}
+                />
+              )
+            })}
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -1502,13 +1498,8 @@ export default function Home() {
       {/* CTA Section */}
       <section className="py-20 bg-orange-600/10 text-foreground">
         <div className="container text-center">
-          <h2 className="text-3xl font-bold mb-6 text-orange-600">
-            Ready to take control of your automation?
-          </h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Join organizations that have broken free from vendor lock-in and reduced costs while
-            gaining more control over their automation processes.
-          </p>
+          <h2 className="text-3xl font-bold mb-6 text-orange-600">{t('readyTitle')} </h2>
+          <p className="text-xl mb-8 max-w-2xl mx-auto">{t('readyParagraph')}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <LaunchButton
               size="lg"
@@ -1521,7 +1512,7 @@ export default function Home() {
                 variant="outline"
                 className="text-orange-600 border-orange-600 hover:bg-orange-600/10 transition-all duration-300 hover:translate-y-[-2px]"
               >
-                Contact Sales
+                {t('contactSales')}
               </Button>
             </Link>
           </div>
@@ -1530,79 +1521,6 @@ export default function Home() {
 
       {/* Footer */}
       <Footer />
-    </>
-  )
-}
-
-// Safe digital nodes component for testimonials section
-const SafeDigitalNodes = ({ count = 10 }: { count?: number }) => {
-  const [isMounted, setIsMounted] = useState(false)
-  const [nodes, setNodes] = useState<Array<{
-    id: string
-    width: number
-    height: number
-    leftPos: number
-    topPos: number
-    duration: number
-    delay: number
-    repeatDelay: number
-  }>>([])
-
-  useEffect(() => {
-    setIsMounted(true)
-    // Generate stable node data only on client side
-    const nodeData = Array.from({ length: count }, (_, i) => {
-      const width = 4 + Math.random() * 4
-      const height = 4 + Math.random() * 4
-      const leftPos = Math.random() * 100
-      const topPos = Math.random() * 100
-      const duration = 2 + Math.random() * 3
-      const delay = Math.random() * 2
-      const repeatDelay = Math.random() * 3 + 1
-      return {
-        id: `circuit-node-${i}-${width.toFixed(1)}-${leftPos.toFixed(1)}-${topPos.toFixed(1)}`,
-        width,
-        height,
-        leftPos,
-        topPos,
-        duration,
-        delay,
-        repeatDelay,
-      }
-    })
-    setNodes(nodeData)
-  }, [count])
-
-  // Return null during SSR
-  if (!isMounted) {
-    return null
-  }
-
-  return (
-    <>
-      {nodes.map((node) => (
-        <motion.div
-          key={node.id}
-          className="absolute rounded-full bg-orange-600/20"
-          style={{
-            width: node.width,
-            height: node.height,
-            left: `${node.leftPos}%`,
-            top: `${node.topPos}%`,
-          }}
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: [0, 0.8, 0],
-            scale: [0, 1, 0],
-          }}
-          transition={{
-            duration: node.duration,
-            delay: node.delay,
-            repeat: Infinity,
-            repeatDelay: node.repeatDelay,
-          }}
-        />
-      ))}
     </>
   )
 }

@@ -34,7 +34,7 @@ ${allUrls
     <lastmod>${url.lastModified}</lastmod>
     <changefreq>${url.changeFrequency}</changefreq>
     <priority>${url.priority}</priority>
-  </url>`
+  </url>`,
   )
   .join('\n')}
 </urlset>`

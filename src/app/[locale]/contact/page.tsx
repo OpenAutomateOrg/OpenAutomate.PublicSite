@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { AlertCircle, CheckCircle2 } from 'lucide-react'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
+import { useTranslations } from 'next-intl'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -27,6 +28,7 @@ export default function ContactPage() {
       [name]: value,
     }))
   }
+  const t = useTranslations('contact')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -57,64 +59,64 @@ export default function ContactPage() {
       <Header />
       <main className="flex flex-1 flex-col gap-8 p-4 py-8 md:py-12">
         <div className="container mx-auto max-w-5xl space-y-6">
+          {/* Tiêu đề trang */}
           <div className="space-y-2 text-center">
-            <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">Contact Us</h1>
-            <p className="mx-auto max-w-[700px] text-muted-foreground">
-              Have questions or feedback? We&apos;d love to hear from you. Fill out the form below
-              and we&apos;ll get back to you as soon as possible.
-            </p>
+            <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">{t('pageTitle')}</h1>
+            <p className="mx-auto max-w-[700px] text-muted-foreground">{t('pageSubtitle')}</p>
           </div>
 
           <div className="mx-auto grid max-w-3xl gap-8 md:grid-cols-2">
+            {/* FORM */}
             <Card>
               <CardHeader>
-                <CardTitle>Send Us a Message</CardTitle>
-                <CardDescription>
-                  Fill out the form with your information and message.
-                </CardDescription>
+                <CardTitle>{t('form.title')}</CardTitle>
+                <CardDescription>{t('form.description')}</CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Name</Label>
+                    <Label htmlFor="name">{t('form.name.label')}</Label>
                     <Input
                       id="name"
                       name="name"
-                      placeholder="Your name"
+                      placeholder={t('form.name.placeholder')}
                       value={formData.name}
                       onChange={handleChange}
                       required
                     />
                   </div>
+
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email">{t('form.email.label')}</Label>
                     <Input
                       id="email"
                       name="email"
                       type="email"
-                      placeholder="your.email@example.com"
+                      placeholder={t('form.email.placeholder')}
                       value={formData.email}
                       onChange={handleChange}
                       required
                     />
                   </div>
+
                   <div className="space-y-2">
-                    <Label htmlFor="subject">Subject</Label>
+                    <Label htmlFor="subject">{t('form.subject.label')}</Label>
                     <Input
                       id="subject"
                       name="subject"
-                      placeholder="How can we help you?"
+                      placeholder={t('form.subject.placeholder')}
                       value={formData.subject}
                       onChange={handleChange}
                       required
                     />
                   </div>
+
                   <div className="space-y-2">
-                    <Label htmlFor="message">Message</Label>
+                    <Label htmlFor="message">{t('form.message.label')}</Label>
                     <Textarea
                       id="message"
                       name="message"
-                      placeholder="Type your message here..."
+                      placeholder={t('form.message.placeholder')}
                       value={formData.message}
                       onChange={handleChange}
                       rows={4}
@@ -125,63 +127,60 @@ export default function ContactPage() {
                   {formStatus === 'success' && (
                     <div className="flex items-center gap-2 rounded-md bg-green-50 p-3 text-sm text-green-600 dark:bg-green-900/30 dark:text-green-400">
                       <CheckCircle2 className="h-5 w-5" />
-                      <p>Your message has been sent successfully!</p>
+                      <p>{t('form.success')}</p>
                     </div>
                   )}
 
                   {formStatus === 'error' && (
                     <div className="flex items-center gap-2 rounded-md bg-red-50 p-3 text-sm text-red-600 dark:bg-red-900/30 dark:text-red-400">
                       <AlertCircle className="h-5 w-5" />
-                      <p>There was an error sending your message. Please try again.</p>
+                      <p>{t('form.error')}</p>
                     </div>
                   )}
 
                   <Button type="submit" className="w-full" disabled={isSubmitting}>
-                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                    {isSubmitting ? t('form.submitting') : t('form.submit')}
                   </Button>
                 </form>
               </CardContent>
             </Card>
 
+            {/* THÔNG TIN LIÊN HỆ */}
             <Card>
               <CardHeader>
-                <CardTitle>Contact Information</CardTitle>
-                <CardDescription>Here are all the ways you can reach us.</CardDescription>
+                <CardTitle>{t('info.title')}</CardTitle>
+                <CardDescription>{t('info.description')}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div>
-                  <h3 className="font-medium">Address</h3>
-                  <address className="not-italic text-muted-foreground">
-                    FPT University
-                    <br />
-                    Hoa Hai, Ngu Hanh Son, Danang
+                  <h3 className="font-medium">{t('info.address.title')}</h3>
+                  <address className="whitespace-pre-line not-italic text-muted-foreground">
+                    {t('info.address.value')}
                   </address>
                 </div>
 
                 <div>
-                  <h3 className="font-medium">Email</h3>
+                  <h3 className="font-medium">{t('info.email.title')}</h3>
                   <p className="text-muted-foreground">
                     <a href="mailto:info@openautomate.com" className="hover:underline">
-                      info@openautomate.com
+                      {t('info.email.value')}
                     </a>
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="font-medium">Phone</h3>
+                  <h3 className="font-medium">{t('info.phone.title')}</h3>
                   <p className="text-muted-foreground">
-                    <a href="tel:+12345678900" className="hover:underline">
-                      +84 234 567 900
+                    <a href="tel:+84234567900" className="hover:underline">
+                      {t('info.phone.value')}
                     </a>
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="font-medium">Business Hours</h3>
-                  <p className="text-muted-foreground">
-                    Monday - Friday: 9AM - 5PM EST
-                    <br />
-                    Saturday & Sunday: Closed
+                  <h3 className="font-medium">{t('info.hours.title')}</h3>
+                  <p className="whitespace-pre-line text-muted-foreground">
+                    {t('info.hours.value')}
                   </p>
                 </div>
               </CardContent>

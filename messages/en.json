@@ -1,0 +1,195 @@
+{
+  "landing": {
+    "openSourceAutomation": "Open-source automation",
+    "description": "We help organisations build scalable, custom automation workflows based on open-source technology and Python.",
+    "explorePlatform": "Explore the platform",
+    "launchOrchestrator": "Launch Orchestrator",
+
+    "workflowsTitle": "The workflows of tomorrow start here",
+
+    "features": {
+      "noVendorLockIn": {
+        "title": "No Vendor Lock-in",
+        "desc": "Full control over your automation assets and infrastructure—no proprietary tech."
+      },
+      "costEffective": {
+        "title": "Cost Effective",
+        "desc": "Cut licensing fees while retaining enterprise-grade automation capabilities."
+      },
+      "pythonBased": {
+        "title": "Python-based",
+        "desc": "Leverage the power and flexibility of Python and its vast library ecosystem."
+      }
+    },
+
+    "solutionsTitle": "Solutions for every industry",
+    "sectors": {
+      "healthcare": "Healthcare",
+      "finance": "Finance",
+      "insurance": "Insurance",
+      "publicSector": "Public Sector",
+      "manufacturing": "Manufacturing",
+      "retail": "Retail"
+    },
+
+    "focusTitle": "Focus on core business, not automation infrastructure",
+    "focusParagraph": "Eliminate repetitive, rule-based tasks and free your team for strategic initiatives. OpenAutomate delivers an end-to-end automation platform that’s easy to deploy and manage.",
+    "focusList": {
+      "reductionCosts": "Reduction in automation-platform costs",
+      "decreaseTime": "Decreased time to deploy new processes",
+      "increaseControl": "Increased control over automation assets"
+    },
+    "learnMore": "Learn more",
+
+    "performanceTitle": "The proof is in the performance",
+
+    "readyTitle": "Ready to take control of your automation?",
+    "readyParagraph": "Join organisations that have broken free from vendor lock-in, reduced costs, and gained greater control over their automation processes.",
+    "contactSales": "Contact Sales"
+  },
+  "contact": {
+    "pageTitle": "Contact Us",
+    "pageSubtitle": "Have questions or feedback? Fill out the form below and we’ll get back to you as soon as possible.",
+    "form": {
+      "title": "Send Us a Message",
+      "description": "Fill out the form with your information and message.",
+      "name": {
+        "label": "Name",
+        "placeholder": "Your name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "your.email@example.com"
+      },
+      "subject": {
+        "label": "Subject",
+        "placeholder": "How can we help you?"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Type your message here..."
+      },
+      "submit": "Send Message",
+      "submitting": "Sending...",
+      "success": "Your message has been sent successfully!",
+      "error": "There was an error sending your message. Please try again."
+    },
+    "info": {
+      "title": "Contact Information",
+      "description": "Here are all the ways you can reach us.",
+      "address": {
+        "title": "Address",
+        "value": "FPT University\nHoa Hai, Ngu Hanh Son, Danang"
+      },
+      "email": {
+        "title": "Email",
+        "value": "info@openautomate.com"
+      },
+      "phone": {
+        "title": "Phone",
+        "value": "+84 234 567 900"
+      },
+      "hours": {
+        "title": "Business Hours",
+        "value": "Monday – Friday: 9 AM – 5 PM EST\nSaturday & Sunday: Closed"
+      }
+    }
+  },
+
+  "aboutUs": {
+    "introduction": {
+      "title": "OpenAutomate",
+      "tagline": "We are on a mission to democratize automation technology by providing an open-source alternative to proprietary platforms, helping organizations take control of their automation processes without vendor lock-in.",
+      "button": "Learn More"
+    },
+
+    "stats": {
+      "countries": "customer countries (global location of customer base as of July 31, 2025)",
+      "customers": "customers (as of July 31, 2025)",
+      "recommend": "would recommend; Gartner Peer Insights 2025",
+      "developers": "developers around the globe using AI at work"
+    },
+
+    "story": {
+      "title": "Our Story",
+      "p1": "OpenAutomate addresses these challenges by providing an open-source alternative based on Python for business-process-automation management. By leveraging the accessibility and extensive library ecosystem of Python, organizations can significantly reduce costs while gaining greater control over their automation solutions. This approach eliminates vendor dependency and empowers teams to create, modify, and extend automation processes without the constraints of commercial licensing.",
+      "p2": "The platform enables businesses to transition from expensive proprietary solutions to a more flexible, cost-effective approach that can be tailored to specific organizational needs. This not only reduces operational costs but also allows for more rapid innovation and adaptation to changing business requirements.",
+
+      "features": {
+        "openSource": {
+          "title": "Open Source Core",
+          "desc": "100 % open-source platform with transparent development"
+        },
+        "python": {
+          "title": "Python Foundation",
+          "desc": "Built on Python to leverage its extensive ecosystem and flexibility"
+        },
+        "community": {
+          "title": "Community Driven",
+          "desc": "Developed by and for the automation community"
+        }
+      }
+    },
+
+    "mission": {
+      "title": "Our Mission & Values",
+      "tagline": "At the core of everything we do is a commitment to making automation technology accessible, customizable, and cost-effective for organizations of all sizes.",
+      "values": {
+        "transparency": {
+          "title": "Transparency",
+          "desc": "We believe in complete transparency in our code, our business practices, and our community engagement."
+        },
+        "empowerment": {
+          "title": "Empowerment",
+          "desc": "We empower organizations by giving them full control over their automation assets and processes."
+        },
+        "flexibility": {
+          "title": "Flexibility",
+          "desc": "We design our platform to be adaptable to any workflow or industry requirement without limitations."
+        }
+      }
+    },
+
+    "team": {
+      "title": "Our Team",
+      "tagline": "Meet the passionate team of engineers, designers, and automation experts behind OpenAutomate.",
+      "metrics": {
+        "experience": { "value": "5+", "label": "Years Experience" },
+        "projects": { "value": "50+", "label": "Projects Completed" },
+        "support": { "value": "24/7", "label": "Support Available" },
+        "satisfaction": { "value": "100%", "label": "Client Satisfaction" }
+      }
+    },
+
+    "cta": {
+      "title": "Join Our Big Dream",
+      "tagline": "Whether you are looking to implement OpenAutomate or contribute to our open-source community, we would love to connect with you.",
+      "button": "Contact Us"
+    }
+  },
+  "common": {
+    "appName": "OpenAutomate"
+  },
+
+  "nav": {
+    "about": "About Us",
+    "guides": "Guides",
+    "contact": "Contact Us"
+  },
+  "footer": {
+    "brand": "OpenAutomate",
+    "tagline": "Open-source business process automation management platform.",
+    "sections": {
+      "platform": "Platform",
+      "resources": "Resources",
+      "company": "Company"
+    },
+    "links": {
+      "platform": { "features": "Features", "pricing": "Pricing", "docs": "Documentation" },
+      "resources": { "blog": "Blog", "community": "Community", "support": "Support" },
+      "company": { "about": "About Us", "contact": "Contact" }
+    },
+    "policies": { "terms": "Terms", "privacy": "Privacy", "cookies": "Cookies" },
+    "copyright": "© {year} OpenAutomate. All rights reserved."
+  }
+}

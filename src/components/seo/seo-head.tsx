@@ -42,9 +42,7 @@ export function SEOHead({
   const defaultMeta = config.seo.defaultMeta
 
   // Construct full title
-  const fullTitle = title 
-    ? `${title} | ${siteConfig.name}`
-    : siteConfig.title
+  const fullTitle = title ? `${title} | ${siteConfig.name}` : siteConfig.title
 
   // Use provided description or default
   const metaDescription = description || siteConfig.description
@@ -56,14 +54,17 @@ export function SEOHead({
   const fullUrl = url ? `${siteConfig.url}${url}` : siteConfig.url
 
   // Construct image URL
-  const imageUrl = image 
-    ? (image.startsWith('http') ? image : `${siteConfig.url}${image}`)
+  const imageUrl = image
+    ? image.startsWith('http')
+      ? image
+      : `${siteConfig.url}${image}`
     : `${siteConfig.url}${siteConfig.logo}`
 
   // Robots directive
-  const robots = noindex || nofollow 
-    ? `${noindex ? 'noindex' : 'index'}, ${nofollow ? 'nofollow' : 'follow'}`
-    : defaultMeta.robots
+  const robots =
+    noindex || nofollow
+      ? `${noindex ? 'noindex' : 'index'}, ${nofollow ? 'nofollow' : 'follow'}`
+      : defaultMeta.robots
 
   return (
     <Head>
@@ -73,20 +74,15 @@ export function SEOHead({
       <meta name="keywords" content={allKeywords.join(', ')} />
       <meta name="author" content={defaultMeta.author} />
       <meta name="robots" content={robots} />
-      
+
       {/* Canonical URL */}
       <link rel="canonical" href={canonical || fullUrl} />
-      
+
       {/* Alternate language versions */}
       {alternateLanguages.map((lang) => (
-        <link
-          key={lang.hreflang}
-          rel="alternate"
-          hrefLang={lang.hreflang}
-          href={lang.href}
-        />
+        <link key={lang.hreflang} rel="alternate" hrefLang={lang.hreflang} href={lang.href} />
       ))}
-      
+
       {/* Open Graph */}
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={metaDescription} />
@@ -98,7 +94,7 @@ export function SEOHead({
       <meta property="og:image:alt" content={title || siteConfig.name} />
       <meta property="og:locale" content="en_US" />
       <meta property="og:type" content={type} />
-      
+
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
@@ -106,22 +102,22 @@ export function SEOHead({
       <meta name="twitter:image" content={imageUrl} />
       <meta name="twitter:creator" content={config.seo.social.twitter.creator} />
       <meta name="twitter:site" content={config.seo.social.twitter.site} />
-      
+
       {/* Additional meta tags */}
       <meta name="theme-color" content="#ea580c" />
       <meta name="msapplication-TileColor" content="#ea580c" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       <meta name="format-detection" content="telephone=no" />
-      
+
       {/* Preconnect to external domains */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      
+
       {/* DNS prefetch */}
       <link rel="dns-prefetch" href="//fonts.googleapis.com" />
       <link rel="dns-prefetch" href="//fonts.gstatic.com" />
-      
+
       {/* JSON-LD structured data */}
       {jsonLd && (
         <script
@@ -145,13 +141,7 @@ interface SimpleMetaProps {
 }
 
 export function SimpleMeta({ title, description, keywords = [] }: SimpleMetaProps) {
-  return (
-    <SEOHead
-      title={title}
-      description={description}
-      keywords={keywords}
-    />
-  )
+  return <SEOHead title={title} description={description} keywords={keywords} />
 }
 
 /**
@@ -178,9 +168,7 @@ export function ArticleMeta({
       <SEOHead {...props} type="article" />
       <Head>
         <meta property="article:published_time" content={publishedTime} />
-        {modifiedTime && (
-          <meta property="article:modified_time" content={modifiedTime} />
-        )}
+        {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
         <meta property="article:author" content={author} />
         {section && <meta property="article:section" content={section} />}
         {tags.map((tag) => (

@@ -41,11 +41,11 @@ function generateBreadcrumbsFromPath(pathname: string): BreadcrumbItem[] {
   let currentPath = ''
   paths.forEach((segment, index) => {
     currentPath += `/${segment}`
-    
+
     // Convert segment to readable name
     let name = segment
       .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ')
 
     // Handle specific routes
@@ -81,14 +81,14 @@ export function Breadcrumbs({
   homeLabel = 'Home',
 }: BreadcrumbsProps) {
   const pathname = usePathname()
-  
+
   // Use provided items or generate from pathname
   const breadcrumbItems = items || generateBreadcrumbsFromPath(pathname)
-  
+
   // Filter out home if not wanted
-  const displayItems = showHome 
-    ? breadcrumbItems 
-    : breadcrumbItems.filter(item => item.url !== '/')
+  const displayItems = showHome
+    ? breadcrumbItems
+    : breadcrumbItems.filter((item) => item.url !== '/')
 
   // Don't show breadcrumbs on home page unless explicitly provided
   if (pathname === '/' && !items) {
@@ -97,10 +97,10 @@ export function Breadcrumbs({
 
   // Generate structured data for breadcrumbs
   const breadcrumbSchema = generateBreadcrumbSchema(
-    breadcrumbItems.map(item => ({
+    breadcrumbItems.map((item) => ({
       name: item.name,
       url: item.url,
-    }))
+    })),
   )
 
   return (
@@ -114,24 +114,23 @@ export function Breadcrumbs({
           {displayItems.map((item, index) => (
             <li key={item.url} className="flex items-center">
               {index > 0 && (
-                <ChevronRight 
-                  className="h-4 w-4 mx-1 text-muted-foreground/60" 
+                <ChevronRight
+                  className="h-4 w-4 mx-1 text-muted-foreground/60"
                   aria-hidden="true"
                 />
               )}
-              
+
               {item.isCurrentPage ? (
-                <span 
-                  className="font-medium text-foreground"
-                  aria-current="page"
-                >
+                <span className="font-medium text-foreground" aria-current="page">
                   {item.name}
                 </span>
               ) : (
                 <Link
                   href={item.url}
                   className="hover:text-foreground transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:ring-offset-2 rounded-sm px-1"
-                  aria-label={index === 0 && item.url === '/' ? `Go to ${homeLabel}` : `Go to ${item.name}`}
+                  aria-label={
+                    index === 0 && item.url === '/' ? `Go to ${homeLabel}` : `Go to ${item.name}`
+                  }
                 >
                   {index === 0 && item.url === '/' && showHome ? (
                     <span className="flex items-center">
@@ -169,12 +168,9 @@ export function SimpleBreadcrumbs({ items, className }: SimpleBreadcrumbsProps) 
         {items.map((item, index) => (
           <li key={index} className="flex items-center">
             {index > 0 && (
-              <ChevronRight 
-                className="h-4 w-4 mx-1 text-muted-foreground/60" 
-                aria-hidden="true"
-              />
+              <ChevronRight className="h-4 w-4 mx-1 text-muted-foreground/60" aria-hidden="true" />
             )}
-            
+
             {item.href ? (
               <Link
                 href={item.href}
@@ -183,10 +179,7 @@ export function SimpleBreadcrumbs({ items, className }: SimpleBreadcrumbsProps) 
                 {item.label}
               </Link>
             ) : (
-              <span 
-                className="font-medium text-foreground"
-                aria-current="page"
-              >
+              <span className="font-medium text-foreground" aria-current="page">
                 {item.label}
               </span>
             )}

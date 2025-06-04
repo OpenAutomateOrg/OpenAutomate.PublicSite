@@ -35,17 +35,20 @@ curl http://localhost:3002/manifest.json
 ### 1. Google Tools
 
 #### Google Search Console
+
 1. Go to [Google Search Console](https://search.google.com/search-console)
 2. Add your property: `https://openautomate.io`
 3. Submit sitemap: `https://openautomate.io/sitemap.xml`
 4. Monitor indexing status and performance
 
 #### Google Rich Results Test
+
 1. Visit [Rich Results Test](https://search.google.com/test/rich-results)
 2. Enter your URL or paste HTML
 3. Verify structured data is valid
 
 #### PageSpeed Insights
+
 1. Go to [PageSpeed Insights](https://pagespeed.web.dev/)
 2. Enter your URL
 3. Check both mobile and desktop scores
@@ -54,17 +57,20 @@ curl http://localhost:3002/manifest.json
 ### 2. Social Media Testing
 
 #### Facebook Sharing Debugger
+
 1. Visit [Facebook Debugger](https://developers.facebook.com/tools/debug/)
 2. Enter your URL
 3. Verify Open Graph tags display correctly
 4. Use "Scrape Again" if you made changes
 
 #### Twitter Card Validator
+
 1. Go to [Twitter Card Validator](https://cards-dev.twitter.com/validator)
 2. Enter your URL
 3. Verify Twitter Card displays correctly
 
 #### LinkedIn Post Inspector
+
 1. Visit [LinkedIn Inspector](https://www.linkedin.com/post-inspector/)
 2. Enter your URL
 3. Check how your content appears on LinkedIn
@@ -72,17 +78,20 @@ curl http://localhost:3002/manifest.json
 ### 3. SEO Analysis Tools
 
 #### Lighthouse (Built into Chrome)
+
 1. Open Chrome DevTools (F12)
 2. Go to "Lighthouse" tab
 3. Run SEO audit
 4. Aim for 90+ SEO score
 
 #### SEMrush Site Audit (Free tier available)
+
 1. Sign up at [SEMrush](https://www.semrush.com/)
 2. Run site audit
 3. Check technical SEO issues
 
 #### Screaming Frog (Free for 500 URLs)
+
 1. Download [Screaming Frog](https://www.screamingfrog.co.uk/seo-spider/)
 2. Crawl your website
 3. Check for broken links, missing meta tags, etc.
@@ -90,6 +99,7 @@ curl http://localhost:3002/manifest.json
 ## ✅ SEO Checklist
 
 ### Technical SEO
+
 - [ ] All pages have unique, descriptive titles (50-60 characters)
 - [ ] Meta descriptions are compelling and under 160 characters
 - [ ] Canonical URLs are properly set
@@ -101,6 +111,7 @@ curl http://localhost:3002/manifest.json
 - [ ] HTTPS is properly configured
 
 ### Content SEO
+
 - [ ] H1 tag is unique on each page
 - [ ] Heading hierarchy is logical (H1 → H2 → H3)
 - [ ] All images have descriptive alt text
@@ -109,6 +120,7 @@ curl http://localhost:3002/manifest.json
 - [ ] Keywords are naturally integrated
 
 ### Social Media
+
 - [ ] Open Graph tags are complete
 - [ ] Twitter Cards display correctly
 - [ ] Social sharing works properly
@@ -117,28 +129,36 @@ curl http://localhost:3002/manifest.json
 ## 🚨 Common Issues & Solutions
 
 ### Issue: Pages not being indexed
+
 **Solutions:**
+
 - Check robots.txt isn't blocking pages
 - Submit sitemap to Google Search Console
 - Ensure pages are linked from other pages
 - Check for noindex tags
 
 ### Issue: Poor Core Web Vitals
+
 **Solutions:**
+
 - Optimize images (use WebP format)
 - Minimize JavaScript and CSS
 - Use lazy loading for images
 - Implement proper caching
 
 ### Issue: Structured data errors
+
 **Solutions:**
+
 - Validate with Google's Rich Results Test
 - Check JSON-LD syntax
 - Ensure required properties are present
 - Test with different schema types
 
 ### Issue: Social sharing not working
+
 **Solutions:**
+
 - Verify Open Graph tags are present
 - Check image URLs are absolute
 - Use Facebook Debugger to refresh cache
@@ -147,17 +167,20 @@ curl http://localhost:3002/manifest.json
 ## 📊 Monitoring & Maintenance
 
 ### Weekly Tasks
+
 - [ ] Check Google Search Console for errors
 - [ ] Monitor Core Web Vitals
 - [ ] Review search performance data
 
 ### Monthly Tasks
+
 - [ ] Update meta descriptions for low-performing pages
 - [ ] Check for broken links
 - [ ] Review and update structured data
 - [ ] Analyze competitor SEO strategies
 
 ### Quarterly Tasks
+
 - [ ] Comprehensive SEO audit
 - [ ] Update keyword strategy
 - [ ] Review and refresh content
@@ -166,17 +189,20 @@ curl http://localhost:3002/manifest.json
 ## 🎯 Key Metrics to Track
 
 ### Search Console Metrics
+
 - **Impressions**: How often your pages appear in search
 - **Clicks**: How often people click your results
 - **CTR**: Click-through rate (aim for 2-5%)
 - **Average Position**: Where you rank (aim for top 10)
 
 ### Core Web Vitals
+
 - **LCP (Largest Contentful Paint)**: < 2.5 seconds
 - **FID (First Input Delay)**: < 100 milliseconds
 - **CLS (Cumulative Layout Shift)**: < 0.1
 
 ### Analytics Metrics
+
 - **Organic Traffic**: Traffic from search engines
 - **Bounce Rate**: Percentage of single-page visits
 - **Session Duration**: How long users stay

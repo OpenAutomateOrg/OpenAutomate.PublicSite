@@ -59,15 +59,13 @@ export function OptimizedImage({
   }
 
   // Generate a simple blur placeholder if none provided
-  const defaultBlurDataURL = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=='
+  const defaultBlurDataURL =
+    'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=='
 
   if (hasError) {
     return (
-      <div 
-        className={cn(
-          'flex items-center justify-center bg-muted text-muted-foreground',
-          className
-        )}
+      <div
+        className={cn('flex items-center justify-center bg-muted text-muted-foreground', className)}
         style={{ width, height }}
         role="img"
         aria-label={`Failed to load image: ${alt}`}
@@ -79,13 +77,8 @@ export function OptimizedImage({
 
   return (
     <div className={cn('relative overflow-hidden', className)}>
-      {isLoading && (
-        <div 
-          className="absolute inset-0 bg-muted animate-pulse"
-          aria-hidden="true"
-        />
-      )}
-      
+      {isLoading && <div className="absolute inset-0 bg-muted animate-pulse" aria-hidden="true" />}
+
       <Image
         src={src}
         alt={alt}
@@ -100,10 +93,7 @@ export function OptimizedImage({
         loading={priority ? 'eager' : loading}
         onLoad={handleLoad}
         onError={handleError}
-        className={cn(
-          'transition-opacity duration-300',
-          isLoading ? 'opacity-0' : 'opacity-100'
-        )}
+        className={cn('transition-opacity duration-300', isLoading ? 'opacity-0' : 'opacity-100')}
         // SEO and accessibility attributes
         itemProp="image"
         decoding="async"
@@ -164,10 +154,10 @@ export function AvatarImage({ name, fallbackInitials, className, ...props }: Ava
 
   if (hasError && fallbackInitials) {
     return (
-      <div 
+      <div
         className={cn(
           'flex items-center justify-center bg-orange-600 text-white font-medium rounded-full',
-          className
+          className,
         )}
         role="img"
         aria-label={`${name} avatar`}

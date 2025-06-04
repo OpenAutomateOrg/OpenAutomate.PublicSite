@@ -35,16 +35,21 @@ export function SEODebugPanel() {
     const extractSEOInfo = (): SEODebugInfo => {
       // Extract meta tags
       const title = document.title
-      const description = document.querySelector('meta[name="description"]')?.getAttribute('content') || ''
+      const description =
+        document.querySelector('meta[name="description"]')?.getAttribute('content') || ''
       const canonical = document.querySelector('link[rel="canonical"]')?.getAttribute('href') || ''
-      const ogTitle = document.querySelector('meta[property="og:title"]')?.getAttribute('content') || ''
-      const ogDescription = document.querySelector('meta[property="og:description"]')?.getAttribute('content') || ''
-      const ogImage = document.querySelector('meta[property="og:image"]')?.getAttribute('content') || ''
-      const twitterCard = document.querySelector('meta[name="twitter:card"]')?.getAttribute('content') || ''
+      const ogTitle =
+        document.querySelector('meta[property="og:title"]')?.getAttribute('content') || ''
+      const ogDescription =
+        document.querySelector('meta[property="og:description"]')?.getAttribute('content') || ''
+      const ogImage =
+        document.querySelector('meta[property="og:image"]')?.getAttribute('content') || ''
+      const twitterCard =
+        document.querySelector('meta[name="twitter:card"]')?.getAttribute('content') || ''
 
       // Extract structured data
       const structuredDataScripts = document.querySelectorAll('script[type="application/ld+json"]')
-      const structuredData = Array.from(structuredDataScripts).map(script => {
+      const structuredData = Array.from(structuredDataScripts).map((script) => {
         try {
           return JSON.parse(script.textContent || '{}')
         } catch {
@@ -54,23 +59,25 @@ export function SEODebugPanel() {
 
       // Extract headings
       const headingElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
-      const headings = Array.from(headingElements).map(heading => ({
+      const headings = Array.from(headingElements).map((heading) => ({
         level: parseInt(heading.tagName.charAt(1)),
-        text: heading.textContent?.trim() || ''
+        text: heading.textContent?.trim() || '',
       }))
 
       // Extract images
       const imageElements = document.querySelectorAll('img')
-      const images = Array.from(imageElements).map(img => ({
+      const images = Array.from(imageElements).map((img) => ({
         src: img.src,
-        alt: img.alt || 'Missing alt text'
+        alt: img.alt || 'Missing alt text',
       }))
 
       // Extract internal links
-      const linkElements = document.querySelectorAll('a[href^="/"], a[href^="' + window.location.origin + '"]')
-      const internalLinks = Array.from(linkElements).map(link => ({
+      const linkElements = document.querySelectorAll(
+        'a[href^="/"], a[href^="' + window.location.origin + '"]',
+      )
+      const internalLinks = Array.from(linkElements).map((link) => ({
         href: link.getAttribute('href') || '',
-        text: link.textContent?.trim() || 'No text'
+        text: link.textContent?.trim() || 'No text',
       }))
 
       return {
@@ -84,7 +91,7 @@ export function SEODebugPanel() {
         structuredData,
         headings,
         images,
-        internalLinks
+        internalLinks,
       }
     }
 
@@ -131,9 +138,15 @@ export function SEODebugPanel() {
                 <section>
                   <h3 className="font-semibold text-gray-900 mb-2">Basic Meta Tags</h3>
                   <div className="space-y-1 text-gray-700">
-                    <div><strong>Title:</strong> {debugInfo.title}</div>
-                    <div><strong>Description:</strong> {debugInfo.description}</div>
-                    <div><strong>Canonical:</strong> {debugInfo.canonical}</div>
+                    <div>
+                      <strong>Title:</strong> {debugInfo.title}
+                    </div>
+                    <div>
+                      <strong>Description:</strong> {debugInfo.description}
+                    </div>
+                    <div>
+                      <strong>Canonical:</strong> {debugInfo.canonical}
+                    </div>
                   </div>
                 </section>
 
@@ -141,10 +154,18 @@ export function SEODebugPanel() {
                 <section>
                   <h3 className="font-semibold text-gray-900 mb-2">Open Graph</h3>
                   <div className="space-y-1 text-gray-700">
-                    <div><strong>OG Title:</strong> {debugInfo.ogTitle}</div>
-                    <div><strong>OG Description:</strong> {debugInfo.ogDescription}</div>
-                    <div><strong>OG Image:</strong> {debugInfo.ogImage}</div>
-                    <div><strong>Twitter Card:</strong> {debugInfo.twitterCard}</div>
+                    <div>
+                      <strong>OG Title:</strong> {debugInfo.ogTitle}
+                    </div>
+                    <div>
+                      <strong>OG Description:</strong> {debugInfo.ogDescription}
+                    </div>
+                    <div>
+                      <strong>OG Image:</strong> {debugInfo.ogImage}
+                    </div>
+                    <div>
+                      <strong>Twitter Card:</strong> {debugInfo.twitterCard}
+                    </div>
                   </div>
                 </section>
 
@@ -170,10 +191,15 @@ export function SEODebugPanel() {
 
                 {/* Images */}
                 <section>
-                  <h3 className="font-semibold text-gray-900 mb-2">Images ({debugInfo.images.length})</h3>
+                  <h3 className="font-semibold text-gray-900 mb-2">
+                    Images ({debugInfo.images.length})
+                  </h3>
                   <div className="space-y-1 text-gray-700 max-h-40 overflow-auto">
                     {debugInfo.images.map((image, index) => (
-                      <div key={index} className={image.alt === 'Missing alt text' ? 'text-red-600' : ''}>
+                      <div
+                        key={index}
+                        className={image.alt === 'Missing alt text' ? 'text-red-600' : ''}
+                      >
                         <strong>Alt:</strong> {image.alt} <br />
                         <span className="text-xs text-gray-500">{image.src}</span>
                       </div>
@@ -183,7 +209,9 @@ export function SEODebugPanel() {
 
                 {/* Internal Links */}
                 <section>
-                  <h3 className="font-semibold text-gray-900 mb-2">Internal Links ({debugInfo.internalLinks.length})</h3>
+                  <h3 className="font-semibold text-gray-900 mb-2">
+                    Internal Links ({debugInfo.internalLinks.length})
+                  </h3>
                   <div className="space-y-1 text-gray-700 max-h-40 overflow-auto">
                     {debugInfo.internalLinks.slice(0, 10).map((link, index) => (
                       <div key={index}>
@@ -191,7 +219,9 @@ export function SEODebugPanel() {
                       </div>
                     ))}
                     {debugInfo.internalLinks.length > 10 && (
-                      <div className="text-gray-500">... and {debugInfo.internalLinks.length - 10} more</div>
+                      <div className="text-gray-500">
+                        ... and {debugInfo.internalLinks.length - 10} more
+                      </div>
                     )}
                   </div>
                 </section>

@@ -29,6 +29,7 @@ NEXT_PUBLIC_API_URL=https://api.openautomate.io
 ### 2. Check Server Configuration
 
 Ensure your hosting provider/server:
+
 - Forces HTTPS redirects
 - Has a valid SSL certificate
 - Doesn't serve any content over HTTP
@@ -85,6 +86,7 @@ curl https://openautomate.io/robots.txt
 ```
 
 Should show:
+
 ```
 User-agent: *
 Allow: /
@@ -127,12 +129,14 @@ Test your structured data:
 ### Google Search Console Metrics to Watch
 
 1. **Coverage Report**:
+
    - Valid pages
    - Pages with warnings
    - Excluded pages
    - Error pages
 
 2. **URL Inspection**:
+
    - Check individual page status
    - See last crawl date
    - View any crawl issues
@@ -151,21 +155,27 @@ Test your structured data:
 ## 🚨 Common Issues & Solutions
 
 ### Issue: "URL is not on Google"
+
 **Solutions:**
+
 - Submit URL for indexing via Search Console
 - Check for noindex tags
 - Verify robots.txt allows crawling
 - Ensure page returns 200 status code
 
 ### Issue: "Sitemap could not be read"
+
 **Solutions:**
+
 - Verify sitemap XML is valid
 - Check sitemap URL is accessible
 - Ensure proper XML formatting
 - Test sitemap with online validators
 
 ### Issue: "Crawled - currently not indexed"
+
 **Solutions:**
+
 - Improve page content quality
 - Add more internal links to the page
 - Increase page loading speed
@@ -206,19 +216,25 @@ Test your structured data:
 While waiting for `site:` operator to work:
 
 ### 1. Direct URL Search
+
 Search for your exact URL:
+
 ```
 "https://openautomate.io"
 ```
 
 ### 2. Brand Name Search
+
 Search for your brand:
+
 ```
 "OpenAutomate"
 ```
 
 ### 3. Unique Content Search
+
 Search for unique phrases from your site:
+
 ```
 "OpenAutomate provides a Python-based, open-source alternative"
 ```
@@ -226,12 +242,14 @@ Search for unique phrases from your site:
 ## 📈 Monitoring Tools
 
 ### Free Tools
+
 - **Google Search Console**: Primary monitoring tool
 - **Google Analytics**: Track organic traffic
 - **Bing Webmaster Tools**: Monitor Bing indexing
 - **Screaming Frog**: Crawl your site like search engines
 
 ### Paid Tools (Optional)
+
 - **SEMrush**: Comprehensive SEO monitoring
 - **Ahrefs**: Backlink and ranking tracking
 - **Moz**: SEO metrics and tracking
@@ -239,21 +257,25 @@ Search for unique phrases from your site:
 ## ⚡ Quick Wins for Faster Indexing
 
 ### 1. Create a Press Release
+
 - Announce your launch
 - Submit to PR distribution services
 - Include your website URL
 
 ### 2. Directory Submissions
+
 - Submit to relevant business directories
 - Add to industry-specific directories
 - Ensure NAP (Name, Address, Phone) consistency
 
 ### 3. Social Media Setup
+
 - Create profiles on major platforms
 - Link back to your website
 - Share your content regularly
 
 ### 4. Guest Posting
+
 - Write articles for industry blogs
 - Include links back to your site
 - Build relationships with other site owners

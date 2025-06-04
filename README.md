@@ -17,18 +17,20 @@ This repository contains the public-facing website for OpenAutomate, accessible 
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 
 ### Development
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/yourusername/OpenAutomate.PublicSite.git
    cd OpenAutomate.PublicSite
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    # or
@@ -36,15 +38,17 @@ This repository contains the public-facing website for OpenAutomate, accessible 
    ```
 
 3. Create a `.env.local` file with the following configuration:
+
    ```
    # Location of the Orchestrator application
    NEXT_PUBLIC_ORCHESTRATOR_URL=http://localhost:3001
-   
+
    # Public API URL (if needed)
    NEXT_PUBLIC_API_URL=http://localhost:5252
    ```
 
 4. Start the development server:
+
    ```bash
    npm run dev
    # or
@@ -60,21 +64,25 @@ This repository contains the public-facing website for OpenAutomate, accessible 
 If you experience "too many redirects" errors or redirect loops:
 
 1. **Clear browser cache and cookies completely**:
+
    - This is critical! Previous auth tokens may be causing loops
    - In Chrome, go to Settings > Clear browsing data > Select "Cookies and other site data" + "Cached images and files"
    - In Firefox, go to Options > Privacy & Security > Clear Data > Select "Cookies and Site Data" + "Cached Web Content"
 
 2. **Check your Next.js configuration**:
+
    - Ensure in `next.config.ts` that:
      - No route is redirecting to itself (e.g., `/` to `/`)
      - All redirects are using `permanent: false` to prevent browser caching
      - No conflicting redirect rules exist (like `/` redirecting to multiple places)
 
 3. **Environment Variables**:
+
    - Verify you have a `.env.local` file with proper configuration
    - Restart the Next.js server after creating/modifying environment files
 
 4. **Delete and Rebuild**:
+
    ```bash
    # Remove cached build files
    rm -rf .next
@@ -122,6 +130,7 @@ OpenAutomate.PublicSite/
 The website is configured for deployment to any static hosting provider or serverless platform. For production deployment:
 
 1. Build the production version:
+
    ```bash
    npm run build
    # or
