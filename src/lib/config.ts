@@ -64,7 +64,7 @@ export const config = {
       name: 'OpenAutomate',
       title: 'OpenAutomate - Open Source Business Process Automation',
       description: 'OpenAutomate provides a Python-based, open-source alternative to commercial automation platforms. Take control of your automation processes without licensing costs.',
-      url: process.env.NEXT_PUBLIC_SITE_URL || 'https://openautomate.io',
+      url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.openautomate.io',
       logo: '/logo-oa.png',
       favicon: '/favicon.ico',
     },
@@ -74,7 +74,7 @@ export const config = {
      */
     organization: {
       name: 'OpenAutomate',
-      url: process.env.NEXT_PUBLIC_SITE_URL || 'https://openautomate.io',
+      url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.openautomate.io',
       logo: '/logo-oa.png',
       description: 'Open source business process automation platform',
       foundingDate: '2024',
