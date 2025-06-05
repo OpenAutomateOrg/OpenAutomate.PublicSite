@@ -10,12 +10,12 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   
   // Optimize webpack configuration to prevent caching issues
-  webpack: (config, { dev, isServer }) => {
+  webpack: (config, { dev }) => {
     // Disable webpack caching in development to prevent memory issues
     if (dev) {
       config.cache = false
     }
-    
+
     return config
   },
   
@@ -32,25 +32,11 @@ const nextConfig: NextConfig = {
   
   // Only redirect auth-related paths to the orchestrator
   // All other paths stay on the public site
+  // Note: Domain and HTTPS redirects are handled in vercel.json
   async redirects() {
-    const orchestratorUrl = process.env.NEXT_PUBLIC_ORCHESTRATOR_URL || 'http://localhost:3001';
+    const orchestratorUrl = process.env.NEXT_PUBLIC_ORCHESTRATOR_URL ?? 'http://localhost:3001';
 
     return [
-      // Force HTTPS in production
-      ...(process.env.NODE_ENV === 'production' ? [
-        {
-          source: '/(.*)',
-          has: [
-            {
-              type: 'header',
-              key: 'x-forwarded-proto',
-              value: 'http',
-            },
-          ],
-          destination: 'https://openautomate.io/$1',
-          permanent: true,
-        },
-      ] : []),
       // Auth-related redirects to orchestrator
       {
         source: '/login',
