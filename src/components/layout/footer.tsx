@@ -1,133 +1,86 @@
 'use client'
 
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 export function Footer() {
+  const t = useTranslations('footer')
+  const year = new Date().getFullYear()
+
+  const platformLinks = [
+    { label: t('links.platform.features'), href: '/features' },
+    { label: t('links.platform.pricing'), href: '/pricing' },
+    { label: t('links.platform.docs'), href: '/docs' },
+  ]
+
+  const resourceLinks = [
+    { label: t('links.resources.blog'), href: '/blog' },
+    { label: t('links.resources.community'), href: '/community' },
+    { label: t('links.resources.support'), href: '/support' },
+  ]
+
+  const companyLinks = [
+    { label: t('links.company.about'), href: '/about' },
+    { label: t('links.company.contact'), href: '/contact' },
+    { label: 'GitHub', href: '/github' }, // GitHub brand left untranslated
+  ]
+
+  const policyLinks = [
+    { label: t('policies.terms'), href: '/terms' },
+    { label: t('policies.privacy'), href: '/privacy' },
+    { label: t('policies.cookies'), href: '/cookies' },
+  ]
+
+  const Column = ({
+    title,
+    links,
+  }: {
+    title: string
+    links: { label: string; href: string }[]
+  }) => (
+    <div>
+      <h4 className="font-medium mb-4">{title}</h4>
+      <ul className="space-y-2">
+        {links.map((l) => (
+          <li key={l.href}>
+            <Link
+              href={l.href}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {l.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+
   return (
     <footer className="bg-muted py-12">
       <div className="container">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
           <div className="col-span-2 lg:col-span-1">
-            <h3 className="font-bold text-lg mb-4">OpenAutomate</h3>
-            <p className="text-muted-foreground mb-4">
-              Open-source business process automation management platform.
-            </p>
+            <h3 className="font-bold text-lg mb-4">{t('brand')}</h3>
+            <p className="text-muted-foreground mb-4">{t('tagline')}</p>
           </div>
 
-          <div>
-            <h4 className="font-medium mb-4">Platform</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/features"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Features
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/pricing"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Pricing
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/docs"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Documentation
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-medium mb-4">Resources</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/blog"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/community"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Community
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/support"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Support
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-medium mb-4">Company</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/about"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/github"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  GitHub
-                </Link>
-              </li>
-            </ul>
-          </div>
+          <Column title={t('sections.platform')} links={platformLinks} />
+          <Column title={t('sections.resources')} links={resourceLinks} />
+          <Column title={t('sections.company')} links={companyLinks} />
         </div>
 
         <div className="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} OpenAutomate. All rights reserved.
-          </p>
+          <p className="text-sm text-muted-foreground">{t('copyright', { year })}</p>
           <div className="flex gap-4 mt-4 md:mt-0">
-            <Link
-              href="/terms"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Terms
-            </Link>
-            <Link
-              href="/privacy"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Privacy
-            </Link>
-            <Link
-              href="/cookies"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Cookies
-            </Link>
+            {policyLinks.map((p) => (
+              <Link
+                key={p.href}
+                href={p.href}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {p.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

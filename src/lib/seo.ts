@@ -36,7 +36,7 @@ export function generateMetadata(pageData: SEOPageData): Metadata {
     modifiedTime,
     author,
     noindex = false,
-    nofollow = false
+    nofollow = false,
   } = pageData
 
   const siteConfig = config.seo.site
@@ -44,9 +44,7 @@ export function generateMetadata(pageData: SEOPageData): Metadata {
   const socialConfig = config.seo.social
 
   // Construct full title
-  const fullTitle = title 
-    ? `${title} | ${siteConfig.name}`
-    : siteConfig.title
+  const fullTitle = title ? `${title} | ${siteConfig.name}` : siteConfig.title
 
   // Use provided description or default
   const metaDescription = description || siteConfig.description
@@ -58,14 +56,17 @@ export function generateMetadata(pageData: SEOPageData): Metadata {
   const fullUrl = url ? `${siteConfig.url}${url}` : siteConfig.url
 
   // Construct image URL
-  const imageUrl = image 
-    ? (image.startsWith('http') ? image : `${siteConfig.url}${image}`)
+  const imageUrl = image
+    ? image.startsWith('http')
+      ? image
+      : `${siteConfig.url}${image}`
     : `${siteConfig.url}${siteConfig.logo}`
 
   // Robots directive
-  const robots = noindex || nofollow 
-    ? `${noindex ? 'noindex' : 'index'}, ${nofollow ? 'nofollow' : 'follow'}`
-    : defaultMeta.robots
+  const robots =
+    noindex || nofollow
+      ? `${noindex ? 'noindex' : 'index'}, ${nofollow ? 'nofollow' : 'follow'}`
+      : defaultMeta.robots
 
   return {
     title: fullTitle,
@@ -76,7 +77,7 @@ export function generateMetadata(pageData: SEOPageData): Metadata {
     alternates: {
       canonical: fullUrl,
     },
-    
+
     // Open Graph
     openGraph: {
       title: fullTitle,
@@ -252,13 +253,11 @@ export function createCanonicalUrl(path: string): string {
  */
 export function truncateDescription(description: string, maxLength: number = 160): string {
   if (description.length <= maxLength) return description
-  
+
   const truncated = description.substring(0, maxLength)
   const lastSpace = truncated.lastIndexOf(' ')
-  
-  return lastSpace > 0 
-    ? truncated.substring(0, lastSpace) + '...'
-    : truncated + '...'
+
+  return lastSpace > 0 ? truncated.substring(0, lastSpace) + '...' : truncated + '...'
 }
 
 /**

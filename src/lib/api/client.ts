@@ -4,7 +4,7 @@
  * No authentication handling - public website only
  */
 
-import { config } from '@/lib/config';
+import { config } from '@/lib/config'
 
 type ApiError = {
   message: string
@@ -13,7 +13,7 @@ type ApiError = {
 }
 
 // Default request headers from configuration
-const defaultHeaders = config.api.defaultHeaders;
+const defaultHeaders = config.api.defaultHeaders
 
 /**
  * Create API error object from response
@@ -22,19 +22,19 @@ const createApiError = async (response: Response): Promise<ApiError> => {
   const errorData: ApiError = {
     message: response.statusText,
     status: response.status,
-  };
+  }
 
   try {
     // Try to parse error details from response
-    const errorBody = await response.json();
-    errorData.details = errorBody.message || JSON.stringify(errorBody);
+    const errorBody = await response.json()
+    errorData.details = errorBody.message || JSON.stringify(errorBody)
   } catch {
     // If parsing fails, use status text
-    errorData.details = response.statusText;
+    errorData.details = response.statusText
   }
 
-  return errorData;
-};
+  return errorData
+}
 
 /**
  * Handle network errors
@@ -44,12 +44,12 @@ const handleNetworkError = (error: unknown): never => {
     const apiError: ApiError = {
       message: 'Network error. Please check your connection.',
       status: 0,
-      details: error.message
-    };
-    throw apiError;
+      details: error.message,
+    }
+    throw apiError
   }
-  throw error;
-};
+  throw error
+}
 
 /**
  * Process successful response
@@ -57,50 +57,47 @@ const handleNetworkError = (error: unknown): never => {
 const processSuccessResponse = async <T>(response: Response): Promise<T> => {
   // Return empty object for 204 No Content responses
   if (response.status === 204) {
-    return {} as T;
+    return {} as T
   }
 
   // Parse JSON response
-  return (await response.json()) as T;
-};
+  return (await response.json()) as T
+}
 
 /**
  * Get full API URL
  */
 const getFullUrl = (endpoint: string): string => {
-  if (endpoint.startsWith("http")) {
-    return endpoint;
+  if (endpoint.startsWith('http')) {
+    return endpoint
   }
-  
-  const cleanEndpoint = endpoint.startsWith("/") ? endpoint.slice(1) : endpoint;
-  return `${config.api.baseUrl}/${cleanEndpoint}`;
-};
+
+  const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint
+  return `${config.api.baseUrl}/${cleanEndpoint}`
+}
 
 /**
  * Generic function to make API requests
  * Public API only - no auth handling
  */
-export async function fetchApi<T>(
-  endpoint: string,
-  options: RequestInit = {},
-): Promise<T> {
-  const url = getFullUrl(endpoint);
-  const headers = { ...defaultHeaders, ...options.headers } as Record<string, string>;
-  
+export async function fetchApi<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  const url = getFullUrl(endpoint)
+  const headers = { ...defaultHeaders, ...options.headers } as Record<string, string>
+
   try {
     const response = await fetch(url, {
       ...options,
       headers,
-    });
+    })
 
     if (response.ok) {
-      return processSuccessResponse<T>(response);
+      return processSuccessResponse<T>(response)
     }
 
-    const error = await createApiError(response);
-    throw error;
+    const error = await createApiError(response)
+    throw error
   } catch (error) {
-    return handleNetworkError(error);
+    return handleNetworkError(error)
   }
 }
 

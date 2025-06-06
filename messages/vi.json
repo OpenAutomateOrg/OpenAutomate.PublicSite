@@ -1,0 +1,189 @@
+{
+  "landing": {
+    "openSourceAutomation": "Tự động hoá mã nguồn mở",
+    "description": "Chúng tôi giúp doanh nghiệp xây dựng các quy trình tự động hoá tuỳ chỉnh có khả năng mở rộng, dựa trên mã nguồn mở và Python.",
+    "explorePlatform": "Khám phá nền tảng",
+    "launchOrchestrator": "Khởi chạy Orchestrator",
+
+    "workflowsTitle": "Quy trình của tương lai bắt đầu từ đây",
+
+    "features": {
+      "noVendorLockIn": {
+        "title": "Không phụ thuộc nhà cung cấp",
+        "desc": "Toàn quyền kiểm soát hạ tầng và tài sản tự động hoá, không công nghệ độc quyền."
+      },
+      "costEffective": {
+        "title": "Tiết kiệm chi phí",
+        "desc": "Loại bỏ phí bản quyền nhưng vẫn giữ khả năng tự động hoá cấp doanh nghiệp."
+      },
+      "pythonBased": {
+        "title": "Dựa trên Python",
+        "desc": "Khai thác sức mạnh và tính linh hoạt của Python cùng hệ sinh thái thư viện khổng lồ."
+      }
+    },
+
+    "solutionsTitle": "Giải pháp cho mọi ngành",
+    "sectors": {
+      "healthcare": "Y tế",
+      "finance": "Tài chính",
+      "insurance": "Bảo hiểm",
+      "publicSector": "Khu vực công",
+      "manufacturing": "Sản xuất",
+      "retail": "Bán lẻ"
+    },
+
+    "focusTitle": "Tập trung vào kinh doanh cốt lõi, không phải hạ tầng tự động hoá",
+    "focusParagraph": "Loại bỏ các tác vụ lặp lại dựa trên quy tắc và giải phóng thời gian của đội ngũ cho các sáng kiến chiến lược. OpenAutomate cung cấp nền tảng tự động hoá đầu-cuối dễ triển khai và quản lý.",
+    "focusList": {
+      "reductionCosts": "Giảm chi phí nền tảng tự động hoá",
+      "decreaseTime": "Rút ngắn thời gian triển khai quy trình mới",
+      "increaseControl": "Tăng quyền kiểm soát tài sản tự động hoá"
+    },
+    "learnMore": "Tìm hiểu thêm",
+
+    "performanceTitle": "Hiệu quả nói lên tất cả",
+
+    "readyTitle": "Sẵn sàng kiểm soát tự động hoá?",
+    "readyParagraph": "Hãy gia nhập cùng các tổ chức đã thoát khỏi phụ thuộc nhà cung cấp, giảm chi phí và nắm quyền kiểm soát tốt hơn quy trình tự động hoá.",
+    "contactSales": "Liên hệ kinh doanh"
+  },
+  "contact": {
+    "pageTitle": "Liên hệ chúng tôi",
+    "pageSubtitle": "Bạn có câu hỏi hoặc góp ý? Hãy điền biểu mẫu dưới đây, chúng tôi sẽ phản hồi sớm nhất có thể.",
+    "form": {
+      "title": "Gửi tin nhắn",
+      "description": "Điền thông tin của bạn và nội dung tin nhắn.",
+      "name": {
+        "label": "Tên",
+        "placeholder": "Tên của bạn"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "your.email@example.com"
+      },
+      "subject": {
+        "label": "Chủ đề",
+        "placeholder": "Chúng tôi có thể giúp gì cho bạn?"
+      },
+      "message": {
+        "label": "Tin nhắn",
+        "placeholder": "Nhập tin nhắn của bạn..."
+      },
+      "submit": "Gửi tin nhắn",
+      "submitting": "Đang gửi...",
+      "success": "Gửi tin nhắn thành công!",
+      "error": "Gửi tin nhắn thất bại. Vui lòng thử lại."
+    },
+    "info": {
+      "title": "Thông tin liên hệ",
+      "description": "Các kênh liên lạc với chúng tôi.",
+      "address": {
+        "title": "Địa chỉ",
+        "value": "FPT University\nHòa Hải, Ngũ Hành Sơn, Đà Nẵng"
+      },
+      "email": {
+        "title": "Email",
+        "value": "info@openautomate.com"
+      },
+      "phone": {
+        "title": "Điện thoại",
+        "value": "+84 234 567 900"
+      },
+      "hours": {
+        "title": "Giờ làm việc",
+        "value": "Thứ 2 – Thứ 6: 9h – 17h (EST)\nThứ 7 & Chủ nhật: Nghỉ"
+      }
+    }
+  },
+  "aboutUs": {
+    "introduction": {
+      "title": "OpenAutomate",
+      "tagline": "Chúng tôi nỗ lực dân chủ hoá công nghệ tự động hoá bằng cách cung cấp nền tảng mã nguồn mở thay thế các giải pháp độc quyền, giúp tổ chức kiểm soát quy trình tự động mà không bị phụ thuộc nhà cung cấp.",
+      "button": "Tìm hiểu thêm"
+    },
+
+    "stats": {
+      "countries": "quốc gia khách hàng (phân bố toàn cầu tính đến 31/07/2025)",
+      "customers": "khách hàng (tính đến 31/07/2025)",
+      "recommend": "khuyến nghị; Gartner Peer Insights 2025",
+      "developers": "lập trình viên trên toàn cầu sử dụng AI trong công việc"
+    },
+
+    "story": {
+      "title": "Câu chuyện của chúng tôi",
+      "p1": "OpenAutomate giải quyết những thách thức hiện tại bằng cách cung cấp giải pháp mã nguồn mở dựa trên Python để quản lý tự động hoá quy trình nghiệp vụ. Tận dụng khả năng tiếp cận và hệ sinh thái thư viện phong phú của Python, các tổ chức có thể giảm chi phí đáng kể đồng thời nắm quyền kiểm soát giải pháp tự động hoá của mình. Cách tiếp cận này loại bỏ sự phụ thuộc vào nhà cung cấp và cho phép đội ngũ tạo mới, chỉnh sửa, mở rộng quy trình mà không bị giới hạn bởi giấy phép thương mại.",
+      "p2": "Nền tảng giúp doanh nghiệp chuyển từ giải pháp độc quyền đắt đỏ sang mô hình linh hoạt, hiệu quả hơn, có thể tuỳ chỉnh theo nhu cầu cụ thể. Điều này không chỉ cắt giảm chi phí vận hành mà còn thúc đẩy đổi mới nhanh chóng, thích ứng với yêu cầu kinh doanh thay đổi liên tục.",
+
+      "features": {
+        "openSource": {
+          "title": "Lõi mã nguồn mở",
+          "desc": "Nền tảng 100 % mã nguồn mở với quy trình phát triển minh bạch"
+        },
+        "python": {
+          "title": "Nền tảng Python",
+          "desc": "Xây dựng trên Python để tận dụng hệ sinh thái phong phú và tính linh hoạt"
+        },
+        "community": {
+          "title": "Cộng đồng dẫn dắt",
+          "desc": "Phát triển bởi và dành cho cộng đồng tự động hoá"
+        }
+      }
+    },
+
+    "mission": {
+      "title": "Sứ mệnh & Giá trị",
+      "tagline": "Cốt lõi của mọi hoạt động là cam kết đưa công nghệ tự động hoá trở nên dễ tiếp cận, tuỳ chỉnh và tiết kiệm cho mọi tổ chức.",
+      "values": {
+        "transparency": {
+          "title": "Minh bạch",
+          "desc": "Chúng tôi tin vào tính minh bạch tuyệt đối trong mã nguồn, hoạt động kinh doanh và tương tác cộng đồng."
+        },
+        "empowerment": {
+          "title": "Trao quyền",
+          "desc": "Chúng tôi trao cho tổ chức toàn quyền kiểm soát tài sản và quy trình tự động hoá."
+        },
+        "flexibility": {
+          "title": "Linh hoạt",
+          "desc": "Nền tảng được thiết kế thích ứng mọi quy trình, mọi ngành mà không giới hạn."
+        }
+      }
+    },
+
+    "team": {
+      "title": "Đội ngũ của chúng tôi",
+      "tagline": "Gặp gỡ đội ngũ kỹ sư, nhà thiết kế và chuyên gia tự động hoá đứng sau OpenAutomate.",
+      "metrics": {
+        "experience": { "value": "5+", "label": "Năm kinh nghiệm" },
+        "projects": { "value": "50+", "label": "Dự án hoàn thành" },
+        "support": { "value": "24/7", "label": "Hỗ trợ liên tục" },
+        "satisfaction": { "value": "100%", "label": "Khách hàng hài lòng" }
+      }
+    },
+
+    "cta": {
+      "title": "Cùng hiện thực hoá giấc mơ lớn",
+      "tagline": "Dù bạn muốn triển khai OpenAutomate hay đóng góp cho cộng đồng mã nguồn mở, chúng tôi rất mong được kết nối.",
+      "button": "Liên hệ ngay"
+    }
+  },
+  "common": {
+    "appName": "OpenAutomate"
+  },
+  "nav": {
+    "about": "Giới thiệu",
+    "guides": "Hướng dẫn",
+    "contact": "Liên hệ"
+  },
+  "footer": {
+    "brand": "OpenAutomate",
+    "tagline": "Nền tảng quản lý tự động hoá quy trình nghiệp vụ mã nguồn mở.",
+    "sections": { "platform": "Nền tảng", "resources": "Tài nguyên", "company": "Công ty" },
+    "links": {
+      "platform": { "features": "Tính năng", "pricing": "Bảng giá", "docs": "Tài liệu" },
+      "resources": { "blog": "Blog", "community": "Cộng đồng", "support": "Hỗ trợ" },
+      "company": { "about": "Giới thiệu", "contact": "Liên hệ" }
+    },
+    "policies": { "terms": "Điều khoản", "privacy": "Bảo mật", "cookies": "Cookie" },
+    "copyright": "© {year} OpenAutomate. Đã đăng ký bản quyền."
+  }
+}

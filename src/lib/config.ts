@@ -34,8 +34,8 @@ export const config = {
      */
     defaultHeaders: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    }
+      Accept: 'application/json',
+    },
   },
 
   /**
@@ -49,8 +49,8 @@ export const config = {
       home: '/',
       about: '/about',
       guides: '/guide',
-      contact: '/contact'
-    }
+      contact: '/contact',
+    },
   },
 
   /**
@@ -82,11 +82,11 @@ export const config = {
       contactPoint: {
         telephone: '',
         contactType: 'customer service',
-        email: 'contact@openautomate.io'
+        email: 'contact@openautomate.io',
       },
       sameAs: [
         // Add social media URLs when available
-      ]
+      ],
     },
 
     /**
@@ -103,12 +103,12 @@ export const config = {
         'process automation',
         'business automation',
         'open source RPA',
-        'automation software'
+        'automation software',
       ],
       author: 'OpenAutomate Team',
       robots: 'index, follow',
       language: 'en',
-      charset: 'utf-8'
+      charset: 'utf-8',
     },
 
     /**
@@ -118,8 +118,8 @@ export const config = {
       twitter: {
         handle: '@openautomate',
         site: '@openautomate',
-        creator: '@openautomate'
-      }
-    }
-  }
+        creator: '@openautomate',
+      },
+    },
+  },
 }

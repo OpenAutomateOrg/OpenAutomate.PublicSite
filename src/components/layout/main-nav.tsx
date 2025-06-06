@@ -5,23 +5,25 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { HTMLAttributes } from 'react'
 import { config } from '@/lib/config'
+import { useTranslations } from 'next-intl'
 
 type MainNavProps = HTMLAttributes<HTMLDivElement>
 
 export function MainNav({ ...props }: MainNavProps) {
   const pathname = usePathname()
+  const t = useTranslations('nav')
 
   const navItems = [
     {
-      title: 'About Us',
+      title: t('about'),
       href: config.paths.pages.about,
     },
     {
-      title: 'Guides',
+      title: t('guides'),
       href: config.paths.pages.guides,
     },
     {
-      title: 'Contact Us',
+      title: t('contact'),
       href: config.paths.pages.contact,
     },
   ]
