@@ -1,12 +1,18 @@
 # Google Indexing Troubleshooting Guide
 
+## 🚨 CRITICAL ISSUE IDENTIFIED: Domain Redirect Problem
+
+**Root Cause**: Your site has a redirect from `openautomate.io` → `www.openautomate.io` at the hosting level (Vercel). This is causing Google Search Console to report "Page with redirect" issues, preventing proper indexing.
+
+**Current Status**:
+- ❌ `https://openautomate.io` → `https://www.openautomate.io` (307 Temporary Redirect)
+- ✅ `https://www.openautomate.io` → Returns 200 OK
+
+**Impact**: Google cannot properly index pages because they're behind redirects.
+
 ## 🔍 Why `site:openautomate.io` Shows No Results
 
-This is normal for new websites or recently launched domains. Google indexing can take anywhere from a few days to several weeks, depending on various factors.
-
-## 🚨 HTTP vs HTTPS Issue
-
-The "Referring page: http://openautomate.io/" in Google Search Console indicates a **mixed protocol issue**. This means somewhere your site is referencing HTTP instead of HTTPS, which can confuse search engines.
+This is normal for new websites, but the redirect issue is making it worse. Google indexing can take anywhere from a few days to several weeks, but redirects significantly slow this process.
 
 ## ⏰ Typical Indexing Timeline
 
@@ -14,11 +20,30 @@ The "Referring page: http://openautomate.io/" in Google Search Console indicates
 - **Established Domain**: 1-7 days for new pages
 - **High Authority Domain**: Hours to 1-2 days
 
-## 🔧 Fix HTTP/HTTPS Mixed Protocol Issue
+## 🔧 URGENT: Fix Domain Redirect Issue
 
-### 1. Verify Your Environment Variables
+### Step 1: Fix Vercel Domain Configuration
 
-Ensure your `.env.local` file uses HTTPS:
+**In your Vercel Dashboard:**
+
+1. Go to your project settings
+2. Navigate to **Domains** section
+3. **Current setup** (causing the problem):
+   - Primary domain: `www.openautomate.io`
+   - Redirect: `openautomate.io` → `www.openautomate.io`
+
+4. **Fix by choosing ONE approach:**
+
+**Option A: Use openautomate.io as primary (RECOMMENDED)**
+- Set `openautomate.io` as primary domain
+- Set `www.openautomate.io` to redirect to `openautomate.io`
+
+**Option B: Use www.openautomate.io as primary**
+- Keep current setup but update all your configurations to use www
+
+### Step 2: Update Environment Variables (if choosing Option A)
+
+Update your `.env.local` file:
 
 ```env
 NEXT_PUBLIC_SITE_URL=https://openautomate.io
@@ -26,26 +51,15 @@ NEXT_PUBLIC_ORCHESTRATOR_URL=https://cloud.openautomate.io
 NEXT_PUBLIC_API_URL=https://api.openautomate.io
 ```
 
-### 2. Check Server Configuration
+### Step 3: Google Search Console Actions
 
-Ensure your hosting provider/server:
+1. **Add BOTH domains** to Google Search Console:
+   - `openautomate.io`
+   - `www.openautomate.io`
 
-- Forces HTTPS redirects
-- Has a valid SSL certificate
-- Doesn't serve any content over HTTP
-
-### 3. Clear Google Search Console Cache
-
-1. Go to Google Search Console
-2. Use **URL Inspection** tool
-3. Enter `https://openautomate.io` (with HTTPS)
-4. Click **Request Indexing**
-
-### 4. Resubmit Sitemap
-
-1. In Google Search Console → **Sitemaps**
-2. Remove the old sitemap if present
-3. Add: `https://openautomate.io/sitemap.xml` (ensure HTTPS)
+2. **Set preferred domain** in Search Console
+3. **Resubmit sitemap** with correct domain
+4. **Request re-indexing** of key pages
 
 ## 🚀 Immediate Actions to Accelerate Indexing
 
