@@ -56,7 +56,7 @@ export function Footer() {
   )
 
   return (
-    <footer className="bg-neutral-200 py-12">
+    <footer className="bg-muted py-12">
       <div className="container">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
           <div className="col-span-2 lg:col-span-1">

@@ -5,7 +5,6 @@
 **Root Cause**: Your site has a redirect from `openautomate.io` → `www.openautomate.io` at the hosting level (Vercel). This is causing Google Search Console to report "Page with redirect" issues, preventing proper indexing.
 
 **Current Status**:
-
 - ❌ `https://openautomate.io` → `https://www.openautomate.io` (307 Temporary Redirect)
 - ✅ `https://www.openautomate.io` → Returns 200 OK
 
@@ -30,19 +29,16 @@ This is normal for new websites, but the redirect issue is making it worse. Goog
 1. Go to your project settings
 2. Navigate to **Domains** section
 3. **Current setup** (causing the problem):
-
    - Primary domain: `www.openautomate.io`
    - Redirect: `openautomate.io` → `www.openautomate.io`
 
 4. **Fix by choosing ONE approach:**
 
 **Option A: Use openautomate.io as primary (RECOMMENDED)**
-
 - Set `openautomate.io` as primary domain
 - Set `www.openautomate.io` to redirect to `openautomate.io`
 
 **Option B: Use www.openautomate.io as primary**
-
 - Keep current setup but update all your configurations to use www
 
 ### Step 2: Update Environment Variables (if choosing Option A)
@@ -58,7 +54,6 @@ NEXT_PUBLIC_API_URL=https://api.openautomate.io
 ### Step 3: Google Search Console Actions
 
 1. **Add BOTH domains** to Google Search Console:
-
    - `openautomate.io`
    - `www.openautomate.io`
 
