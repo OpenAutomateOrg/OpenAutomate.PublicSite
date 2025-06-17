@@ -35,7 +35,7 @@ const nextConfig: NextConfig = {
   // All other paths stay on the public site
   // Note: Domain and HTTPS redirects are handled in vercel.json
   async redirects() {
-    const orchestratorUrl = process.env.NEXT_PUBLIC_ORCHESTRATOR_URL ?? 'http://localhost:3001';
+    const orchestratorUrl = process.env.NEXT_PUBLIC_ORCHESTRATOR_URL ?? 'http://localhost:3001'
 
     return [
       // Auth-related redirects to orchestrator
