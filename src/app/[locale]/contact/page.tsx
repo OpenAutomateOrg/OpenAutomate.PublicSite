@@ -57,20 +57,22 @@ export default function ContactPage() {
   return (
     <>
       <Header />
-      <main className="flex flex-1 flex-col gap-8 p-4 py-8 md:py-12">
+      <main className="flex flex-1 flex-col gap-8 p-4 py-8 md:py-12 bg-gradient-to-b from-black via-neutral-700 to-black text-white">
         <div className="container mx-auto max-w-5xl space-y-6">
           {/* Tiêu đề trang */}
           <div className="space-y-2 text-center">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">{t('pageTitle')}</h1>
-            <p className="mx-auto max-w-[700px] text-muted-foreground">{t('pageSubtitle')}</p>
+            <p className="mx-auto max-w-[700px] text-muted-foreground text-white/50">
+              {t('pageSubtitle')}
+            </p>
           </div>
 
           <div className="mx-auto grid max-w-3xl gap-8 md:grid-cols-2">
             {/* FORM */}
-            <Card>
+            <Card className="bg-neutral-950 hover:shadow-lg transition-shadow duration-300 text-white">
               <CardHeader>
                 <CardTitle>{t('form.title')}</CardTitle>
-                <CardDescription>{t('form.description')}</CardDescription>
+                <CardDescription className="text-white/50">{t('form.description')}</CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -83,6 +85,7 @@ export default function ContactPage() {
                       value={formData.name}
                       onChange={handleChange}
                       required
+                      className="bg-neutral-800/50 text-white placeholder:text-neutral-500 focus:ring-orange-500 focus:border-orange-500 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-400"
                     />
                   </div>
 
@@ -96,6 +99,7 @@ export default function ContactPage() {
                       value={formData.email}
                       onChange={handleChange}
                       required
+                      className="bg-neutral-800/50 text-white placeholder:text-neutral-500 focus:ring-orange-500 focus:border-orange-500 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-400"
                     />
                   </div>
 
@@ -108,6 +112,7 @@ export default function ContactPage() {
                       value={formData.subject}
                       onChange={handleChange}
                       required
+                      className="bg-neutral-800/50 text-white placeholder:text-neutral-500 focus:ring-orange-500 focus:border-orange-500 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-400"
                     />
                   </div>
 
@@ -121,6 +126,7 @@ export default function ContactPage() {
                       onChange={handleChange}
                       rows={4}
                       required
+                      className="bg-neutral-800/50 text-white placeholder:text-neutral-500 focus:ring-orange-500 focus:border-orange-500 dark:bg-neutral-900 dark:text-white dark:placeholder:text-neutral-400"
                     />
                   </div>
 
@@ -146,15 +152,15 @@ export default function ContactPage() {
             </Card>
 
             {/* THÔNG TIN LIÊN HỆ */}
-            <Card>
+            <Card className="bg-neutral-950 hover:shadow-lg transition-shadow duration-300 text-white">
               <CardHeader>
                 <CardTitle>{t('info.title')}</CardTitle>
-                <CardDescription>{t('info.description')}</CardDescription>
+                <CardDescription className="text-white/50">{t('info.description')}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div>
                   <h3 className="font-medium">{t('info.address.title')}</h3>
-                  <address className="whitespace-pre-line not-italic text-muted-foreground">
+                  <address className="whitespace-pre-line not-italic text-muted-foreground text-white/50">
                     {t('info.address.value')}
                   </address>
                 </div>
@@ -162,7 +168,10 @@ export default function ContactPage() {
                 <div>
                   <h3 className="font-medium">{t('info.email.title')}</h3>
                   <p className="text-muted-foreground">
-                    <a href="mailto:info@openautomate.com" className="hover:underline">
+                    <a
+                      href="mailto:info@openautomate.com"
+                      className="hover:underline text-white/50"
+                    >
                       {t('info.email.value')}
                     </a>
                   </p>
@@ -171,7 +180,7 @@ export default function ContactPage() {
                 <div>
                   <h3 className="font-medium">{t('info.phone.title')}</h3>
                   <p className="text-muted-foreground">
-                    <a href="tel:+84234567900" className="hover:underline">
+                    <a href="tel:+84234567900" className="hover:underline text-white/50">
                       {t('info.phone.value')}
                     </a>
                   </p>
@@ -179,7 +188,7 @@ export default function ContactPage() {
 
                 <div>
                   <h3 className="font-medium">{t('info.hours.title')}</h3>
-                  <p className="whitespace-pre-line text-muted-foreground">
+                  <p className="whitespace-pre-line text-muted-foreground text-white/50">
                     {t('info.hours.value')}
                   </p>
                 </div>

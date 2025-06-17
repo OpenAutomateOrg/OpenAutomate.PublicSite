@@ -7,11 +7,12 @@
 **Root Cause**: `openautomate.io` → `www.openautomate.io` redirect at Vercel hosting level.
 
 **Test Results**:
+
 ```bash
 curl -I https://openautomate.io
 # Returns: 307 Temporary Redirect → https://www.openautomate.io/
 
-curl -I https://www.openautomate.io  
+curl -I https://www.openautomate.io
 # Returns: 200 OK (site loads properly)
 ```
 
@@ -20,6 +21,7 @@ curl -I https://www.openautomate.io
 ### Option A: Use openautomate.io as Primary (RECOMMENDED)
 
 **Why this is better for SEO**:
+
 - Shorter, cleaner URLs
 - Matches your branding
 - Easier to remember and type
@@ -28,12 +30,14 @@ curl -I https://www.openautomate.io
 **Steps**:
 
 1. **Vercel Dashboard Changes**:
+
    - Go to Project Settings → Domains
    - Remove `www.openautomate.io` as primary
    - Set `openautomate.io` as primary domain
    - Add `www.openautomate.io` as redirect to `openautomate.io`
 
 2. **Update Environment Variables**:
+
    ```env
    NEXT_PUBLIC_SITE_URL=https://openautomate.io
    NEXT_PUBLIC_ORCHESTRATOR_URL=https://cloud.openautomate.io
@@ -51,6 +55,7 @@ curl -I https://www.openautomate.io
 **If you prefer to keep www**:
 
 1. **Update All Configurations** to use www:
+
    - Environment variables
    - SEO configuration
    - Sitemap URLs
@@ -63,12 +68,14 @@ curl -I https://www.openautomate.io
 ### 1. Vercel Domain Configuration
 
 **Current (Problematic) Setup**:
+
 ```
 Primary: www.openautomate.io
 Redirect: openautomate.io → www.openautomate.io (307)
 ```
 
 **Fixed Setup (Option A)**:
+
 ```
 Primary: openautomate.io
 Redirect: www.openautomate.io → openautomate.io (301)
@@ -81,6 +88,7 @@ No changes needed in `next.config.ts` - the HTTPS redirect is correct.
 ### 3. Update Environment Variables
 
 Create/update `.env.local`:
+
 ```env
 # Use the primary domain (without www)
 NEXT_PUBLIC_SITE_URL=https://openautomate.io
@@ -95,12 +103,14 @@ The SEO config in `src/lib/config.ts` will automatically use the correct domain 
 ### 5. Google Search Console Actions
 
 1. **Add both domains** to Search Console:
+
    - `openautomate.io`
    - `www.openautomate.io`
 
 2. **Set preferred domain** (the primary one)
 
 3. **Remove old sitemap** and add new one:
+
    - Remove: `https://www.openautomate.io/sitemap.xml`
    - Add: `https://openautomate.io/sitemap.xml`
 
@@ -113,12 +123,14 @@ The SEO config in `src/lib/config.ts` will automatically use the correct domain 
 ## 🧪 Testing the Fix
 
 ### Before Fix:
+
 ```bash
 curl -I https://openautomate.io
 # Should return: 307 Temporary Redirect
 ```
 
 ### After Fix:
+
 ```bash
 curl -I https://openautomate.io
 # Should return: 200 OK
@@ -130,16 +142,19 @@ curl -I https://www.openautomate.io
 ## 📊 Expected Results
 
 ### Immediate (1-2 days):
+
 - No more "Page with redirect" errors in Search Console
 - Proper canonical URLs in sitemap
 - Clean redirect chain
 
 ### Short-term (1-2 weeks):
+
 - Google starts indexing pages properly
 - `site:openautomate.io` shows results
 - Improved crawl efficiency
 
 ### Long-term (2-4 weeks):
+
 - Full site indexing
 - Better search rankings
 - Organic traffic growth
@@ -166,12 +181,14 @@ curl -I https://www.openautomate.io
 ## 🔍 Monitoring
 
 **Check these weekly**:
+
 - Google Search Console → Coverage Report
 - Google Search Console → URL Inspection
 - `site:openautomate.io` search results
 - Organic traffic in Analytics
 
 **Success indicators**:
+
 - Zero "Page with redirect" errors
 - Increasing indexed pages count
 - Appearance in search results

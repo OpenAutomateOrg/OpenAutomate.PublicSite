@@ -36,10 +36,10 @@ export function MainNav({ ...props }: MainNavProps) {
             key={href}
             href={href}
             className={cn(
-              'relative px-2 py-1.5 transition-all duration-200 hover:text-orange-600',
+              'relative px-2 py-1.5 transition-all duration-200 text-white hover:text-orange-600',
               pathname === href
-                ? 'text-orange-600 font-semibold after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-orange-600 after:rounded-full'
-                : 'text-foreground/60 hover:text-orange-600',
+                ? ' font-semibold after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-orange-600 after:rounded-full'
+                : 'text-white/80 hover:text-orange-600',
             )}
           >
             {title}

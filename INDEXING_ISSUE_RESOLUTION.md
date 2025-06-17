@@ -5,22 +5,25 @@
 **Google Search Console Error**: "Page with redirect" preventing indexing of openautomate.io
 
 **Root Cause**: Domain redirect chain at hosting level:
+
 - `openautomate.io` → `www.openautomate.io` (307 Temporary Redirect)
 - This prevents Google from properly indexing the site
 
 ## 🔍 Investigation Results
 
 **Current Status (Problematic)**:
+
 ```bash
 curl -I https://openautomate.io
 # HTTP/1.1 307 Temporary Redirect
 # Location: https://www.openautomate.io/
 
-curl -I https://www.openautomate.io  
+curl -I https://www.openautomate.io
 # HTTP/1.1 200 OK (site loads properly)
 ```
 
 **Impact**:
+
 - Google cannot index pages behind redirects
 - `site:openautomate.io` returns no results
 - SEO performance severely impacted
@@ -31,6 +34,7 @@ curl -I https://www.openautomate.io
 ### 1. Created Vercel Configuration (`vercel.json`)
 
 **Purpose**: Handle domain redirects at hosting level
+
 - Redirect `www.openautomate.io` → `openautomate.io` (301 Permanent)
 - Proper security headers
 - Optimized caching for SEO assets
@@ -38,6 +42,7 @@ curl -I https://www.openautomate.io
 ### 2. Updated Next.js Configuration (`next.config.ts`)
 
 **Changes**:
+
 - Removed redundant HTTPS redirect (handled by Vercel)
 - Fixed linting issues
 - Kept auth redirects to orchestrator
@@ -45,12 +50,14 @@ curl -I https://www.openautomate.io
 ### 3. Updated Environment Configuration (`.env.example`)
 
 **Primary Domain**: `https://openautomate.io` (without www)
+
 - Clear documentation about domain choice
 - Prevents future redirect issues
 
 ### 4. Created Documentation
 
 **Files Created**:
+
 - `REDIRECT_INDEXING_FIX.md` - Detailed fix instructions
 - `INDEXING_ISSUE_RESOLUTION.md` - This summary
 - Updated `GOOGLE_INDEXING_TROUBLESHOOTING.md`
@@ -63,6 +70,7 @@ curl -I https://www.openautomate.io
 
 1. Go to Vercel Dashboard → Project Settings → Domains
 2. **Current setup** (causing issues):
+
    - Primary: `www.openautomate.io`
    - Redirect: `openautomate.io` → `www.openautomate.io`
 
@@ -73,6 +81,7 @@ curl -I https://www.openautomate.io
 ### 2. Environment Variables
 
 Create `.env.local` file:
+
 ```env
 NEXT_PUBLIC_SITE_URL=https://openautomate.io
 NEXT_PUBLIC_ORCHESTRATOR_URL=https://cloud.openautomate.io
@@ -90,12 +99,14 @@ npm run build
 ### 4. Google Search Console Actions
 
 1. **Add both domains** to Search Console:
+
    - `openautomate.io`
    - `www.openautomate.io`
 
 2. **Set preferred domain**: `openautomate.io`
 
 3. **Update sitemap**:
+
    - Remove: `https://www.openautomate.io/sitemap.xml`
    - Add: `https://openautomate.io/sitemap.xml`
 
@@ -128,16 +139,19 @@ curl -I https://www.openautomate.io
 ## 📊 Expected Timeline
 
 ### Immediate (1-2 days):
+
 - ✅ No more redirect errors in Search Console
 - ✅ Clean redirect chain
 - ✅ Proper canonical URLs
 
 ### Short-term (1-2 weeks):
+
 - ✅ Google starts indexing pages
 - ✅ `site:openautomate.io` shows results
 - ✅ Improved crawl efficiency
 
 ### Long-term (2-4 weeks):
+
 - ✅ Full site indexing
 - ✅ Better search rankings
 - ✅ Organic traffic growth
@@ -166,12 +180,14 @@ curl -I https://www.openautomate.io
 ## 🔍 Monitoring
 
 **Weekly checks**:
+
 - Google Search Console → Coverage Report
 - Google Search Console → URL Inspection
 - `site:openautomate.io` search results
 - Organic traffic in Analytics
 
 **Success indicators**:
+
 - Zero "Page with redirect" errors
 - Increasing indexed pages count
 - Site appears in search results
