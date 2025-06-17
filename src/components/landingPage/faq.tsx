@@ -40,7 +40,7 @@ const faqs = [
   },
 ]
 
-export function FAQ() {
+export function Faq() {
   const faqRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {

@@ -9,7 +9,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { TextPlugin } from 'gsap/TextPlugin'
 import { Button } from '@/components/ui/button'
 import { VideoDemoSection } from '@/components/layout/video-demo'
-import { FAQ } from '@/components/landingPage/faq'
+import { Faq } from '@/components/landingPage/faq'
 import { AnimatedText } from '@/components/landingPage/gsap-animation'
 import Newsletter from '@/components/landingPage/newsletter'
 import Pricing from '@/components/landingPage/pricing-plan'
@@ -25,29 +25,65 @@ export default function Home() {
   // const t = useTranslations('landing')
   const automationTitleRef = useRef<HTMLHeadingElement>(null)
 
+  // Handlers for button hover, moved out to avoid deep nesting
+  function mouseEnterHandlerFactory(tl: gsap.core.Timeline) {
+    return () => {
+      tl.play()
+    }
+  }
+  function mouseLeaveHandlerFactory(tl: gsap.core.Timeline) {
+    return () => {
+      tl.reverse()
+    }
+  }
+
   useLayoutEffect(() => {
+    // Helper function to create a span for a character
+    function createCharSpan(char: string): HTMLSpanElement {
+      const charSpan = document.createElement('span')
+      charSpan.textContent = char
+      charSpan.className = 'automation-char inline-block'
+      charSpan.style.opacity = '0'
+      charSpan.style.transform = 'translateY(100px) rotateX(-90deg)'
+      return charSpan
+    }
+
+    // Helper function to create a span for a word
+    function createWordSpan(word: string): HTMLSpanElement {
+      const wordSpan = document.createElement('span')
+      wordSpan.className = 'inline-block'
+      word.split('').forEach((char) => {
+        wordSpan.appendChild(createCharSpan(char))
+      })
+      return wordSpan
+    }
+
+    // Extracted event handlers for card hover animations to avoid deep nesting
+    function handleCardMouseEnter(tl: gsap.core.Timeline) {
+      tl.play()
+    }
+    function handleCardMouseLeave(tl: gsap.core.Timeline) {
+      tl.reverse()
+    }
+
+    // Handlers for card hover, moved out to avoid deep nesting
+    function cardMouseEnterHandler(tl: gsap.core.Timeline) {
+      return () => handleCardMouseEnter(tl)
+    }
+    function cardMouseLeaveHandler(tl: gsap.core.Timeline) {
+      return () => handleCardMouseLeave(tl)
+    }
+
     const ctx = gsap.context(() => {
       // Split the automation title into individual characters for animation
       if (automationTitleRef.current) {
-        const titleText = automationTitleRef.current.textContent || ''
+        const titleText = automationTitleRef.current.textContent ?? ''
         automationTitleRef.current.innerHTML = ''
 
         // Create spans for each word
         const words = titleText.split(' ')
         words.forEach((word, wordIndex) => {
-          const wordSpan = document.createElement('span')
-          wordSpan.className = 'inline-block'
-
-          // Split each word into characters
-          word.split('').forEach((char) => {
-            const charSpan = document.createElement('span')
-            charSpan.textContent = char
-            charSpan.className = 'automation-char inline-block'
-            charSpan.style.opacity = '0'
-            charSpan.style.transform = 'translateY(100px) rotateX(-90deg)'
-            wordSpan.appendChild(charSpan)
-          })
-
+          const wordSpan = createWordSpan(word)
           automationTitleRef.current?.appendChild(wordSpan)
 
           // Add space between words (except for the last word)
@@ -106,22 +142,6 @@ export default function Home() {
           },
           '-=0.3',
         )
-
-      // Add typing cursor effect
-      const cursor = document.createElement('span')
-      cursor.textContent = '|'
-      cursor.className = 'typing-cursor text-orange-500 animate-pulse ml-2'
-      automationTitleRef.current?.appendChild(cursor)
-
-      // Hide cursor after animation completes
-      gsap.to('.typing-cursor', {
-        opacity: 0,
-        duration: 0.5,
-        delay: 3,
-        ease: 'power2.out',
-      })
-
-      // Interactive hover animations
       const cards = document.querySelectorAll('.hover-card')
       cards.forEach((card) => {
         const tl = gsap.timeline({ paused: true })
@@ -133,11 +153,12 @@ export default function Home() {
           ease: 'power2.out',
         })
 
-        card.addEventListener('mouseenter', () => tl.play())
-        card.addEventListener('mouseleave', () => tl.reverse())
+        card.addEventListener('mouseenter', cardMouseEnterHandler(tl))
+        card.addEventListener('mouseleave', cardMouseLeaveHandler(tl))
       })
       // Button animations
       const buttons = document.querySelectorAll('.animated-button')
+
       buttons.forEach((button) => {
         const tl = gsap.timeline({ paused: true })
         tl.to(button, {
@@ -147,8 +168,8 @@ export default function Home() {
           ease: 'power2.out',
         })
 
-        button.addEventListener('mouseenter', () => tl.play())
-        button.addEventListener('mouseleave', () => tl.reverse())
+        button.addEventListener('mouseenter', mouseEnterHandlerFactory(tl))
+        button.addEventListener('mouseleave', mouseLeaveHandlerFactory(tl))
       })
     })
     const buttons = gsap.utils.toArray('.button-show')
@@ -230,7 +251,7 @@ export default function Home() {
       <Pricing />
 
       {/* Frequently asked questions Section */}
-      <FAQ />
+      <Faq />
 
       {/* Newsletter Section */}
       <Newsletter />
