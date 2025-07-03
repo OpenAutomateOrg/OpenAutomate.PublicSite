@@ -6,58 +6,38 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { TextPlugin } from 'gsap/TextPlugin'
 import { Check } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 gsap.registerPlugin(ScrollTrigger, TextPlugin)
 
-const pricingPlans = [
-  {
-    name: 'Developer',
-    price: '$19',
-    period: 'per month',
-    description: 'Perfect for individual developers',
-    features: [
-      '5 active projects',
-      '10GB cloud storage',
-      'Basic code editor',
-      'Community support',
-      'Standard deployment',
-    ],
-    popular: false,
-  },
-  {
-    name: 'Team',
-    price: '$49',
-    period: 'per month',
-    description: 'Ideal for development teams',
-    features: [
-      'Unlimited projects',
-      '100GB cloud storage',
-      'Advanced IDE features',
-      'Priority support',
-      'Team collaboration tools',
-      'Advanced deployment options',
-    ],
-    popular: true,
-  },
-  {
-    name: 'Enterprise',
-    price: '$99',
-    period: 'per month',
-    description: 'For large organizations',
-    features: [
-      'Unlimited everything',
-      '1TB cloud storage',
-      'Custom integrations',
-      '24/7 dedicated support',
-      'Advanced security features',
-      'On-premise deployment',
-    ],
-    popular: false,
-  },
-]
-
 export default function Pricing() {
-  // const t = useTranslations('landing')
+  const t = useTranslations('landing')
+
+  const pricingPlans = [
+    {
+      name: t('pricing.basic.name'),
+      price: t('pricing.basic.price'),
+      period: t('pricing.basic.period'),
+      description: t('pricing.basic.description'),
+      features: t.raw('pricing.basic.features') as string[],
+      popular: false,
+    },
+    {
+      name: t('pricing.premium.name'),
+      price: t('pricing.premium.price'),
+      period: t('pricing.premium.period'),
+      description: t('pricing.premium.description'),
+      features: t.raw('pricing.premium.features') as string[],
+      popular: true,
+    },
+    {
+      name: t('pricing.enterprise.name'),
+      price: t('pricing.enterprise.price'),
+      description: t('pricing.enterprise.description'),
+      features: t.raw('pricing.enterprise.features') as string[],
+      popular: false,
+    },
+  ]
 
   const pricingRef = useRef<HTMLDivElement>(null)
 
@@ -87,11 +67,9 @@ export default function Pricing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
             <h2 className="section-title text-4xl sm:text-5xl font-bold text-white mb-6">
-              Choose Your Development Plan
+              {t('pricing.title')}
             </h2>
-            <p className="section-title text-xl text-neutral-400 max-w-3xl mx-auto">
-              Scale from individual projects to enterprise solutions. Upgrade or downgrade anytime.
-            </p>
+            <p className="section-title text-xl text-neutral-400 max-w-3xl mx-auto"></p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -118,10 +96,11 @@ export default function Pricing() {
                     <span className="text-5xl font-bold text-white">{plan.price}</span>
                     <span className="text-neutral-400 ml-2 text-lg">{plan.period}</span>
                   </div>
-                  <p className="text-neutral-400 text-lg">{plan.description}</p>
                 </div>
 
                 <ul className="space-y-5 mb-10">
+                  <p className="text-neutral-400 text-lg text-left">{plan.description}:</p>
+
                   {plan.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-center">
                       <Check className="w-6 h-6 text-orange-400 mr-4 flex-shrink-0" />
