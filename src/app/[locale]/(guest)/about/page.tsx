@@ -1,6 +1,7 @@
 'use client'
 
 import type React from 'react'
+import type { StaticImageData } from 'next/image'
 
 import Link from 'next/link'
 import { Header } from '@/components/layout/header'
@@ -10,25 +11,68 @@ import { Icons } from '@/components/ui/icons'
 import { config } from '@/lib/config'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useTranslations } from 'next-intl'
-import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 import { Badge } from '@/components/ui/badge'
+import TeamMember from '@/components/aboutUs/teamMember'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useRef } from 'react'
+import { Breadcrumbs } from '@/components/seo/breadcrumbs'
+import ChinhHD from '../../../../../public/images/ChinhHD.jpg'
+import HoaiNX from '../../../../../public/images/HoaiNX.jpg'
+import NhatPH from '../../../../../public/images/NhatPH.jpg'
+import HungTVK from '../../../../../public/images/HungTVK.jpg'
+
+gsap.registerPlugin(ScrollTrigger)
+
+interface TeamMember {
+  name: string
+  role: string
+  image: StaticImageData
+}
+
+// Create a default avatar StaticImageData object
+const defaultAvatar: StaticImageData = {
+  src: '/images/default-avatar.jpg',
+  height: 400,
+  width: 400,
+}
 
 export default function AboutPage() {
   const t = useTranslations('aboutUs')
+  const gridRef = useRef<HTMLDivElement>(null)
 
-  function Stat({ number, label }: { number: string; label: string }) {
-    return (
-      <div className="group text-center p-6 rounded-xl hover:border-orange-600/40 transition-all duration-300 hover:scale-105">
-        <div className="relative">
-          <h3 className="text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
-            {number}
-          </h3>
-          <div className="absolute -top-2 -right-2 w-3 h-3 bg-orange-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        </div>
-        <p className="text-neutral-400 font-medium">{label}</p>
-      </div>
-    )
-  }
+  const teamMembers: TeamMember[] = [
+    {
+      name: t('team.longNX.name'),
+      role: t('team.longNX.role'),
+      image: defaultAvatar,
+    },
+    {
+      name: t('team.hoaiNX.name'),
+      role: t('team.hoaiNX.role'),
+      image: HoaiNX,
+    },
+    {
+      name: t('team.nhatPH.name'),
+      role: t('team.nhatPH.role'),
+      image: NhatPH,
+    },
+    {
+      name: t('team.hungTVK.name'),
+      role: t('team.hungTVK.role'),
+      image: HungTVK,
+    },
+    {
+      name: t('team.vuNLH.name'),
+      role: t('team.vuNLH.role'),
+      image: defaultAvatar,
+    },
+    {
+      name: t('team.chinhHD.name'),
+      role: t('team.chinhHD.role'),
+      image: ChinhHD,
+    },
+  ]
 
   function StoryFeatures() {
     const items = [
@@ -106,12 +150,14 @@ export default function AboutPage() {
       <Header />
 
       {/* Breadcrumbs */}
-      <div className=" p-3 bg-black w-full">
-        <Breadcrumbs />
+      <div className="bg-black w-full">
+        <div className="container py-3 px-0  ">
+          <Breadcrumbs />
+        </div>
       </div>
 
       {/* Hero Section */}
-      <section className="relative py-24 md:py-32 bg-gradient-to-b from-black via-neutral-700 to-black text-white overflow-hidden">
+      <section className="relative min-h-screen py-24 md:py-32 bg-gradient-to-b from-black via-neutral-700 to-black text-white overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-orange-600/5 via-transparent to-orange-600/5" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl" />
 
@@ -121,7 +167,7 @@ export default function AboutPage() {
               variant="outline"
               className="mb-6 border-orange-600/30 text-orange-400 bg-orange-600/10"
             >
-              About Our Company
+              {t('introduction.badge')}{' '}
             </Badge>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
               <span className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 bg-clip-text text-transparent">
@@ -144,24 +190,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-20 bg-gradient-to-b from-black to-neutral-950 text-white">
-        <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-              Trusted by developers worldwide
-            </h2>
-            <p className="text-neutral-400 text-lg">Our impact in numbers</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Stat number="100+" label={t('stats.countries')} />
-            <Stat number="10,800+" label={t('stats.customers')} />
-            <Stat number="93%" label={t('stats.recommend')} />
-            <Stat number="> 3 million" label={t('stats.developers')} />
-          </div>
-        </div>
-      </section>
-
       {/* Our Story */}
       <section className="py-20 bg-neutral-950 text-white">
         <div className="container">
@@ -171,10 +199,9 @@ export default function AboutPage() {
                 variant="outline"
                 className="border-orange-600/30 text-orange-400 bg-orange-600/10"
               >
-                Our Story
+                {t('story.badge')}
               </Badge>
               <h2 className="text-4xl md:text-5xl font-bold leading-tight">
-                <span className="text-white">Building the </span>
                 <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
                   {t('story.title')}
                 </span>
@@ -205,9 +232,6 @@ export default function AboutPage() {
                 {t('mission.title')}
               </span>
             </h2>
-            <p className="max-w-3xl mx-auto text-xl text-neutral-300 leading-relaxed">
-              {t('mission.tagline')}
-            </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             <ValueCard
@@ -229,23 +253,30 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Team */}
+      {/* Team Section */}
       <section className="py-20 bg-black text-white">
-        <div className="container text-center">
-          <Badge
-            variant="outline"
-            className="mb-6 border-orange-600/30 text-orange-400 bg-orange-600/10"
-          >
-            Our Team
-          </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
-              {t('team.title')}
-            </span>
-          </h2>
-          <p className="max-w-3xl mx-auto text-xl text-neutral-300 leading-relaxed">
-            {t('team.tagline')}
-          </p>
+        <div className="container mx-auto px-4">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <Badge
+              variant="outline"
+              className="mb-4 border-orange-600/30 text-orange-400 bg-orange-600/10"
+            >
+              Our Team
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
+                {t('team.title')}
+              </span>
+            </h2>
+          </div>
+
+          {/* Grid */}
+          <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {teamMembers.map((member, index) => (
+              <TeamMember key={member.name} {...member} delay={index * 0.1} />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -274,7 +305,6 @@ export default function AboutPage() {
           </Link>
         </div>
       </section>
-
       <Footer />
     </>
   )

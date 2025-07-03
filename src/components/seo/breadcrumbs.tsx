@@ -40,6 +40,12 @@ function generateBreadcrumbsFromPath(pathname: string): BreadcrumbItem[] {
   // Build breadcrumbs from path segments
   let currentPath = ''
   paths.forEach((segment, index) => {
+    // Skip the locale segment (e.g., 'en', 'vi')
+    if (index === 0) {
+      currentPath += `/${segment}`
+      return
+    }
+
     currentPath += `/${segment}`
 
     // Convert segment to readable name

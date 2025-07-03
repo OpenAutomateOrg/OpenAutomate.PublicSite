@@ -2,7 +2,6 @@
 
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
-// import { useTranslations } from 'next-intl'
 import React, { useLayoutEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -17,13 +16,19 @@ import Features from '@/components/landingPage/features'
 import { ArrowRight } from 'lucide-react'
 import FloatingGear from '@/components/landingPage/Gear/floatingGear'
 import Robot from '@/components/landingPage/robot'
-import DescriptionSection from '@/components/landingPage/Description'
+import DescriptionSection from '@/components/landingPage/description'
+import { useTranslations } from 'next-intl'
 
 gsap.registerPlugin(ScrollTrigger, TextPlugin)
 
 export default function Home() {
-  // const t = useTranslations('landing')
   const automationTitleRef = useRef<HTMLHeadingElement>(null)
+  const videoDemoRef = useRef<HTMLElement>(null)
+  const t = useTranslations('landing')
+
+  const scrollToVideoDemo = () => {
+    videoDemoRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   // Handlers for button hover, moved out to avoid deep nesting
   function mouseEnterHandlerFactory(tl: gsap.core.Timeline) {
@@ -199,13 +204,13 @@ export default function Home() {
           <div className="space-y-4 mb-20">
             <h1 className="text-7xl md:text-8xl lg:text-[10rem] font-bold leading-none tracking-tight">
               <div className="flex flex-row items-center gap-3">
-                {/* “Open” bên trái */}
+                {/* "Open" bên trái */}
                 <AnimatedText text="Open" className="font-bold text-white leading-tight" />
 
                 {/* Robot màu orange-600, tự canh giữa nhờ flex + items-center */}
                 <Robot width={80} height={80} />
 
-                {/* “source” bên phải */}
+                {/* "source" bên phải */}
                 <AnimatedText text="source" className="font-bold text-white leading-tight" />
               </div>
               <span
@@ -225,8 +230,9 @@ export default function Home() {
                 variant={'outline'}
                 aria-label="View Live Demo"
                 className="h-full animated-button button-show bg-transparent text-neutral-300 px-10 py-5 rounded-xl text-xl font-semibold hover:bg-orange-600 hover:text-white hover:scale-102 hover:shadow-md"
+                onClick={scrollToVideoDemo}
               >
-                View Live Demo
+                {t('button.viewLiveDemo')}
               </Button>
               <Button
                 aria-label="Launch Orchestrator"
@@ -234,15 +240,17 @@ export default function Home() {
                   'animated-button button-show h-full ml-3 group bg-orange-600 text-white px-10 py-5 rounded-xl text-xl font-semibold transition-all duration-200 shadow-lg flex items-center '
                 }
               >
-                Launch Orchestrator
+                {t('button.launchOrchestrator')}
                 <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
-              </Button>{' '}
+              </Button>
             </div>
           </div>
         </main>
       </section>
       {/* Video Demo Section */}
-      <VideoDemoSection />
+      <section ref={videoDemoRef}>
+        <VideoDemoSection />
+      </section>
 
       {/* Features Section */}
       <Features />

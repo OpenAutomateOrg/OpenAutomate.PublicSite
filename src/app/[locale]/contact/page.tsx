@@ -10,6 +10,7 @@ import { AlertCircle, CheckCircle2 } from 'lucide-react'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import { useTranslations } from 'next-intl'
+import { Breadcrumbs } from '@/components/seo/breadcrumbs'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -57,7 +58,15 @@ export default function ContactPage() {
   return (
     <>
       <Header />
-      <main className="flex flex-1 flex-col gap-8 p-4 py-8 md:py-12 bg-gradient-to-b from-black via-neutral-700 to-black text-white">
+
+      {/* Breadcrumbs */}
+      <div className="bg-black w-full">
+        <div className="container py-3 px-0  ">
+          <Breadcrumbs />
+        </div>
+      </div>
+
+      <main className="flex min-h-screen flex-1 flex-col gap-8 p-4 py-8 md:py-12 bg-gradient-to-b from-black via-neutral-700 to-black text-white">
         <div className="container mx-auto max-w-5xl space-y-6">
           {/* Tiêu đề trang */}
           <div className="space-y-2 text-center">

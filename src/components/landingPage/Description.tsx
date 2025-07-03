@@ -1,11 +1,13 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useTranslations } from 'next-intl'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function DescriptionSection() {
   const sectionRef = useRef(null)
+  const t = useTranslations('landing')
 
   useEffect(() => {
     // Chạy trong context để dễ clean-up
@@ -60,9 +62,7 @@ export default function DescriptionSection() {
 
         {/* Nội dung */}
         <p className="description-text text-lg md:text-xl text-neutral-300">
-          We help organisations build scalable, custom automation
-          <br />
-          workflows based on open-source technology and Python.
+          {t('descriptionPart1')} <br /> {t('descriptionPart2')}
         </p>
 
         {/* Chevron phải */}
