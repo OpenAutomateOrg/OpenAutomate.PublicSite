@@ -40,6 +40,12 @@ function generateBreadcrumbsFromPath(pathname: string): BreadcrumbItem[] {
   // Build breadcrumbs from path segments
   let currentPath = ''
   paths.forEach((segment, index) => {
+    // Skip the locale segment (e.g., 'en', 'vi')
+    if (index === 0) {
+      currentPath += `/${segment}`
+      return
+    }
+
     currentPath += `/${segment}`
 
     // Convert segment to readable name
@@ -108,9 +114,12 @@ export function Breadcrumbs({
       <StructuredData data={breadcrumbSchema} />
       <nav
         aria-label="Breadcrumb navigation"
-        className={cn('flex items-center space-x-1 text-sm text-muted-foreground', className)}
+        className={cn(
+          'flex items-center space-x-1 text-sm text-muted-foreground text-white ',
+          className,
+        )}
       >
-        <ol className="flex items-center space-x-1">
+        <ol className="flex items-center space-x-1 ">
           {displayItems.map((item, index) => (
             <li key={item.url} className="flex items-center">
               {index > 0 && (
@@ -121,13 +130,13 @@ export function Breadcrumbs({
               )}
 
               {item.isCurrentPage ? (
-                <span className="font-medium text-foreground" aria-current="page">
+                <span className="font-medium text-foreground text-white" aria-current="page">
                   {item.name}
                 </span>
               ) : (
                 <Link
                   href={item.url}
-                  className="hover:text-foreground transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:ring-offset-2 rounded-sm px-1"
+                  className="hover:text-orange-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:ring-offset-2 rounded-sm px-1"
                   aria-label={
                     index === 0 && item.url === '/' ? `Go to ${homeLabel}` : `Go to ${item.name}`
                   }
@@ -174,7 +183,7 @@ export function SimpleBreadcrumbs({ items, className }: SimpleBreadcrumbsProps) 
             {item.href ? (
               <Link
                 href={item.href}
-                className="hover:text-foreground transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:ring-offset-2 rounded-sm px-1"
+                className="transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:ring-offset-2 rounded-sm px-1"
               >
                 {item.label}
               </Link>

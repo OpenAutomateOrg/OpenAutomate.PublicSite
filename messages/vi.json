@@ -1,51 +1,97 @@
 {
   "landing": {
     "openSourceAutomation": "Tự động hoá mã nguồn mở",
-    "description": "Chúng tôi giúp doanh nghiệp xây dựng các quy trình tự động hoá tuỳ chỉnh có khả năng mở rộng, dựa trên mã nguồn mở và Python.",
+    "descriptionPart1": "Chúng tôi giúp doanh nghiệp xây dựng các quy trình",
+    "descriptionPart2": "tự động hoá tuỳ chỉnh có khả năng mở rộng, dựa trên Python.",
     "explorePlatform": "Khám phá nền tảng",
     "launchOrchestrator": "Khởi chạy Orchestrator",
-
-    "workflowsTitle": "Quy trình của tương lai bắt đầu từ đây",
-
+    "button": {
+      "viewLiveDemo": "Xem Demo Trực tiếp",
+      "launchOrchestrator": "Khởi chạy Orchestrator"
+    },
     "features": {
+      "title": "Mọi thứ bạn cần để xây dựng",
       "noVendorLockIn": {
         "title": "Không phụ thuộc nhà cung cấp",
-        "desc": "Toàn quyền kiểm soát hạ tầng và tài sản tự động hoá, không công nghệ độc quyền."
+        "desc": "Toàn quyền kiểm soát tài sản tự động hoá và hạ tầng—không công nghệ độc quyền."
       },
       "costEffective": {
         "title": "Tiết kiệm chi phí",
-        "desc": "Loại bỏ phí bản quyền nhưng vẫn giữ khả năng tự động hoá cấp doanh nghiệp."
+        "desc": "Cắt giảm phí bản quyền nhưng vẫn giữ khả năng tự động hoá cấp doanh nghiệp."
       },
       "pythonBased": {
         "title": "Dựa trên Python",
-        "desc": "Khai thác sức mạnh và tính linh hoạt của Python cùng hệ sinh thái thư viện khổng lồ."
+        "desc": "Tận dụng sức mạnh và tính linh hoạt của Python cùng hệ sinh thái thư viện khổng lồ."
       }
     },
-
-    "solutionsTitle": "Giải pháp cho mọi ngành",
-    "sectors": {
-      "healthcare": "Y tế",
-      "finance": "Tài chính",
-      "insurance": "Bảo hiểm",
-      "publicSector": "Khu vực công",
-      "manufacturing": "Sản xuất",
-      "retail": "Bán lẻ"
+    "pricing": {
+      "title": "Chọn gói phát triển của bạn",
+      "basic": {
+        "name": "Cơ bản",
+        "price": "$5",
+        "period": "mỗi tháng",
+        "description": "Bao gồm",
+        "features": [
+          "5 gói tự động hóa",
+          "Tài sản không giới hạn",
+          "Agent không giới hạn",
+          "Hỗ trợ đa tenant",
+          "Giám sát thời gian thực",
+          "Ghi nhật ký thực thi",
+          "Lập lịch",
+          "Thông báo",
+          "Vai trò và phân quyền người dùng"
+        ]
+      },
+      "premium": {
+        "name": "Cao cấp",
+        "price": "$10",
+        "period": "mỗi tháng",
+        "description": "Mọi thứ trong gói Cơ bản, cộng thêm",
+        "features": ["10 gói tự động hoá", "Hỗ trợ Chatbot AI"]
+      },
+      "enterprise": {
+        "name": "Doanh nghiệp",
+        "price": "Liên hệ",
+        "period": "mỗi tháng",
+        "description": "Cho doanh nghiệp lớn",
+        "features": ["Đội hỗ trợ chuyên biệt", "Bảo mật cấp doanh nghiệp"]
+      }
     },
-
-    "focusTitle": "Tập trung vào kinh doanh cốt lõi, không phải hạ tầng tự động hoá",
-    "focusParagraph": "Loại bỏ các tác vụ lặp lại dựa trên quy tắc và giải phóng thời gian của đội ngũ cho các sáng kiến chiến lược. OpenAutomate cung cấp nền tảng tự động hoá đầu-cuối dễ triển khai và quản lý.",
-    "focusList": {
-      "reductionCosts": "Giảm chi phí nền tảng tự động hoá",
-      "decreaseTime": "Rút ngắn thời gian triển khai quy trình mới",
-      "increaseControl": "Tăng quyền kiểm soát tài sản tự động hoá"
-    },
-    "learnMore": "Tìm hiểu thêm",
-
-    "performanceTitle": "Hiệu quả nói lên tất cả",
-
-    "readyTitle": "Sẵn sàng kiểm soát tự động hoá?",
-    "readyParagraph": "Hãy gia nhập cùng các tổ chức đã thoát khỏi phụ thuộc nhà cung cấp, giảm chi phí và nắm quyền kiểm soát tốt hơn quy trình tự động hoá.",
-    "contactSales": "Liên hệ kinh doanh"
+    "faq": {
+      "item-1": {
+        "question": "OpenAutomate là gì?",
+        "answer": "OpenAutomate là nền tảng tự động hoá quy trình nghiệp vụ mã nguồn mở giúp các tổ chức xây dựng, giám sát và quản lý quy trình tự động hoá mà không cần bản quyền đắt đỏ hay phụ thuộc nhà cung cấp. Nó sử dụng Python cho tự động hoá, ASP.NET Core cho backend và Next.js cho frontend."
+      },
+      "item-2": {
+        "question": "OpenAutomate sử dụng những công nghệ nào?",
+        "answer": "OpenAutomate sử dụng Python cho tự động hoá, ASP.NET Core cho backend, Next.js cho frontend, và SQL Server hoặc PostgreSQL cho cơ sở dữ liệu."
+      },
+      "item-3": {
+        "question": "Kiến trúc của OpenAutomate như thế nào?",
+        "answer": "OpenAutomate tuân theo kiến trúc đa người thuê (multi-tenant) cho phép nhiều tổ chức sử dụng nền tảng một cách bảo mật, với việc cô lập dữ liệu hoàn toàn giữa các người thuê."
+      },
+      "item-4": {
+        "question": "Liệt kê một số tính năng chính của OpenAutomate.",
+        "answer": "Các tính năng chính bao gồm: Xác thực & Phân quyền người dùng, Kiến trúc đa người thuê, Quản lý Bot Agent, Quản lý gói tự động hoá, Giám sát thời gian thực, Ghi log thực thi, Lập lịch, Thông báo, Phân tích hiệu suất và Hỗ trợ đa môi trường."
+      },
+      "item-5": {
+        "question": "Cải tiến gần đây nào được thực hiện cho thành phần BotAgent?",
+        "answer": "BotAgent đã được tái cấu trúc để loại bỏ hạ tầng SignalR cục bộ thừa thãi trong khi vẫn duy trì cập nhật trạng thái thực thi thời gian thực, cải thiện hiệu suất và khả năng bảo trì."
+      },
+      "item-6": {
+        "question": "Yêu cầu tiên quyết để thiết lập OpenAutomate là gì?",
+        "answer": ".NET SDK 8.0, Node.js 18+, SQL Server hoặc PostgreSQL, Visual Studio 2022 hoặc VS Code, và Git là các yêu cầu để thiết lập OpenAutomate cục bộ."
+      },
+      "item-7": {
+        "question": "Làm thế nào để chạy backend OpenAutomate?",
+        "answer": "Clone repo backend, khôi phục các gói, cập nhật cơ sở dữ liệu với Entity Framework, sau đó chạy API bằng: `dotnet run --project OpenAutomate.API`."
+      },
+      "item-8": {
+        "question": "Làm thế nào để chạy frontend OpenAutomate?",
+        "answer": "Clone repo frontend, cài đặt dependencies bằng `npm install`, sau đó chạy máy chủ phát triển bằng `npm run dev`."
+      }
+    }
   },
   "contact": {
     "pageTitle": "Liên hệ chúng tôi",
@@ -101,23 +147,20 @@
       "tagline": "Chúng tôi nỗ lực dân chủ hoá công nghệ tự động hoá bằng cách cung cấp nền tảng mã nguồn mở thay thế các giải pháp độc quyền, giúp tổ chức kiểm soát quy trình tự động mà không bị phụ thuộc nhà cung cấp.",
       "button": "Tìm hiểu thêm"
     },
-
     "stats": {
       "countries": "quốc gia khách hàng (phân bố toàn cầu tính đến 31/07/2025)",
       "customers": "khách hàng (tính đến 31/07/2025)",
       "recommend": "khuyến nghị; Gartner Peer Insights 2025",
       "developers": "lập trình viên trên toàn cầu sử dụng AI trong công việc"
     },
-
     "story": {
       "title": "Câu chuyện của chúng tôi",
       "p1": "OpenAutomate giải quyết những thách thức hiện tại bằng cách cung cấp giải pháp mã nguồn mở dựa trên Python để quản lý tự động hoá quy trình nghiệp vụ. Tận dụng khả năng tiếp cận và hệ sinh thái thư viện phong phú của Python, các tổ chức có thể giảm chi phí đáng kể đồng thời nắm quyền kiểm soát giải pháp tự động hoá của mình. Cách tiếp cận này loại bỏ sự phụ thuộc vào nhà cung cấp và cho phép đội ngũ tạo mới, chỉnh sửa, mở rộng quy trình mà không bị giới hạn bởi giấy phép thương mại.",
       "p2": "Nền tảng giúp doanh nghiệp chuyển từ giải pháp độc quyền đắt đỏ sang mô hình linh hoạt, hiệu quả hơn, có thể tuỳ chỉnh theo nhu cầu cụ thể. Điều này không chỉ cắt giảm chi phí vận hành mà còn thúc đẩy đổi mới nhanh chóng, thích ứng với yêu cầu kinh doanh thay đổi liên tục.",
-
       "features": {
         "openSource": {
           "title": "Lõi mã nguồn mở",
-          "desc": "Nền tảng 100 % mã nguồn mở với quy trình phát triển minh bạch"
+          "desc": "Nền tảng 100% mã nguồn mở với quy trình phát triển minh bạch"
         },
         "python": {
           "title": "Nền tảng Python",
@@ -129,10 +172,8 @@
         }
       }
     },
-
     "mission": {
       "title": "Sứ mệnh & Giá trị",
-      "tagline": "Cốt lõi của mọi hoạt động là cam kết đưa công nghệ tự động hoá trở nên dễ tiếp cận, tuỳ chỉnh và tiết kiệm cho mọi tổ chức.",
       "values": {
         "transparency": {
           "title": "Minh bạch",
@@ -148,18 +189,33 @@
         }
       }
     },
-
     "team": {
       "title": "Đội ngũ của chúng tôi",
-      "tagline": "Gặp gỡ đội ngũ kỹ sư, nhà thiết kế và chuyên gia tự động hoá đứng sau OpenAutomate.",
-      "metrics": {
-        "experience": { "value": "5+", "label": "Năm kinh nghiệm" },
-        "projects": { "value": "50+", "label": "Dự án hoàn thành" },
-        "support": { "value": "24/7", "label": "Hỗ trợ liên tục" },
-        "satisfaction": { "value": "100%", "label": "Khách hàng hài lòng" }
+      "longNX": {
+        "name": "Nguyễn Xuân Long",
+        "role": "Cố vấn"
+      },
+      "hoaiNX": {
+        "name": "Nguyễn Xuân Hoài",
+        "role": "Trưởng nhóm"
+      },
+      "nhatPH": {
+        "name": "Phan Hoàng Nhật",
+        "role": "Thành viên"
+      },
+      "hungTVK": {
+        "name": "Trần Văn Khánh Hưng",
+        "role": "Thành viên"
+      },
+      "vuNLH": {
+        "name": "Nguyễn Lương Hoàng Vũ",
+        "role": "Thành viên"
+      },
+      "chinhHD": {
+        "name": "Huỳnh Đức Chính",
+        "role": "Thành viên"
       }
     },
-
     "cta": {
       "title": "Cùng hiện thực hoá giấc mơ lớn",
       "tagline": "Dù bạn muốn triển khai OpenAutomate hay đóng góp cho cộng đồng mã nguồn mở, chúng tôi rất mong được kết nối.",
@@ -177,7 +233,11 @@
   "footer": {
     "brand": "OpenAutomate",
     "tagline": "Nền tảng quản lý tự động hoá quy trình nghiệp vụ mã nguồn mở.",
-    "sections": { "platform": "Nền tảng", "resources": "Tài nguyên", "company": "Công ty" },
+    "sections": {
+      "platform": "Nền tảng",
+      "resources": "Tài nguyên",
+      "company": "Công ty"
+    },
     "links": {
       "platform": { "features": "Tính năng", "pricing": "Bảng giá", "docs": "Tài liệu" },
       "resources": { "blog": "Blog", "community": "Cộng đồng", "support": "Hỗ trợ" },
@@ -185,5 +245,11 @@
     },
     "policies": { "terms": "Điều khoản", "privacy": "Bảo mật", "cookies": "Cookie" },
     "copyright": "© {year} OpenAutomate. Đã đăng ký bản quyền."
+  },
+  "newsletter": {
+    "title": "Luôn Cập Nhật Cùng OpenAutomate",
+    "description": "Nhận công cụ phát triển mới nhất, hướng dẫn và tính năng độc quyền qua email của bạn.",
+    "button": "Đăng Ký",
+    "placeholder": "Nhập email của bạn"
   }
 }

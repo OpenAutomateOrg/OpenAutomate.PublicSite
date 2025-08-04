@@ -1,13 +1,17 @@
 {
   "landing": {
     "openSourceAutomation": "Open-source automation",
-    "description": "We help organisations build scalable, custom automation workflows based on open-source technology and Python.",
+    "descriptionPart1": "We help enterprise build scalable,",
+    "descriptionPart2": "custom automation workflows based on Python.",
     "explorePlatform": "Explore the platform",
     "launchOrchestrator": "Launch Orchestrator",
-
-    "workflowsTitle": "The workflows of tomorrow start here",
+    "button": {
+      "viewLiveDemo": "View Live Demo",
+      "launchOrchestrator": "Launch Orchestrator"
+    },
 
     "features": {
+      "title": "Everything You Need to Build",
       "noVendorLockIn": {
         "title": "No Vendor Lock-in",
         "desc": "Full control over your automation assets and infrastructure—no proprietary tech."
@@ -21,35 +25,78 @@
         "desc": "Leverage the power and flexibility of Python and its vast library ecosystem."
       }
     },
-
-    "solutionsTitle": "Solutions for every industry",
-    "sectors": {
-      "healthcare": "Healthcare",
-      "finance": "Finance",
-      "insurance": "Insurance",
-      "publicSector": "Public Sector",
-      "manufacturing": "Manufacturing",
-      "retail": "Retail"
+    "pricing": {
+      "title": "Choose Your Development Plan",
+      "basic": {
+        "name": "Basic",
+        "price": "$5",
+        "period": "per month",
+        "description": "Includes",
+        "features": [
+          "5 automation packages",
+          "Unlimited assets",
+          "Unlimited agent",
+          "Multi-tenant",
+          "Real-time monitoring",
+          "Execution logging",
+          "Scheduling",
+          "Notifications",
+          "User roles and permissions"
+        ]
+      },
+      "premium": {
+        "name": "Premium",
+        "price": "$10",
+        "period": "per month",
+        "description": "Everything in Basic, plus",
+        "features": ["10 packages automation", "Chatbot AI  support"]
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Contact us",
+        "period": "per month",
+        "description": "For large enterprise",
+        "features": ["Dedicated support team", "Enterprise-grade security"]
+      }
     },
-
-    "focusTitle": "Focus on core business, not automation infrastructure",
-    "focusParagraph": "Eliminate repetitive, rule-based tasks and free your team for strategic initiatives. OpenAutomate delivers an end-to-end automation platform that’s easy to deploy and manage.",
-    "focusList": {
-      "reductionCosts": "Reduction in automation-platform costs",
-      "decreaseTime": "Decreased time to deploy new processes",
-      "increaseControl": "Increased control over automation assets"
-    },
-    "learnMore": "Learn more",
-
-    "performanceTitle": "The proof is in the performance",
-
-    "readyTitle": "Ready to take control of your automation?",
-    "readyParagraph": "Join organisations that have broken free from vendor lock-in, reduced costs, and gained greater control over their automation processes.",
-    "contactSales": "Contact Sales"
+    "faq": {
+      "item-1": {
+        "question": "What is OpenAutomate?",
+        "answer": "OpenAutomate is an open-source business process automation platform that helps organizations build, monitor, and manage automation processes without expensive licensing or vendor lock-in. It uses Python for automation, ASP.NET Core for backend, and Next.js for frontend."
+      },
+      "item-2": {
+        "question": "Which technologies are used in OpenAutomate?",
+        "answer": "OpenAutomate uses Python for automation, ASP.NET Core for the backend, Next.js for the frontend, and SQL Server or PostgreSQL for the database."
+      },
+      "item-3": {
+        "question": "What is the architecture style of OpenAutomate?",
+        "answer": "OpenAutomate follows a multi-tenant architecture that allows multiple organizations to use the platform securely, with complete data isolation between tenants."
+      },
+      "item-4": {
+        "question": "List some key features of OpenAutomate.",
+        "answer": "Key features include: User Authentication & Authorization, Multi-Tenant Architecture, Bot Agent Management, Automation Package Management, Real-Time Monitoring, Execution Logging, Scheduling, Notifications, Performance Analytics, and Multi-Environment Support."
+      },
+      "item-5": {
+        "question": "What recent improvement was made to the BotAgent component?",
+        "answer": "The BotAgent was refactored to remove the redundant local SignalR infrastructure while maintaining real-time execution status updates, improving performance and maintainability."
+      },
+      "item-6": {
+        "question": "What are the prerequisites to set up OpenAutomate?",
+        "answer": ".NET SDK 8.0, Node.js 18+, SQL Server or PostgreSQL, Visual Studio 2022 or VS Code, and Git are required to set up OpenAutomate locally."
+      },
+      "item-7": {
+        "question": "How do you run the OpenAutomate backend?",
+        "answer": "Clone the backend repo, restore packages, update the database with Entity Framework, then run the API using: `dotnet run --project OpenAutomate.API`."
+      },
+      "item-8": {
+        "question": "How do you run the OpenAutomate frontend?",
+        "answer": "Clone the frontend repo, install dependencies using `npm install`, then run the development server using `npm run dev`."
+      }
+    }
   },
   "contact": {
     "pageTitle": "Contact Us",
-    "pageSubtitle": "Have questions or feedback? Fill out the form below and we’ll get back to you as soon as possible.",
+    "pageSubtitle": "Have questions or feedback? Fill out the form below and we'll get back to you as soon as possible.",
     "form": {
       "title": "Send Us a Message",
       "description": "Fill out the form with your information and message.",
@@ -98,19 +145,13 @@
 
   "aboutUs": {
     "introduction": {
+      "badge": " About Our Project",
       "title": "OpenAutomate",
-      "tagline": "We are on a mission to democratize automation technology by providing an open-source alternative to proprietary platforms, helping organizations take control of their automation processes without vendor lock-in.",
+      "tagline": "We are on a mission to democratize automation technology by providing an open-source alternative to proprietary platforms, helping enterprises take control of their automation processes without vendor lock-in.",
       "button": "Learn More"
     },
-
-    "stats": {
-      "countries": "customer countries (global location of customer base as of July 31, 2025)",
-      "customers": "customers (as of July 31, 2025)",
-      "recommend": "would recommend; Gartner Peer Insights 2025",
-      "developers": "developers around the globe using AI at work"
-    },
-
     "story": {
+      "badge": "Story",
       "title": "Our Story",
       "p1": "OpenAutomate addresses these challenges by providing an open-source alternative based on Python for business-process-automation management. By leveraging the accessibility and extensive library ecosystem of Python, organizations can significantly reduce costs while gaining greater control over their automation solutions. This approach eliminates vendor dependency and empowers teams to create, modify, and extend automation processes without the constraints of commercial licensing.",
       "p2": "The platform enables businesses to transition from expensive proprietary solutions to a more flexible, cost-effective approach that can be tailored to specific organizational needs. This not only reduces operational costs but also allows for more rapid innovation and adaptation to changing business requirements.",
@@ -151,13 +192,29 @@
     },
 
     "team": {
-      "title": "Our Team",
-      "tagline": "Meet the passionate team of engineers, designers, and automation experts behind OpenAutomate.",
-      "metrics": {
-        "experience": { "value": "5+", "label": "Years Experience" },
-        "projects": { "value": "50+", "label": "Projects Completed" },
-        "support": { "value": "24/7", "label": "Support Available" },
-        "satisfaction": { "value": "100%", "label": "Client Satisfaction" }
+      "longNX": {
+        "name": "Nguyen Xuan Long",
+        "role": "Mentor"
+      },
+      "hoaiNX": {
+        "name": "Nguyen Xuan Hoai",
+        "role": "Leader"
+      },
+      "nhatPH": {
+        "name": "Phan Hoang Nhat",
+        "role": "Team Member"
+      },
+      "hungTVK": {
+        "name": "Tran Van Khanh Hung",
+        "role": "Team Member"
+      },
+      "vuNLH": {
+        "name": "Nguyen Luong Hoang Vu",
+        "role": "Team Member"
+      },
+      "chinhHD": {
+        "name": "Huynh Duc Chinh",
+        "role": "Team Member"
       }
     },
 
@@ -191,5 +248,11 @@
     },
     "policies": { "terms": "Terms", "privacy": "Privacy", "cookies": "Cookies" },
     "copyright": "© {year} OpenAutomate. All rights reserved."
+  },
+  "newsletter": {
+    "title": "Stay Updated with OpenAutomate",
+    "description": "Get the latest development tools, tutorials, and exclusive features delivered to your inbox.",
+    "button": "Subscribe",
+    "placeholder": "Enter your email"
   }
 }
