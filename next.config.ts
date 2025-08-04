@@ -1,14 +1,15 @@
 import type { NextConfig } from 'next'
+import createNextIntlPlugin from 'next-intl/plugin'
 
 const nextConfig: NextConfig = {
   /* Public Website Configuration */
-  
+
   // Static export for optimal CDN caching (optional, depends on deployment strategy)
   // output: 'export',
-  
+
   // Disable dev indicators in development
   devIndicators: false,
-  
+
   // Optimize webpack configuration to prevent caching issues
   webpack: (config, { dev }) => {
     // Disable webpack caching in development to prevent memory issues
@@ -18,7 +19,7 @@ const nextConfig: NextConfig = {
 
     return config
   },
-  
+
   // Image optimization configuration
   images: {
     remotePatterns: [
@@ -29,12 +30,12 @@ const nextConfig: NextConfig = {
     ],
     formats: ['image/avif', 'image/webp'],
   },
-  
+
   // Only redirect auth-related paths to the orchestrator
   // All other paths stay on the public site
   // Note: Domain and HTTPS redirects are handled in vercel.json
   async redirects() {
-    const orchestratorUrl = process.env.NEXT_PUBLIC_ORCHESTRATOR_URL ?? 'http://localhost:3001';
+    const orchestratorUrl = process.env.NEXT_PUBLIC_ORCHESTRATOR_URL ?? 'http://localhost:3001'
 
     return [
       // Auth-related redirects to orchestrator
@@ -60,7 +61,7 @@ const nextConfig: NextConfig = {
       },
     ]
   },
-  
+
   // Security and performance headers
   async headers() {
     return [
@@ -70,33 +71,33 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: 'X-DNS-Prefetch-Control',
-            value: 'on'
+            value: 'on',
           },
           {
             key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload'
+            value: 'max-age=63072000; includeSubDomains; preload',
           },
           {
             key: 'X-XSS-Protection',
-            value: '1; mode=block'
+            value: '1; mode=block',
           },
           {
             key: 'X-Content-Type-Options',
-            value: 'nosniff'
+            value: 'nosniff',
           },
           {
             key: 'X-Frame-Options',
-            value: 'SAMEORIGIN'
+            value: 'SAMEORIGIN',
           },
           {
             key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin'
+            value: 'strict-origin-when-cross-origin',
           },
           {
             key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()'
-          }
-        ]
+            value: 'camera=(), microphone=(), geolocation=()',
+          },
+        ],
       },
       {
         // Cache static assets
@@ -104,9 +105,9 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          }
-        ]
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
       },
       {
         // Cache images
@@ -114,9 +115,9 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          }
-        ]
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
       },
       {
         // Cache SVG files
@@ -124,12 +125,13 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          }
-        ]
-      }
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
     ]
   },
 }
 
-export default nextConfig
+const withNextIntl = createNextIntlPlugin()
+export default withNextIntl(nextConfig)

@@ -76,7 +76,7 @@ export function MobileNav() {
                 </Link>
               ))}
               <div className="mt-4">
-                <LaunchButton 
+                <LaunchButton
                   className="w-full justify-center bg-orange-600 text-white hover:bg-orange-700 transition-colors"
                   size="default"
                 />
