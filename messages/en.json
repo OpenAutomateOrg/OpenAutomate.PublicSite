@@ -27,16 +27,16 @@
     },
     "pricing": {
       "title": "Choose Your Development Plan",
-      "basic": {
-        "name": "Basic",
-        "price": "$5",
+      "pro": {
+        "name": "Pro",
+        "price": "$10",
         "period": "per month",
-        "description": "Includes",
+        "description": "Perfect for growing teams",
         "features": [
-          "5 automation packages",
-          "Unlimited assets",
-          "Unlimited agent",
-          "Multi-tenant",
+          "10 automation packages upload",
+          "5 agent creation",
+          "1 organization unit creation",
+          "100 AI assistant messages",
           "Real-time monitoring",
           "Execution logging",
           "Scheduling",
@@ -44,19 +44,20 @@
           "User roles and permissions"
         ]
       },
-      "premium": {
-        "name": "Premium",
-        "price": "$10",
+      "ultra": {
+        "name": "Ultra",
+        "price": "$20",
         "period": "per month",
-        "description": "Everything in Basic, plus",
-        "features": ["10 packages automation", "Chatbot AI  support"]
-      },
-      "enterprise": {
-        "name": "Enterprise",
-        "price": "Contact us",
-        "period": "per month",
-        "description": "For large enterprise",
-        "features": ["Dedicated support team", "Enterprise-grade security"]
+        "description": "Advanced features for scaling businesses",
+        "features": [
+          "20 automation packages upload",
+          "10 agent creation",
+          "3 organization units creation",
+          "200 AI assistant messages",
+          "Everything in Pro",
+          "Priority support",
+          "Advanced analytics"
+        ]
       }
     },
     "faq": {

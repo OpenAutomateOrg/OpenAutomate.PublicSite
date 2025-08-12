@@ -9,7 +9,7 @@ import { TextPlugin } from 'gsap/TextPlugin'
 gsap.registerPlugin(ScrollTrigger, TextPlugin)
 
 export default function Newsletter() {
-  const t = useTranslations('landing')
+  const t = useTranslations('newsletter')
 
   const newsletterRef = useRef<HTMLDivElement>(null)
 
@@ -45,19 +45,19 @@ export default function Newsletter() {
 
         <div className="newsletter-content max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
-            {t('newsletter.title')}
+            {t('title')}
           </h2>
           <p className="text-xl text-orange-100 mb-10 max-w-2xl mx-auto">
-            {t('newsletter.description')}
+            {t('description')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
             <input
               type="email"
-              placeholder={t('newsletter.placeholder')}
+              placeholder={t('placeholder')}
               className="flex-1 px-8 py-4 rounded-xl border-0 focus:ring-4 focus:ring-orange-200 focus:outline-none text-lg bg-white/90"
             />
             <button className="animated-button bg-white text-orange-600 px-10 py-4 rounded-xl font-semibold hover:bg-neutral-50 transition-colors whitespace-nowrap text-lg">
-              {t('newsletter.button')}
+              {t('button')}
             </button>
           </div>
         </div>
