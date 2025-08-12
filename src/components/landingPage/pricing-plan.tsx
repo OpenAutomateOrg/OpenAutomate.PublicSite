@@ -15,27 +15,20 @@ export default function Pricing() {
 
   const pricingPlans = [
     {
-      name: t('pricing.basic.name'),
-      price: t('pricing.basic.price'),
-      period: t('pricing.basic.period'),
-      description: t('pricing.basic.description'),
-      features: t.raw('pricing.basic.features') as string[],
+      name: t('pricing.pro.name'),
+      price: t('pricing.pro.price'),
+      period: t('pricing.pro.period'),
+      description: t('pricing.pro.description'),
+      features: t.raw('pricing.pro.features') as string[],
       popular: false,
     },
     {
-      name: t('pricing.premium.name'),
-      price: t('pricing.premium.price'),
-      period: t('pricing.premium.period'),
-      description: t('pricing.premium.description'),
-      features: t.raw('pricing.premium.features') as string[],
+      name: t('pricing.ultra.name'),
+      price: t('pricing.ultra.price'),
+      period: t('pricing.ultra.period'),
+      description: t('pricing.ultra.description'),
+      features: t.raw('pricing.ultra.features') as string[],
       popular: true,
-    },
-    {
-      name: t('pricing.enterprise.name'),
-      price: t('pricing.enterprise.price'),
-      description: t('pricing.enterprise.description'),
-      features: t.raw('pricing.enterprise.features') as string[],
-      popular: false,
     },
   ]
 
@@ -72,7 +65,7 @@ export default function Pricing() {
             <p className="section-title text-xl text-neutral-400 max-w-3xl mx-auto"></p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
             {pricingPlans.map((plan, index) => (
               <div
                 key={index}
