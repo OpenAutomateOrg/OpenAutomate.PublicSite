@@ -15,14 +15,6 @@ export default function Pricing() {
 
   const pricingPlans = [
     {
-      name: t('pricing.basic.name'),
-      price: t('pricing.basic.price'),
-      period: t('pricing.basic.period'),
-      description: t('pricing.basic.description'),
-      features: t.raw('pricing.basic.features') as string[],
-      popular: false,
-    },
-    {
       name: t('pricing.premium.name'),
       price: t('pricing.premium.price'),
       period: t('pricing.premium.period'),
@@ -30,6 +22,7 @@ export default function Pricing() {
       features: t.raw('pricing.premium.features') as string[],
       popular: true,
     },
+
     {
       name: t('pricing.enterprise.name'),
       price: t('pricing.enterprise.price'),
@@ -72,7 +65,7 @@ export default function Pricing() {
             <p className="section-title text-xl text-neutral-400 max-w-3xl mx-auto"></p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             {pricingPlans.map((plan, index) => (
               <div
                 key={index}

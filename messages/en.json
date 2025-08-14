@@ -4,10 +4,10 @@
     "descriptionPart1": "We help enterprise build scalable,",
     "descriptionPart2": "custom automation workflows based on Python.",
     "explorePlatform": "Explore the platform",
-    "launchOrchestrator": "Launch Orchestrator",
+    "signin": "Sign In",
     "button": {
       "viewLiveDemo": "View Live Demo",
-      "launchOrchestrator": "Launch Orchestrator"
+      "signin": "Sign In"
     },
 
     "features": {
@@ -27,13 +27,12 @@
     },
     "pricing": {
       "title": "Choose Your Development Plan",
-      "basic": {
-        "name": "Basic",
-        "price": "$5",
+      "premium": {
+        "name": "Premium",
+        "price": "$10",
         "period": "per month",
         "description": "Includes",
         "features": [
-          "5 automation packages",
           "Unlimited assets",
           "Unlimited agent",
           "Multi-tenant",
@@ -41,15 +40,9 @@
           "Execution logging",
           "Scheduling",
           "Notifications",
-          "User roles and permissions"
+          "User roles and permissions",
+          "Chatbot AI  support"
         ]
-      },
-      "premium": {
-        "name": "Premium",
-        "price": "$10",
-        "period": "per month",
-        "description": "Everything in Basic, plus",
-        "features": ["10 packages automation", "Chatbot AI  support"]
       },
       "enterprise": {
         "name": "Enterprise",
@@ -192,6 +185,7 @@
     },
 
     "team": {
+      "title": "Meet Our Team",
       "longNX": {
         "name": "Nguyen Xuan Long",
         "role": "Mentor"
@@ -230,7 +224,7 @@
 
   "nav": {
     "about": "About Us",
-    "guides": "Guides",
+    "documentation": "Documentation",
     "contact": "Contact Us"
   },
   "footer": {
@@ -248,11 +242,5 @@
     },
     "policies": { "terms": "Terms", "privacy": "Privacy", "cookies": "Cookies" },
     "copyright": "© {year} OpenAutomate. All rights reserved."
-  },
-  "newsletter": {
-    "title": "Stay Updated with OpenAutomate",
-    "description": "Get the latest development tools, tutorials, and exclusive features delivered to your inbox.",
-    "button": "Subscribe",
-    "placeholder": "Enter your email"
   }
 }
