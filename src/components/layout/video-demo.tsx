@@ -12,7 +12,7 @@ export function VideoDemoSection({
   videoSrc = 'https://www.augmentcode.com/hero-agents/video.h264.mp4',
   posterSrc = '/placeholder.svg?height=400&width=600',
   className = 'bg-black',
-}: VideoDemoSectionProps) {
+}: Readonly<VideoDemoSectionProps>) {
   // Nếu không còn controls thì không cần state nữa
   return (
     <section className={`w-full flex justify-center items-center py-8 ${className || ''}`}>

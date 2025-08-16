@@ -52,10 +52,10 @@
       ]
     },
     {
-      "name": "Guides",
-      "short_name": "Guides",
+      "name": "Documentation",
+      "short_name": "Docs",
       "description": "OpenAutomate documentation and guides",
-      "url": "/guide",
+      "url": "/documentation",
       "icons": [
         {
           "src": "/logo-oa.png",

@@ -10,14 +10,13 @@ import { Button } from '@/components/ui/button'
 import { VideoDemoSection } from '@/components/layout/video-demo'
 import { Faq } from '@/components/landingPage/faq'
 import { AnimatedText } from '@/components/landingPage/gsap-animation'
-import Newsletter from '@/components/landingPage/newsletter'
 import Pricing from '@/components/landingPage/pricing-plan'
 import Features from '@/components/landingPage/features'
-import { ArrowRight } from 'lucide-react'
 import FloatingGear from '@/components/landingPage/Gear/floatingGear'
 import Robot from '@/components/landingPage/robot'
 import DescriptionSection from '@/components/landingPage/description'
 import { useTranslations } from 'next-intl'
+import { LaunchButton } from '@/components/launch-button'
 
 gsap.registerPlugin(ScrollTrigger, TextPlugin)
 
@@ -27,7 +26,21 @@ export default function Home() {
   const t = useTranslations('landing')
 
   const scrollToVideoDemo = () => {
-    videoDemoRef.current?.scrollIntoView({ behavior: 'smooth' })
+    if (videoDemoRef.current) {
+      const element = videoDemoRef.current
+      const elementTop = element.offsetTop
+      const elementHeight = element.offsetHeight
+      const windowHeight = window.innerHeight
+
+      // Calculate position to center the video in viewport
+      const offsetPosition = elementTop - windowHeight / 2 + elementHeight / 2
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      })
+      console.log('Scrolling to video demo center...', videoDemoRef.current)
+    }
   }
 
   // Handlers for button hover, moved out to avoid deep nesting
@@ -234,15 +247,11 @@ export default function Home() {
               >
                 {t('button.viewLiveDemo')}
               </Button>
-              <Button
-                aria-label="Launch Orchestrator"
+              <LaunchButton
                 className={
                   'animated-button button-show h-full ml-3 group bg-orange-600 text-white px-10 py-5 rounded-xl text-xl font-semibold transition-all duration-200 shadow-lg flex items-center '
                 }
-              >
-                {t('button.launchOrchestrator')}
-                <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              ></LaunchButton>
             </div>
           </div>
         </main>
@@ -260,10 +269,6 @@ export default function Home() {
 
       {/* Frequently asked questions Section */}
       <Faq />
-
-      {/* Newsletter Section */}
-      <Newsletter />
-
       {/* Footer */}
       <Footer />
     </>

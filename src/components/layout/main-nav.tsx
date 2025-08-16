@@ -19,8 +19,8 @@ export function MainNav({ ...props }: MainNavProps) {
       href: config.paths.pages.about,
     },
     {
-      title: t('guides'),
-      href: config.paths.pages.guides,
+      title: t('documentation'),
+      href: 'https://docs.openautomate.io',
     },
     {
       title: t('contact'),
