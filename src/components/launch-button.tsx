@@ -23,7 +23,7 @@ export function LaunchButton({
 
   return (
     <Button onClick={handleLaunch} size={size} className={className} variant={variant}>
-      {t('launchOrchestrator')}
+      {t('signin')}
     </Button>
   )
 }

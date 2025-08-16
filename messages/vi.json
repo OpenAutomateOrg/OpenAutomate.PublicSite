@@ -4,10 +4,10 @@
     "descriptionPart1": "Chúng tôi giúp doanh nghiệp xây dựng các quy trình",
     "descriptionPart2": "tự động hoá tuỳ chỉnh có khả năng mở rộng, dựa trên Python.",
     "explorePlatform": "Khám phá nền tảng",
-    "launchOrchestrator": "Khởi chạy Orchestrator",
+    "signin": "Đăng nhập",
     "button": {
       "viewLiveDemo": "Xem Demo Trực tiếp",
-      "launchOrchestrator": "Khởi chạy Orchestrator"
+      "signin": "Đăng nhập"
     },
     "features": {
       "title": "Mọi thứ bạn cần để xây dựng",
@@ -26,37 +26,29 @@
     },
     "pricing": {
       "title": "Chọn gói phát triển của bạn",
-      "pro": {
-        "name": "Pro",
+      "premium": {
+        "name": "Cao cấp",
         "price": "$10",
-        "period": "mỗi tháng",
-        "description": "Hoàn hảo cho đội ngũ đang phát triển",
+        "period": "Mỗi tháng",
+        "description": "Bao gồm",
         "features": [
-          "10 gói tự động hóa upload",
-          "5 agent tạo mới",
-          "1 đơn vị tổ chức tạo mới",
-          "100 tin nhắn trợ lý AI",
+          "Tài sản không giới hạn",
+          "Agent không giới hạn",
+          "Hỗ trợ đa tenant",
           "Giám sát thời gian thực",
           "Ghi nhật ký thực thi",
           "Lập lịch",
           "Thông báo",
-          "Vai trò và phân quyền người dùng"
+          "Vai trò và phân quyền người dùng",
+          "Hỗ trợ Chatbot AI"
         ]
       },
-      "ultra": {
-        "name": "Ultra",
-        "price": "$20",
+      "enterprise": {
+        "name": "Doanh nghiệp",
+        "price": "Liên hệ",
         "period": "mỗi tháng",
-        "description": "Tính năng nâng cao cho doanh nghiệp mở rộng",
-        "features": [
-          "20 gói tự động hóa upload",
-          "10 agent tạo mới",
-          "3 đơn vị tổ chức tạo mới",
-          "200 tin nhắn trợ lý AI",
-          "Mọi thứ trong Pro",
-          "Hỗ trợ ưu tiên",
-          "Phân tích nâng cao"
-        ]
+        "description": "Cho doanh nghiệp lớn",
+        "features": ["Đội hỗ trợ chuyên biệt", "Bảo mật cấp doanh nghiệp"]
       }
     },
     "faq": {
@@ -228,7 +220,7 @@
   },
   "nav": {
     "about": "Giới thiệu",
-    "guides": "Hướng dẫn",
+    "documentation": "Tài liệu",
     "contact": "Liên hệ"
   },
   "footer": {
@@ -246,11 +238,5 @@
     },
     "policies": { "terms": "Điều khoản", "privacy": "Bảo mật", "cookies": "Cookie" },
     "copyright": "© {year} OpenAutomate. Đã đăng ký bản quyền."
-  },
-  "newsletter": {
-    "title": "Luôn Cập Nhật Cùng OpenAutomate",
-    "description": "Nhận công cụ phát triển mới nhất, hướng dẫn và tính năng độc quyền qua email của bạn.",
-    "button": "Đăng Ký",
-    "placeholder": "Nhập email của bạn"
   }
 }

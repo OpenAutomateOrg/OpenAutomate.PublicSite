@@ -4,10 +4,10 @@
     "descriptionPart1": "We help enterprise build scalable,",
     "descriptionPart2": "custom automation workflows based on Python.",
     "explorePlatform": "Explore the platform",
-    "launchOrchestrator": "Launch Orchestrator",
+    "signin": "Sign In",
     "button": {
       "viewLiveDemo": "View Live Demo",
-      "launchOrchestrator": "Launch Orchestrator"
+      "signin": "Sign In"
     },
 
     "features": {
@@ -27,37 +27,29 @@
     },
     "pricing": {
       "title": "Choose Your Development Plan",
-      "pro": {
-        "name": "Pro",
+      "premium": {
+        "name": "Premium",
         "price": "$10",
         "period": "per month",
         "description": "Perfect for growing teams",
         "features": [
-          "10 automation packages upload",
-          "5 agent creation",
-          "1 organization unit creation",
-          "100 AI assistant messages",
+          "Unlimited assets",
+          "Unlimited agent",
+          "Multi-tenant",
           "Real-time monitoring",
           "Execution logging",
           "Scheduling",
           "Notifications",
-          "User roles and permissions"
+          "User roles and permissions",
+          "Chatbot AI  support"
         ]
       },
-      "ultra": {
-        "name": "Ultra",
-        "price": "$20",
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Contact us",
         "period": "per month",
-        "description": "Advanced features for scaling businesses",
-        "features": [
-          "20 automation packages upload",
-          "10 agent creation",
-          "3 organization units creation",
-          "200 AI assistant messages",
-          "Everything in Pro",
-          "Priority support",
-          "Advanced analytics"
-        ]
+        "description": "For large enterprise",
+        "features": ["Dedicated support team", "Enterprise-grade security"]
       }
     },
     "faq": {
@@ -193,6 +185,7 @@
     },
 
     "team": {
+      "title": "Meet Our Team",
       "longNX": {
         "name": "Nguyen Xuan Long",
         "role": "Mentor"
@@ -231,7 +224,7 @@
 
   "nav": {
     "about": "About Us",
-    "guides": "Guides",
+    "documentation": "Documentation",
     "contact": "Contact Us"
   },
   "footer": {
@@ -249,11 +242,5 @@
     },
     "policies": { "terms": "Terms", "privacy": "Privacy", "cookies": "Cookies" },
     "copyright": "© {year} OpenAutomate. All rights reserved."
-  },
-  "newsletter": {
-    "title": "Stay Updated with OpenAutomate",
-    "description": "Get the latest development tools, tutorials, and exclusive features delivered to your inbox.",
-    "button": "Subscribe",
-    "placeholder": "Enter your email"
   }
 }
