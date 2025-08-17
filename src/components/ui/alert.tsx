@@ -41,7 +41,6 @@ interface AlertTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
 const AlertTitle = React.forwardRef<HTMLParagraphElement, AlertTitleProps>(
   ({ className, children, ...props }, ref) => {
     if (!children) {
-      console.warn('AlertTitle must have content for accessibility')
     }
 
     return (

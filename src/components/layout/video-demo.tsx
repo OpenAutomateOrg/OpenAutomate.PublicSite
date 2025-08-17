@@ -15,7 +15,7 @@ export function VideoDemoSection({
 }: Readonly<VideoDemoSectionProps>) {
   // Nếu không còn controls thì không cần state nữa
   return (
-    <section className={`w-full flex justify-center items-center py-8 ${className || ''}`}>
+    <section className={`w-full flex justify-center items-center py-32 ${className || ''}`}>
       <div className="w-full md:w-2/3">
         <div className="relative flex justify-center rounded-2xl aspect-video w-full h-full bg-black">
           <video
