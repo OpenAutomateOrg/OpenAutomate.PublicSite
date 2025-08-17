@@ -61,7 +61,7 @@ export default function DescriptionSection() {
         </div>
 
         {/* Nội dung */}
-        <p className="description-text text-lg md:text-xl text-neutral-300">
+        <p className="description-text text-lg md:text-xl text-neutral-200 font-bold ">
           {t('descriptionPart1')} <br /> {t('descriptionPart2')}
         </p>
 
