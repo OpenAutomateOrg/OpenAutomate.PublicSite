@@ -6,7 +6,7 @@ import { Rocket } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 interface LaunchButtonProps {
-  readonly id: string
+  readonly id?: string
   readonly size?: 'default' | 'sm' | 'lg' | 'icon'
   readonly className?: string
   readonly variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link'
