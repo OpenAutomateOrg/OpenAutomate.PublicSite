@@ -108,8 +108,8 @@ window.addEventListener(
 window.addEventListener(
   'touchmove',
   (e) => {
-    if (!e.touches || !e.touches[0]) return
-    const t = e.touches[0]
+    const t = e.touches?.[0]
+    if (!t) return
     pointer.x = (t.clientX / innerWidth) * 2 - 1
     pointer.y = (t.clientY / innerHeight) * -2 + 1
     targetRot.x = pointer.y * 0.08

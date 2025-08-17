@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { useTranslations } from 'next-intl'
+import FloatingGear from './Gear/floatingGear'
 
 export function Faq() {
   const faqRef = useRef<HTMLDivElement>(null)
@@ -60,8 +61,14 @@ export function Faq() {
   }, [])
 
   return (
-    <section ref={faqRef} className="w-full mx-auto px-4 py-8 bg-black ">
-      <div className="max-w-2xl mx-auto">
+    <section ref={faqRef} className="relative w-full mx-auto px-4 py-8 bg-black overflow-hidden">
+      {/* Floating Gears */}
+      <FloatingGear size={40} position="top-10 left-10" />
+      <FloatingGear size={60} position="top-20 right-20" />
+      <FloatingGear size={35} position="bottom-16 left-16" />
+      <FloatingGear size={50} position="bottom-10 right-10" />
+
+      <div className="relative z-10 max-w-2xl mx-auto">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold tracking-tight mb-4 text-orange-600">
             Frequently Asked Questions
@@ -69,7 +76,10 @@ export function Faq() {
         </div>
         <div className="w-full space-y-6">
           {faqs.map((faq, idx) => (
-            <div key={idx} className="faq-content border-b border-gray-700 pb-4">
+            <div
+              key={`faq-${idx}-${faq.question.slice(0, 20)}`}
+              className="faq-content border-b border-gray-700 pb-4"
+            >
               <div className="font-semibold text-xl mb-2 text-orange-600 drop-shadow-sm">
                 {faq.question}
               </div>
