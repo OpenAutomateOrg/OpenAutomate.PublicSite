@@ -2,34 +2,37 @@
 
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
-import React, { useLayoutEffect, useRef } from 'react'
+import React, { useEffect, useLayoutEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { TextPlugin } from 'gsap/TextPlugin'
 import { Button } from '@/components/ui/button'
-import { VideoDemoSection } from '@/components/layout/video-demo'
-import { Faq } from '@/components/landingPage/faq'
-import { AnimatedText } from '@/components/landingPage/gsap-animation'
-import Newsletter from '@/components/landingPage/newsletter'
-import Pricing from '@/components/landingPage/pricing-plan'
-import Features from '@/components/landingPage/features'
-import { ArrowRight } from 'lucide-react'
-import FloatingGear from '@/components/landingPage/Gear/floatingGear'
-import Robot from '@/components/landingPage/robot'
-import DescriptionSection from '@/components/landingPage/description'
+import { VideoDemoSection } from '@/components/layout/landingPage/videoDemo'
+import { Faq } from '@/components/layout/landingPage/faq'
+import { AnimatedText } from '@/components/layout/landingPage/gsapAnimation'
+import Pricing from '@/components/layout/landingPage/pricingPlan'
+import Features from '@/components/layout/landingPage/features'
+import Robot from '@/components/layout/landingPage/robot'
+import DescriptionSection from '@/components/layout/landingPage/description'
 import { useTranslations } from 'next-intl'
+import { LaunchButton } from '@/components/launch-button'
+import '@/components/layout/landingPage/heroSection/heroSection.css'
+import { SkipForward } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger, TextPlugin)
 
 export default function Home() {
-  const automationTitleRef = useRef<HTMLHeadingElement>(null)
+  const automateTitleRef = useRef<HTMLHeadingElement>(null)
   const videoDemoRef = useRef<HTMLElement>(null)
   const t = useTranslations('landing')
 
   const scrollToVideoDemo = () => {
-    videoDemoRef.current?.scrollIntoView({ behavior: 'smooth' })
+    if (videoDemoRef.current) {
+      videoDemoRef.current.scrollIntoView({
+        behavior: 'smooth',
+      })
+    }
   }
-
   // Handlers for button hover, moved out to avoid deep nesting
   function mouseEnterHandlerFactory(tl: gsap.core.Timeline) {
     return () => {
@@ -81,21 +84,21 @@ export default function Home() {
 
     const ctx = gsap.context(() => {
       // Split the automation title into individual characters for animation
-      if (automationTitleRef.current) {
-        const titleText = automationTitleRef.current.textContent ?? ''
-        automationTitleRef.current.innerHTML = ''
+      if (automateTitleRef.current) {
+        const titleText = automateTitleRef.current.textContent ?? ''
+        automateTitleRef.current.innerHTML = ''
 
         // Create spans for each word
         const words = titleText.split(' ')
         words.forEach((word, wordIndex) => {
           const wordSpan = createWordSpan(word)
-          automationTitleRef.current?.appendChild(wordSpan)
+          automateTitleRef.current?.appendChild(wordSpan)
 
           // Add space between words (except for the last word)
           if (wordIndex < words.length - 1) {
             const spaceSpan = document.createElement('span')
             spaceSpan.innerHTML = '&nbsp;'
-            automationTitleRef.current?.appendChild(spaceSpan)
+            automateTitleRef.current?.appendChild(spaceSpan)
           }
         })
       }
@@ -178,7 +181,7 @@ export default function Home() {
       })
     })
     const buttons = gsap.utils.toArray('.button-show')
-    gsap.set(buttons, { y: 60, opacity: 10 })
+    gsap.set(buttons, { y: 60, opacity: 0 })
     gsap.to(buttons, {
       y: 0,
       opacity: 1,
@@ -188,84 +191,92 @@ export default function Home() {
     return () => ctx.revert()
   }, [])
 
+  // Load the Three.js hero script on the client after the hero container exists
+  useEffect(() => {
+    const container = document.getElementById('hero-section')
+    if (!container) return
+    import('@/components/layout/landingPage/heroSection/heroSection.js').catch((err) =>
+      console.error('Failed to load heroSection.js', err),
+    )
+  }, [])
+
   return (
-    <>
+    <div className="min-h-screen">
       <Header />
-      <section className="relative flex min-h-screen items-center justify-center bg-gradient-to-b from-black via-neutral-700 to-black overflow-hidden">
-        {/* Floating gears */}
-        <FloatingGear size={128} position="top-20 left-20" />
-        <FloatingGear size={80} position="top-40 right-32" />
-        <FloatingGear size={96} position="bottom-70 left-40" />
-        <FloatingGear size={64} position="top-20 right-20" />
-        <FloatingGear size={96} position="bottom-60 right-45" />
+      {/* Hero Content Section with Three.js Background */}
+      <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
+        {/* Three.js Background Container - only for hero section, positioned below header */}
+        <div id="hero-section" className="absolute inset-0 z-0" />
 
-        <main className="flex-1 flex flex-col min-h-screen justify-center px-8 md:px-16 lg:px-24">
-          {/* Main headline */}
-          <div className="space-y-4 mb-20">
-            <h1 className="text-7xl md:text-8xl lg:text-[10rem] font-bold leading-none tracking-tight">
-              <div className="flex flex-row items-center gap-3">
-                {/* "Open" bên trái */}
-                <AnimatedText text="Open" className="font-bold text-white leading-tight" />
+        <main className="hero relative z-20 max-w-6xl mx-auto px-8 md:px-16 lg:px-24">
+          <div className="hero-inner flex flex-col items-center text-center space-y-8">
+            {/* Main headline */}
+            <div className="space-y-4 mb-0">
+              <h1 className="  leading-none tracking-tight">
+                <div className="flex flex-row items-center justify-center gap-3 ">
+                  {/* "Open" bên trái */}
+                  <AnimatedText
+                    text="Open"
+                    className="text-6xl md:text-7xl lg:text-8xl text-white leading-tight"
+                  />
 
-                {/* Robot màu orange-600, tự canh giữa nhờ flex + items-center */}
-                <Robot width={80} height={80} />
+                  {/* Robot màu orange-600, tự canh giữa nhờ flex + items-center */}
+                  <Robot width={60} height={60} />
+                  <span
+                    ref={automateTitleRef}
+                    className="text-6xl md:text-7xl lg:text-8xl block font-bold text-white leading-tight"
+                  >
+                    Automate
+                  </span>
+                </div>
+              </h1>
+            </div>
 
-                {/* "source" bên phải */}
-                <AnimatedText text="source" className="font-bold text-white leading-tight" />
-              </div>
-              <span
-                ref={automationTitleRef}
-                className="block  relative font-bold text-white mb-8 leading-tight text-right"
-              >
-                automation
-              </span>
-            </h1>
-          </div>
-          <div className="flex flex-row justify-between align-center items-center gap-8">
-            {/* Description */}
-            <DescriptionSection />
+            {/* Description - Centered */}
+            <div className="max-w-2xl mx-auto">
+              <DescriptionSection />
+            </div>
 
-            <div className="flex right-8">
+            {/* Buttons - Centered */}
+            <div className="flex flex-col gap-5 items-center justify-center w-full max-w-md mx-auto">
+              <LaunchButton
+                id="exploreBtn"
+                className="group w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-4 rounded-2xl text-lg font-bold shadow-2xl flex items-center justify-center hover:from-orange-600 hover:to-orange-700 hover:scale-105 transition-all duration-300 hover:shadow-orange-500/25"
+              ></LaunchButton>
               <Button
-                variant={'outline'}
+                variant="outline"
                 aria-label="View Live Demo"
-                className="h-full animated-button button-show bg-transparent text-neutral-300 px-10 py-5 rounded-xl text-xl font-semibold hover:bg-orange-600 hover:text-white hover:scale-102 hover:shadow-md"
-                onClick={scrollToVideoDemo}
+                className="animated-button button-show w-full bg-neutral-900/70 text-neutral-100 px-8 py-4 rounded-2xl text-lg font-semibold hover:bg-orange-600 hover:text-white hover:scale-105 hover:shadow-xl transition-all duration-200 border-2 border-orange-600 flex items-center justify-center gap-2"
+                onClick={(e) => {
+                  e.preventDefault()
+                  scrollToVideoDemo()
+                }}
               >
                 {t('button.viewLiveDemo')}
-              </Button>
-              <Button
-                aria-label="Launch Orchestrator"
-                className={
-                  'animated-button button-show h-full ml-3 group bg-orange-600 text-white px-10 py-5 rounded-xl text-xl font-semibold transition-all duration-200 shadow-lg flex items-center '
-                }
-              >
-                {t('button.launchOrchestrator')}
-                <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                <SkipForward size={20} />
               </Button>
             </div>
           </div>
         </main>
       </section>
-      {/* Video Demo Section */}
-      <section ref={videoDemoRef}>
-        <VideoDemoSection />
-      </section>
 
-      {/* Features Section */}
-      <Features />
+      <div>
+        {/* Video Demo Section */}
+        <section ref={videoDemoRef}>
+          <VideoDemoSection />
+        </section>
 
-      {/* Pricing Section */}
-      <Pricing />
+        {/* Features Section */}
+        <Features />
 
-      {/* Frequently asked questions Section */}
-      <Faq />
+        {/* Pricing Section */}
+        <Pricing />
 
-      {/* Newsletter Section */}
-      <Newsletter />
-
-      {/* Footer */}
-      <Footer />
-    </>
+        {/* Frequently asked questions Section */}
+        <Faq />
+        {/* Footer */}
+        <Footer />
+      </div>
+    </div>
   )
 }

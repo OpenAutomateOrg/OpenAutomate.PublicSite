@@ -48,7 +48,6 @@ export const config = {
     pages: {
       home: '/',
       about: '/about',
-      guides: '/guide',
       contact: '/contact',
     },
   },

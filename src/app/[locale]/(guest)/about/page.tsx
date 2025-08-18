@@ -12,7 +12,7 @@ import { config } from '@/lib/config'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useTranslations } from 'next-intl'
 import { Badge } from '@/components/ui/badge'
-import TeamMember from '@/components/aboutUs/teamMember'
+import TeamMember from '@/components/layout/aboutUs/teamMember'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useRef } from 'react'
@@ -125,11 +125,11 @@ export default function AboutPage() {
     icon,
     title,
     desc,
-  }: {
+  }: Readonly<{
     icon: React.ReactNode
     title: string
     desc: string
-  }) {
+  }>) {
     return (
       <Card className="group h-full bg-gradient-to-br from-neutral-900/80 to-neutral-800/40 border-orange-600/20 hover:border-orange-600/40 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-orange-600/10">
         <CardHeader className="p-8">

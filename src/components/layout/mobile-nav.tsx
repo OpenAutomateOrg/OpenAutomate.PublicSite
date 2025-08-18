@@ -24,8 +24,8 @@ export function MobileNav() {
       icon: <Icons.about className="mr-2 h-4 w-4" />,
     },
     {
-      title: 'Guides',
-      href: config.paths.pages.guides,
+      title: 'Documentation',
+      href: 'https://docs.openautomate.io',
       icon: <Icons.guide className="mr-2 h-4 w-4" />,
     },
     {

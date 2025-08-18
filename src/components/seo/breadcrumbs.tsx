@@ -114,10 +114,7 @@ export function Breadcrumbs({
       <StructuredData data={breadcrumbSchema} />
       <nav
         aria-label="Breadcrumb navigation"
-        className={cn(
-          'flex items-center space-x-1 text-sm text-muted-foreground text-white ',
-          className,
-        )}
+        className={cn('flex items-center space-x-1 text-sm  text-white ', className)}
       >
         <ol className="flex items-center space-x-1 ">
           {displayItems.map((item, index) => (
@@ -130,13 +127,13 @@ export function Breadcrumbs({
               )}
 
               {item.isCurrentPage ? (
-                <span className="font-medium text-foreground text-white" aria-current="page">
+                <span className="font-medium  text-white" aria-current="page">
                   {item.name}
                 </span>
               ) : (
                 <Link
                   href={item.url}
-                  className="hover:text-orange-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:ring-offset-2 rounded-sm px-1"
+                  className="hover:text-orange-600 transition-colors duration-200 focus:outline-none rounded-sm px-1"
                   aria-label={
                     index === 0 && item.url === '/' ? `Go to ${homeLabel}` : `Go to ${item.name}`
                   }

@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { TextPlugin } from 'gsap/TextPlugin'
 import { Check } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import FloatingGear from './Gear/floatingGear'
 
 gsap.registerPlugin(ScrollTrigger, TextPlugin)
 
@@ -15,20 +16,20 @@ export default function Pricing() {
 
   const pricingPlans = [
     {
-      name: t('pricing.pro.name'),
-      price: t('pricing.pro.price'),
-      period: t('pricing.pro.period'),
-      description: t('pricing.pro.description'),
-      features: t.raw('pricing.pro.features') as string[],
-      popular: false,
-    },
-    {
-      name: t('pricing.ultra.name'),
-      price: t('pricing.ultra.price'),
-      period: t('pricing.ultra.period'),
-      description: t('pricing.ultra.description'),
-      features: t.raw('pricing.ultra.features') as string[],
+      name: t('pricing.premium.name'),
+      price: t('pricing.premium.price'),
+      period: t('pricing.premium.period'),
+      description: t('pricing.premium.description'),
+      features: t.raw('pricing.premium.features') as string[],
       popular: true,
+    },
+
+    {
+      name: t('pricing.enterprise.name'),
+      price: t('pricing.enterprise.price'),
+      description: t('pricing.enterprise.description'),
+      features: t.raw('pricing.enterprise.features') as string[],
+      popular: false,
     },
   ]
 
@@ -55,9 +56,17 @@ export default function Pricing() {
 
   return (
     <>
-      {/* Piricing Section */}
-      <section ref={pricingRef} className="py-24 bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Pricing Section */}
+      <section ref={pricingRef} className="relative py-24 bg-black overflow-hidden">
+        {/* Floating Gears */}
+        <FloatingGear size={50} position="top-16 left-8" />
+        <FloatingGear size={70} position="top-20 right-16" />
+        <FloatingGear size={45} position="bottom-24 left-12" />
+        <FloatingGear size={60} position="bottom-16 right-8" />
+        <FloatingGear size={40} position="top-1/2 left-6" />
+        <FloatingGear size={55} position="top-2/3 right-4" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
             <h2 className="section-title text-4xl sm:text-5xl font-bold text-white mb-6">
               {t('pricing.title')}
@@ -65,10 +74,10 @@ export default function Pricing() {
             <p className="section-title text-xl text-neutral-400 max-w-3xl mx-auto"></p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
-            {pricingPlans.map((plan, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            {pricingPlans.map((plan) => (
               <div
-                key={index}
+                key={plan.name}
                 className={`pricing-card hover-card pricing-content relative p-10 rounded-3xl border-2 transition-all duration-300 cursor-pointer ${
                   plan.popular
                     ? 'border-orange-500 bg-gradient-to-br from-orange-900/20 to-red-900/20 shadow-xl'
@@ -95,7 +104,7 @@ export default function Pricing() {
                   <p className="text-neutral-400 text-lg text-left">{plan.description}:</p>
 
                   {plan.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center">
+                    <li key={`${plan.name}-feature-${featureIndex}`} className="flex items-center">
                       <Check className="w-6 h-6 text-orange-400 mr-4 flex-shrink-0" />
                       <span className="text-neutral-300 text-lg">{feature}</span>
                     </li>
