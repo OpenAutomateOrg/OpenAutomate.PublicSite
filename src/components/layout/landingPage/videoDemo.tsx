@@ -11,7 +11,7 @@ interface VideoDemoSectionProps {
 }
 
 export function VideoDemoSection({
-  videoSrc = 'https://www.augmentcode.com/hero-agents/video.h264.mp4',
+  videoSrc = '/OpenAutomate_RPA_Explainer_Video.mp4',
   posterSrc = '/placeholder.svg?height=400&width=600',
   className = 'bg-black',
 }: Readonly<VideoDemoSectionProps>) {
