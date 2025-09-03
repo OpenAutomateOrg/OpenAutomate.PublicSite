@@ -7,12 +7,18 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { TextPlugin } from 'gsap/TextPlugin'
 import { Check } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { config } from '@/lib/config'
 import FloatingGear from './Gear/floatingGear'
 
 gsap.registerPlugin(ScrollTrigger, TextPlugin)
 
 export default function Pricing() {
   const t = useTranslations('landing')
+
+  const handleLaunch = () => {
+    // Redirect to the orchestrator app login page
+    window.location.href = `${config.app.orchestratorUrl}/login`
+  }
 
   const pricingPlans = [
     {
@@ -112,6 +118,7 @@ export default function Pricing() {
                 </ul>
 
                 <button
+                  onClick={plan.popular ? handleLaunch : undefined}
                   className={`animated-button w-full py-4 px-8 rounded-xl font-semibold text-lg transition-all duration-200 ${
                     plan.popular
                       ? 'bg-orange-600 text-white hover:bg-orange-700 shadow-lg hover:shadow-xl'
