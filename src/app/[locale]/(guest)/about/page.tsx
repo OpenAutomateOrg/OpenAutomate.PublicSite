@@ -16,7 +16,7 @@ import TeamMember from '@/components/layout/aboutUs/teamMember'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useRef } from 'react'
-import { Breadcrumbs } from '@/components/seo/breadcrumbs'
+
 import ChinhHD from '../../../../../public/images/ChinhHD.jpg'
 import HoaiNX from '../../../../../public/images/HoaiNX.jpg'
 import NhatPH from '../../../../../public/images/NhatPH.jpg'
@@ -148,13 +148,6 @@ export default function AboutPage() {
   return (
     <>
       <Header />
-
-      {/* Breadcrumbs */}
-      <div className="bg-black w-full">
-        <div className="container py-3 px-0  ">
-          <Breadcrumbs />
-        </div>
-      </div>
 
       {/* Hero Section */}
       <section className="relative min-h-screen py-24 md:py-32 bg-gradient-to-b from-black via-neutral-700 to-black text-white overflow-hidden">
